@@ -12,10 +12,12 @@ var userSchema = new mongoose.Schema({
     firstname         : {type: String},
     lastname          : {type: String},
     middlename        : {type: String},
-    id                : {type: String},
-    designation       : {type: String},
+    father            :{type: String},
     pan               : {type: String},
+    adhar               : {type: String},
     mobile            : {type: String},
+    plotNo            : {type: String},
+    lane            : {type: String},
     at                : {type: String},
     po                : {type: String},
     city              : {type: String},
@@ -23,6 +25,14 @@ var userSchema = new mongoose.Schema({
     state             : {type: String},
     country           : {type: String},
     pin               : {type: String},
+
+    // bank details
+    bank                : {type: String},
+    branch              : {type: String},
+    accType              : {type: String},
+    accNo             : {type: String},
+    ifsc           : {type: String},
+    // status
     status            : {type: String},
     isDelete          : {type: Boolean, default:false},
 
