@@ -1,0 +1,23 @@
+{
+  "token":{
+    "secret" : "goApps-Amaresh",
+    "expiry":"24 hours"
+  },
+  "dev":{
+    "baseUrl":"http://localhost:4000",
+    "hostName":"localhost",
+    "port":":27017",
+    "db":"returnFiling",
+    "dbserver":"mongodb://",
+    "logPath":"./logs/server.log"
+  },
+  "prod":{
+    "baseUrl":"http://localhost:4000",
+    "hostName":"localhost",
+    "port":":27017",
+    "db":"returnFiling",
+    "dbserver":"mongodb://",
+    "logPath":"./logs/server.log"
+  },
+  "env" : "dev"
+}
