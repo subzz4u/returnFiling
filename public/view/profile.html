@@ -1,0 +1,173 @@
+<section class="content-header m-b-40">
+  <h1>
+    Profile Update
+    <small>Control Panel</small>
+  </h1>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-sm-10 col-md-offset-1">
+			<div class="box box-info ">
+		      <div class="box-header with-border">
+		        <h3 class="box-title">Update Your Profile Here</h3>
+		      </div>
+		    <form class="form-horizontal" name="update">
+		        <div class="box-body">
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="form-group has-feedback" ng-class="{'has-error':update.name.$touched && update.name.$invalid}">
+								<label for="uname" class="col-sm-3 control-label">Name:</label>
+								<div class="col-sm-9">
+									<input type="text" name="name" ng-model="user.name" class="form-control" placeholder="Name" required ng-pattern="/^(\D)+$/">
+									<span class="help-block" ng-show="update.name.$error.required && update.name.$touched">Name is required</span>
+									<span class="help-block" ng-show="update.name.$error.pattern && update.name.$touched">Numeric not allowed</span>
+								</div>		
+							</div>
+							<div class="form-group has-feedback" ng-class="{'has-error':update.father_name.$touched && update.father_name.$invalid}">
+								<label for="uname" class="col-sm-3 control-label">Father's Name:</label>
+								<div class="col-sm-9">
+									<input type="text" name="father_name" ng-model="user.fatherName" class="form-control" placeholder="Father's Name" required ng-pattern="/^(\D)+$/">
+									<span class="help-block" ng-show="update.father_name.$error.required && update.father_name.$touched">Father's Name is required</span>
+									<span class="help-block" ng-show="update.father_name.$error.pattern && update.father_name.$touched">Numeric not allowed</span>
+								</div>		
+							</div>
+							<div class="form-group" ng-class="{'has-error':update.user_email.$touched && update.user_email.$invalid}">
+			          				<label for="lname" class="col-sm-3 control-label">Email:</label>
+								<div class="col-sm-8">
+									<input type="email" name="user_email" ng-model="user.email" class="form-control" placeholder=" Email " required>
+									<span class="help-block" ng-show="update.user_email.$error.required && update.user_email.$touched">Email is required</span>
+								</div>	
+		          			</div>
+							<div class="form-group has-feedback" >
+									<label for="pass" class="col-sm-3 control-label">Aadhar:</label>
+								<div class="col-sm-9">
+									<input type="file" class="form-control" name="aadhar" ng-model="user.aadhar" required>
+									
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="form-group has-feedback" ng-class="{'has-error':update.dob.$touched && update.dob.$invalid}">
+									<label for="lname" class="col-sm-3 control-label">DOB:</label>
+								<div class="col-sm-9">
+									<input type="date" name="dob" ng-model="user.dob" class="form-control" required>
+									<span class="help-block" ng-show="update.dob.$error.required && update.dob.$touched">DOB is required</span>
+								</div>	
+							</div>
+							<div class="form-group has-feedback" ng-class="{'has-error':update.mobile.$touched && update.mobile.$invalid}">
+									<label for="pass" class="col-sm-3 control-label">Mobile:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" name="mobile" ng-model="user.mobile" placeholder="Mobile" required ng-pattern="/^[0-9]{10,10}$/">
+									<span class="help-block" ng-show="update.mobile.$error.required && update.mobile.$touched">Mobile is required</span>
+									<span class="help-block" ng-show="update.mobile.$error.pattern && update.mobile.$touched">Mobile is not valid</span>
+								</div>		
+							</div>
+							<div class="form-group has-feedback" ng-class="{'has-error':update.telephone.$touched && update.telephone.$invalid}">
+									<label for="pass" class="col-sm-3 control-label">Telephone:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" name="telephone" ng-model="user.telephone" placeholder="Telephone(optional)" ng-pattern="/^[0-9]{10,10}$/">
+									<span class="help-block" ng-show="update.telephone.$error.required && update.telephone.$touched">Mobile is required</span>
+								</div>		
+							</div>
+							<div class="form-group has-feedback" >
+									<label for="pass" class="col-sm-3 control-label">PAN No:</label>
+								<div class="col-sm-9">
+									<input type="file" class="form-control" name="pan" ng-model="user.pan" required>
+								</div>		
+							</div>
+						</div>
+					</div>
+				<!--row started-->
+					<div class="row ">
+						<div class="col-sm-12">
+							<div class="box box-success">
+	                            <div class="box-header">
+	                                <h3 class="box-title">Regd. Office Address</h3>
+	                            </div>
+	                            <div class="box-body">
+			                        <div class="row">
+			                        	<div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.flat_door_block.$touched && update.flat_door_block.$invalid}">
+                                            <input type="text" class="form-control" placeholder="Flat/Door/Plot No " name="flat_door_block" ng-model="user.address.flat" required>
+											<span class="help-block" ng-show="update.flat_door_block.$error.required && update.flat_door_block.$touched">Please Enter this Field</span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.road_street.$touched && update.road_street.$invalid}">
+                                            <input type="text" class="form-control" placeholder="Road/Lane/Building" name="road_street" ng-model="user.address.road" required>
+											<span class="help-block" ng-show="update.road_street.$error.required && update.road_street.$touched">Please Enter this field</span>
+                                        </div>
+			                            <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.local_city.$touched && update.local_city.$invalid}">
+                                            <input type="text" class="form-control" placeholder="Locality/City" name="local_city" ng-model="user.address.city" required>
+											<span class="help-block" ng-show="update.local_city.$error.required && update.local_city.$touched">Please Enter City</span>
+                                        </div>
+										<div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.dist.$touched && update.dist.$invalid}">
+                                            <input type="text" class="form-control" placeholder="District" name="dist" ng-model="user.address.dist" required>
+											<span class="help-block" ng-show="update.dist.$error.required && update.dist.$touched">Please Enter District</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+										<div class="col-xs-12 col-sm-6 col-md-4" ng-class="{'has-error':update.country.$touched && update.country.$invalid}">
+                                            <input type="text" class="form-control" placeholder="Country" name="country" ng-model="user.address.country" required>
+											<span class="help-block" ng-show="update.country.$error.required && update.country.$touched">Please Enter Country</span>
+										</div>	
+                                        <div class="col-xs-12 col-sm-6 col-md-4" ng-class="{'has-error':update.state.$touched && update.state.$invalid}">
+                                            <input type="text" class="form-control" placeholder="State" name="state" ng-model="user.address.state" required>
+											<span class="help-block" ng-show="update.state.$error.required && update.state.$touched">Please Enter State</span>
+										</div>	
+										<div class="col-xs-12 col-sm-6 col-md-4" ng-class="{'has-error':update.pin.$touched && update.pin.$invalid}">
+                                            <input type="text" class="form-control" placeholder="Pin" name="pin" ng-model="user.address.pin" required>
+											<span class="help-block" ng-show="update.pin.$error.required && update.pin.$touched">Please Enter Pin</span>
+										</div>	
+                                    </div>
+                                </div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="box box-success">
+                                <div class="box-header">
+                                    <h3 class="box-title">Bank details</h3>
+                                </div>
+                                <div class="box-body">
+								    <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.bank_name.$touched && update.bank_name.$invalid}">
+                                        <input type="text" class="form-control" placeholder="Name of Bank " name="bank_name" ng-model="user.bank.name" required ng-pattern="/^(\D)+$/">
+											<span class="help-block" ng-show="update.bank_name.$error.required && update.bank_name.$touched">Bank name is required</span>
+											<span class="help-block" ng-show="update.bank_name.$error.pattern && update.bank_name.$touched">Bank name is invalid</span>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.bank_branch.$touched && update.bank_branch.$invalid}">
+                                      	<input type="text" class="form-control" placeholder="Name of Branch " name="bank_branch" ng-model="user.bank.branch" required ng-pattern="/^(\D)+$/">
+											<span class="help-block" ng-show="update.bank_branch.$error.required && update.bank_branch.$touched">Branch name is required</span>
+											<span class="help-block" ng-show="update.bank_branch.$error.pattern && update.bank_branch.$touched">Branch name is invalid</span>
+									</div>
+							        <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.comp_bank_acct.$touched && update.comp_bank_acct.$invalid}">
+										<input type="text" class="form-control" placeholder="Acccount type " name="comp_bank_acct" ng-model="user.bank.accType" required ng-pattern="/^(\D)+$/">
+											<span class="help-block" ng-show="update.comp_bank_acct.$error.required && update.comp_bank_acct.$touched">Acccount type is required</span>
+											<span class="help-block" ng-show="update.comp_bank_acct.$error.pattern && update.comp_bank_acct.$touched">account type is invalid</span>
+                                    </div>
+									<div class="col-xs-12 col-sm-6 col-md-2" ng-class="{'has-error':update.comp_bank_accNo.$touched && update.comp_bank_accNo.$invalid}">
+                                        <input type="text" class="form-control" placeholder="Acccount No " name="comp_bank_accNo" ng-model="user.bank.accNo" required ng-pattern="/^[0-9]{10,10}$/">
+											<span class="help-block" ng-show="update.comp_bank_accNo.$error.required && update.comp_bank_accNo.$touched">Acccount no is required</span>
+											<span class="help-block" ng-show="update.comp_bank_accNo.$error.pattern && update.comp_bank_accNo.$touched">account type is invalid</span>
+                                    </div>
+									<div class="col-xs-12 col-sm-6 col-md-2" ng-class="{'has-error':update.comp_bank_ifsc.$touched && update.comp_bank_ifsc.$invalid}">
+                                        <input type="text" class="form-control" placeholder="IFSC " name="comp_bank_ifsc" ng-model="company.bank.ifsc" required>
+											<span class="help-block" ng-show="update.comp_bank_ifsc.$error.required && update.comp_bank_ifsc.$touched">IFSC no is required</span>
+                                    </div>
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+					  <button type="submit" class="btn btn-default"  ui-sref="client-list">Back</button>
+					  <button type="submit" class="btn btn-info pull-right">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+  </div>
+	
+</section>
+
+
+
+
