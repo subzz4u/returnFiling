@@ -1,11 +1,11 @@
-var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx']);
+var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService']);
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/login');
   $stateProvider
   .state('login', {
       templateUrl: 'view/common/login.html',
       url: '/login',
-	    controller:'Main_Controller',
+	    controller:'Login_Controller',
       //resolve: {
         //loggedout: checkLoggedin
       //}
@@ -13,7 +13,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   .state('sign-up', {
       templateUrl: 'view/common/sign_up.html',
       url: '/sign-up',
-      controller:'Main_Controller',
+      controller:'User_Controller',
      // resolve: {
         //loggedout: checkLoggedin
      // }
@@ -22,12 +22,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: 'view/dashboard.html',
     url: '/dashboard',
     //resolve: {
-      //loggedout: checkLoggedout
-    //}
+     // loggedout: checkLoggedout
+   // }
   })
   .state('profile', {
     templateUrl: 'view/profile.html',
     url: '/profile',
+    controller:'User_Controller',
     //resolve: {
       //loggedout: checkLoggedout
     //}
@@ -47,6 +48,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     //accessToken = localStorage.getItem('accessToken')
     $timeout(function(){
       if($localStorage.user){
+
         deferred.resolve();
       }
       else{
@@ -72,10 +74,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 app.constant('CONFIG', {
   'HTTP_HOST': 'server/api.php'
 })
-app.run(function($http,$rootScope,$localStorage,$timeout){
+app.run(function($http,$rootScope,$localStorage,$timeout,EnvService,Constants){
   $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     $rootScope.stateName = toState.name;
   })
+  EnvService.setSettings(Constants);
 });
 app.factory('Util', ['$rootScope',  '$timeout' , function( $rootScope, $timeout){
     var Util = {};
