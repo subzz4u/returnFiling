@@ -180,10 +180,6 @@ exports.udpateUser = function(req, res) {
           }
         })
       }
-    },
-    function(callback) {
-      if(!req.body.adharDetails)
-        callback(null);
     }
   ], function(err, result) {
     if (err) {

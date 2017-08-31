@@ -118,13 +118,12 @@ utility.isDataExist = function(data,isZero) {
 }
 
 utility.uploadImage = function(imageDetail,callback){
-  LOG.info(config.get(config.get('env')+".uploadPath")+"/"+imageDetail.fileName);
-  require('fs').writeFile(config.get(config.get('env')+".uploadPath")+"/"+Date.now()+"_"+imageDetail.fileName, imageDetail.base64, {encoding: 'base64'}, function(err,data) {
+  var imagePath = config.get(config.get('env')+".uploadPath")+"/"+Date.now()+"_"+imageDetail.fileName;
+  require('fs').writeFile(imagePath, imageDetail.base64, {encoding: 'base64'}, function(err,data) {
 			if(!err)
 			{
-          var path = config.get(config.get('env')+".uploadPath")+"/"+Date.now()+"_"+imageDetail.fileName;
-          path = path.substr(1); // to remove . at begining of path
-					callback(false,path); // sending file path
+          imagePath = imagePath.substr(1); // to remove . at begining of path
+					callback(false,imagePath); // sending file path
 			}
 			else{
 				callback(err,false);

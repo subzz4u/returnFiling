@@ -7,7 +7,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     $scope.is_loggedin = false;
     $state.go('login');
   }
-  
+
   $scope.active_tab = 'income';
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
@@ -37,16 +37,29 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
    }
 
 
-  if($scope.tempAdhar.imageName){
-    $scope.user.adharDetails = $scope.tempAdhar.image.split(";base64,")[1];
-  }
-  if($scope.tempPAN.imageName){
-    $scope.user.panDetails =  $scope.tempPAN.image.split(";base64,")[1];
-  }
+  // if($scope.tempAdhar.imageName){
+  //   $scope.user.adharDetails = $scope.tempAdhar.image.split(";base64,")[1];
+  // }
+  // if($scope.tempPAN.imageName){
+  //   $scope.user.panDetails =  $scope.tempPAN.image.split(";base64,")[1];
+  // }
  $scope.profileUpdate = function(){
- 
+ console.log($scope.tempAdhar.imageName);
+ console.log($scope.tempPAN.imageName);
+ if($scope.tempAdhar.imageName){
+   $scope.user.adharDetails = {
+     fileName : $scope.tempAdhar.imageName,
+     base64 : $scope.tempAdhar.image.split(";base64,")[1]
+   }
+ }
+ if($scope.tempPAN.imageName){
+   $scope.user.panDetails = {
+     fileName : $scope.tempPAN.imageName,
+     base64 : $scope.tempPAN.image.split(";base64,")[1]
+   }
+ }
   ApiCall.updateUser($scope.user , function(response){
-    console.log(response); 
+    console.log(response);
   },function(error){
 
   })
@@ -87,6 +100,6 @@ app.controller("Payment_Controller",function($scope,$rootScope,$rootScope,$state
 
 });
 
-  
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/
                         /*-------------------------------------------------------------------------------*/
