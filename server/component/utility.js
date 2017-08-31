@@ -6,6 +6,7 @@ var LOG = require('./../component/LOG');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var moment = require('moment');
+var config = require("config");
 var utility = {};
 utility.isEmpty = function(data) {
   if(!data || data == "")
@@ -114,5 +115,21 @@ utility.isDataExist = function(data,isZero) {
     status = data == 0 ? false : true;
   }
   return status;
+}
+
+utility.uploadImage = function(imageDetail,callback){
+  LOG.info(config.get(config.get('env')+".uploadPath")+"/"+imageDetail.fileName);
+  require('fs').writeFile(config.get(config.get('env')+".uploadPath")+"/"+Date.now()+"_"+imageDetail.fileName, imageDetail.base64, {encoding: 'base64'}, function(err,data) {
+			if(!err)
+			{
+          var path = config.get(config.get('env')+".uploadPath")+"/"+Date.now()+"_"+imageDetail.fileName;
+          path = path.substr(1); // to remove . at begining of path
+					callback(false,path); // sending file path
+			}
+			else{
+				callback(err,false);
+			}
+
+		});
 }
 module.exports = utility;

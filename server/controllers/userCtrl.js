@@ -13,10 +13,7 @@ var config = require('config');
 var validator = require('validator');
 var component = require('./../component/index');
 var models = require('./../models/index');
-// var password = require('password-hash-and-salt');
-// var jwt     = require('jsonwebtoken');
-// var config = require("config");
-// var waterfall = require('async-waterfall');
+var waterfall = require('async-waterfall');
 // var async = require('async');
 var utility = require('./../component/utility');
 /*
@@ -84,9 +81,9 @@ exports.addUser = function(req, res) {
             utility.sendVerificationMail(data, function(err, success) {
               if (err) {
                 // console.log("mail error send  ");
-                return response.sendResponse(res,500, "error", constants.messages.errors.forgetPasswordFailed, err);
+                return response.sendResponse(res, 500, "error", constants.messages.errors.forgetPasswordFailed, err);
               } else {
-                return response.sendResponse(res,200, "success", constants.messages.success.verificationMailSent);
+                return response.sendResponse(res, 200, "success", constants.messages.success.verificationMailSent);
               }
             })
           }
@@ -99,26 +96,46 @@ exports.addUser = function(req, res) {
 
 
 }
+// this only send client users only , for admin perspective
 exports.getUser = function(req, res) {
 
   var params = {
     isDelete: false
   };
-  // get all the users under one caFirm
-  if (req.query.caFirm) {
-    params['caFirm'] = req.query.caFirm;
-  }
-  // get specific users based on roles
+
   if (req.query.role) {
     params['role'] = req.query.role;
   }
   console.log("req.query._id   " + req.query._id);
   if (req.query._id) {
     params['_id'] = req.query._id;
+    userModel.findOne(params, function(err, user) {
+      if (err)
+        return response.sendResponse(res, 200, "error", constants.messages.errors.getUser, error);
+      else
+        return response.sendResponse(res, 200, "success", constants.messages.success.getUser, user);
+    })
+  } else {
+    userModel.find(params)
+      .populate({
+        path: 'role',
+        match: {
+          'type': 'client'
+        }
+      })
+      .select('username email role')
+      .then(function(users) {
+        users = users.filter(function(user) {
+          if (user.role)
+            return user; // return only users with email matching 'type: "Gmail"' query
+        });
+        return response.sendResponse(res, 200, "success", constants.messages.success.getUser, users);
+      })
+      .catch(function(error) {
+        return response.sendResponse(res, 200, "error", constants.messages.errors.getUser, error);
+      })
   }
-  userModel.find(params, function(err, data) {
-    response.sendResponse(res, 200, "success", constants.messages.success.fetchRoles, data);
-  })
+
 }
 exports.udpateUser = function(req, res) {
   var query = {
@@ -128,13 +145,61 @@ exports.udpateUser = function(req, res) {
   var options = {
     new: true
   };
-  userModel.findOneAndUpdate(query, req.body, options).exec()
-    .then(function(data) {
-      response.sendResponse(res, 200, "success", constants.messages.success.udpateRole, data);
-    })
-    .catch(function(err) {
-      response.sendResponse(500, "error", constants.messages.error.udpateRole, err);
-    })
+  // check for the base64 data in request to upload Failed
+
+  waterfall([
+    function(callback) {
+      if(!req.body.panDetails)
+        callback(null);
+      else{
+        // upload base 64 file
+        utility.uploadImage(req.body.panDetails,function(err,imagePath){
+          if(err){
+            callback(err);
+          }
+          else{
+            req.body.pan = imagePath;
+            callback(null);
+          }
+        })
+      }
+      //callback(Error('Demo Error'), 'one', 'two');
+    },
+    function(callback) {
+      if(!req.body.adharDetails)
+        callback(null);
+      else{
+        // upload base 64 file
+        utility.uploadImage(req.body.adharDetails,function(err,imagePath){
+          if(err){
+            callback(err);
+          }
+          else{
+            req.body.adhar = imagePath;
+            callback(null);
+          }
+        })
+      }
+    },
+    function(callback) {
+      if(!req.body.adharDetails)
+        callback(null);
+    }
+  ], function(err, result) {
+    if (err) {
+      LOG.error(err)
+    }
+    else{
+      userModel.findOneAndUpdate(query, req.body, options).exec()
+      .then(function(data) {
+        response.sendResponse(res, 200, "success", constants.messages.success.udpateRole, data);
+      })
+      .catch(function(err) {
+        response.sendResponse(500, "error", constants.messages.error.udpateRole, err);
+      })
+    }
+  });
+
 }
 exports.deleteUser = function(req, res) {
   var query = {

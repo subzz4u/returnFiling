@@ -9,7 +9,8 @@
     "port":":27017",
     "db":"returnFiling",
     "dbserver":"mongodb://",
-    "logPath":"./logs/server.log"
+    "logPath":"./logs/server.log",
+    "uploadPath":"./upload"
   },
   "prod":{
     "baseUrl":"http://localhost:4000",

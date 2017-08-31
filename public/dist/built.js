@@ -1,4 +1,4 @@
-/*! returnFiling - v0.0.0 - Wed Aug 30 2017 00:54:12 */
+/*! returnFiling - v0.0.0 - Thu Aug 31 2017 08:36:10 */
 var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx']);
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/login');

@@ -87,21 +87,6 @@ waterfall([
             })
 
         })
-        // .then(function(users) {
-        //   LOG.info("firm admin saved ! ");
-        //   models.roleModel.find({type:"firmAdmin"})
-        //   .then(function(role){
-        //     console.log(">>>>>> ",role,users.firmAdmin);
-        //     users.firmAdmin.role = role[0]._id.toString();
-        //     console.log(users.firmAdmin);
-        //     return new models.userModel(users.firmAdmin).save();
-        //   })
-        //   .catch(function(err){
-        //     LOG.error("error in saving user admin user",err)
-        //     callback(null, err);
-        //   })
-        //
-        // })
         .then(function(client) {
           callback(null, false)
         })

@@ -7,6 +7,7 @@ var constants = {
     errors:{
       "verified"                    :"Error in token verification",
       "auth"                        :"Authentication Error",
+      "getUser"                     :"Error in fething user details",
       "getData"                     :"get Data Error",
       "saveData"                    :"save Data Error",
       "noUser"                      :"No user found",
@@ -84,6 +85,7 @@ var constants = {
     success:{
       "verified":"verified",
       "getData"   :"get Data Success",
+      "getUser"                     :"Success in fething user details",
       "saveData"   :"save Data Success",
       "saveUser"                 : "Success in saving user",
       "undefined"                :   "undefined value",

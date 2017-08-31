@@ -36,11 +36,6 @@ var userSchema = new mongoose.Schema({
     status            : {type: String},
     isDelete          : {type: Boolean, default:false},
 
-    //******************* CA FIRM details *****************//
-    caFirm            :{type: Schema.Types.ObjectId, ref: 'caFirm'},
-
-    //********************* Company/vendor ***************//
-    company            :{type: Schema.Types.ObjectId, ref: 'company'},
 
 });
 userSchema.plugin(uniqueValidator, {message: "Username already exists"});
