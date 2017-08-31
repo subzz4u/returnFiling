@@ -30,18 +30,20 @@
    <script src="controller/main_controller.js"></script>
    <script src="filter.js"></script> 
     <script src="constants.js"></script>
+   <script src="models/userModel.js"></script>
+   <script src="directive/directive.js"></script>
   </head>
-  <body class="hold-transition skin-green sidebar-mini" ng-class="{'login-page':!is_loggedin}" ng-controller="Main_Controller" >
+  <body class="hold-transition skin-green sidebar-mini" ng-class="{'login-page':!is_user}" ng-controller="Main_Controller">
     <div ng-repeat="alert in alerts" class="alert alert-{{alert.type}}">
     {{alert.msg}}
   </div>
     <div id="preloader" ng-if="showPreloader">
       <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
     </div>
-    <div class="" ng-if="is_loggedin">
+    <div class="" ng-if="!is_loggedin">
       <div ui-view></div>
     </div>
-    <div class="" ng-if="!is_loggedin">
+    <div class="" ng-if="is_loggedin">
       <div class="wrapper" >
         <div ng-include="'view/common/header.html'"></div>
         <div ng-include="'view/common/sidebar.html'"></div>

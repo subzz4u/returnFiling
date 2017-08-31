@@ -102,10 +102,10 @@ angular.module('WebService', [])
        // deleteRole: ApiGenerator.getApi('deleteRole'),
         //updateRole: ApiGenerator.getApi('updateRole'),
         userLogin : ApiGenerator.getApi('userLogin'),
-        // getUser: ApiGenerator.getApi('getUser'),
+        getUser: ApiGenerator.getApi('getUser'),
          postUser: ApiGenerator.getApi('postUser'),
         // deleteUser: ApiGenerator.getApi('deleteUser'),
-        // updateUser: ApiGenerator.getApi('updateUser'),
+         updateUser: ApiGenerator.getApi('updateUser'),
         // postCaFirm: ApiGenerator.getApi('postCaFirm'),
         // getCaFirm: ApiGenerator.getApi('getCaFirm'),
       })
