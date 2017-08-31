@@ -122,7 +122,7 @@ utility.uploadImage = function(imageDetail,callback){
   require('fs').writeFile(imagePath, imageDetail.base64, {encoding: 'base64'}, function(err,data) {
 			if(!err)
 			{
-          imagePath = imagePath.substr(1); // to remove . at begining of path
+          imagePath = imagePath.replace('./public',""); // to remove . at begining of path
 					callback(false,imagePath); // sending file path
 			}
 			else{
