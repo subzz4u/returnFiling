@@ -81,7 +81,9 @@ var constants = {
         //***** Cafirm ***** //
         "saveCafirm"                : "Error in saving Ca Firm",
         "getCafirm"                : "Error in fetch Ca Firm",
-    },
+        //*** it return **//
+        "itrIdUnique"               :"ITR id should be unique",
+      },
     success:{
       "verified":"verified",
       "getData"   :"get Data Success",
