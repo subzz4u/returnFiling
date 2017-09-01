@@ -16,8 +16,8 @@
           <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </a>
 		  </li>
-       <li class="treeview" ng-class="{'active':stateName == 'profile'}">
-        <a href="" ui-sref="profile">
+       <li class="treeview" ng-class="{'active':stateName == 'profile' || stateName == 'user-profile'}" ng-click="checkUpdate()">
+        <a href="">
           <i class="fa fa-dashboard"></i> <span>Profile</span>
         </a>
       </li>

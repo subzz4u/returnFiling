@@ -1,7 +1,9 @@
 /*******************************************************/
-/******Main controller ends here******/
-/*******************************************************/
-app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel){
+
+  /******Main controller ends here******/
+  /*******************************************************/
+app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal){
+
   $scope.signOut = function(){
     delete $localStorage.token;
     $scope.is_loggedin = false;
@@ -38,16 +40,73 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     }
     return superAdmin;
   }
+  $scope.checkUpdate = function(){
+    var loggedIn_user = UserModel.getUser();
+    if(loggedIn_user.firstname){
+      $state.go('user-profile',{'user_id':loggedIn_user._id});
+    }
+    else{
+      
+      $state.go('profile');
+    }
+
+  }
+  $scope.deleteUser = function(data){
+    console.log(data);
+   $scope.deleteUserId = data._id;
+   $scope.modalInstance = $uibModal.open({
+      animation : true,
+      templateUrl : 'view/modals/user-delete-modal.html',
+      controller : 'daleteUserModalCtrl',
+      size: 'md',
+      resolve:{
+            userDelete : function(){
+               return $scope.userDelete;
+            }
+      }
+
+   })
+  }
+  $scope.userDelete = function(){
+      ApiCall.deleteUser({
+        _id: $scope.deleteUserId
+      }, function(res) {
+        Util.alertMessage('success', res.message);
+        $scope.getUserList();
+      }, function(error) {
+        console.log(err);
+      })
+    }
+
+
+
+
+});
+
+app.controller('daleteUserModalCtrl',function($scope, $uibModalInstance,userDelete){
+  $scope.ok = function () {
+        userDelete();
+        $uibModalInstance.close();
+    };
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util){
+app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
   $scope.user = {};
   $scope.tempAdhar = {};
   $scope.tempPAN = {};
 
+  $scope.active_tab = 'details';
+  $scope.tabChange = function(tab){
+    $scope.active_tab = tab;
+  }
+
   /*******************************************************/
+
   /*********FUNCTION IS USED TO GET ROLE LIST*************/
   /*******************************************************/
   $scope.getRoll = function() {
@@ -116,9 +175,25 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
 
     })
   }
+
+
+
+$scope.userDetails = {};
+$scope.getUser = function(){
+  var obj = {
+    "_id": $stateParams.user_id
+  }
+  ApiCall.getUser(obj, function(response){
+    $scope.userDetails = response.data;
+    console.log($scope.userDetails);
+  },function(error){
+    console.log("error");
+  })
+}
+
+
+
 });
-
-
 /*******************************************************/
   /******Login controller starts here******/
   /*******************************************************/
@@ -160,7 +235,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
 $scope.user = {};
 $scope.change = function(){
-  // var total  = 
+
 }
 });
 /*----------------------------------------------------------------------------------------------------------------------------------*/
