@@ -1,7 +1,7 @@
 /*******************************************************/
   /******Main controller ends here******/
   /*******************************************************/
-app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams){
+app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel){
   $scope.signOut = function(){
     delete $localStorage.token;
     $scope.is_loggedin = false;
@@ -11,6 +11,32 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.active_tab = 'income';
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
+  }
+
+
+  $scope.userList = {};
+  $scope.getAllUsers = function(){
+    ApiCall.getUser(function(response){
+    $scope.userList = response.data;
+    $scope.userList.nos = response.data.length;
+    console.log($scope.userList);
+     $scope.userData = new NgTableParams;
+     $scope.userData.settings({
+      dataset:$scope.userList
+     })
+    },function(error){
+      console.log("error");
+    })
+   
+  } 
+
+  $scope.checkAdmin = function(){
+    var superAdmin = false;
+    var loggedIn_user = UserModel.getUser();
+    if(loggedIn_user.role._id == "59a67678cc865a0ec49ccc7f"){
+      var superAdmin = true;
+    }
+    return superAdmin;
   }
 });
 
@@ -101,5 +127,15 @@ app.controller("Payment_Controller",function($scope,$rootScope,$rootScope,$state
 });
 
 
+/*******************************************************/
+  /*****Return controller starts here******/
+  /*******************************************************/
+app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
+
+$scope.user = {};
+$scope.change = function(){
+  var total  = 
+}
+});
 /*----------------------------------------------------------------------------------------------------------------------------------*/
                         /*-------------------------------------------------------------------------------*/

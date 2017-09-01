@@ -55,7 +55,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   .state('return-file', {
     templateUrl: 'view/return_file.html',
     url: '/return-file',
-    controller:'Main_Controller',
+    controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout
     }

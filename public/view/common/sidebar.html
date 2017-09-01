@@ -1,4 +1,4 @@
-<aside class="main-sidebar">
+<aside class="main-sidebar" ng-controller="Main_Controller">
   <section class="sidebar">
     <div class="user-panel">
       <div class="pull-left image">
@@ -11,7 +11,7 @@
     </div>
     <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
-      <li class="treeview" ng-class="{'active':stateName == 'dashboard'}">
+      <li class="treeview" ng-class="{'active':stateName == 'dashboard'}" ng-show="checkAdmin()">
         <a href="" ui-sref="dashboard">
           <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </a>
