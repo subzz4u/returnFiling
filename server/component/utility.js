@@ -116,6 +116,9 @@ utility.isDataExist = function(data,isZero) {
   }
   return status;
 }
+utility.getDateFormat = function(date){
+  return ( date.getDate().toString()+date.getMonth().toString()+date.getFullYear().toString() );
+}
 
 utility.uploadImage = function(imageDetail,callback){
   var imagePath = config.get(config.get('env')+".uploadPath")+"/"+Date.now()+"_"+imageDetail.fileName;

@@ -8,6 +8,9 @@ router.post('/',function(req, res, next) {
 router.get('/', function(req, res, next) {
   controllers.returnFileCtrl.getReturnFile(req, res);
 });
+router.get('/count', function(req, res, next) {
+  controllers.returnFileCtrl.getReturnFileCounts(req, res);
+});
 router.put('/', function(req, res, next) {
   controllers.returnFileCtrl.udpateReturnFile(req, res);
 });

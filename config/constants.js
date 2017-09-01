@@ -3,6 +3,7 @@ var constants = {
   statusCode:{
     400:" Bad Request",
   },
+  returnFileStatus:["pending","processing","closed"],
   messages:{
     errors:{
       "verified"                    :"Error in token verification",

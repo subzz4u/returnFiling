@@ -35,7 +35,7 @@ var returnFileSchema = new mongoose.Schema({
 
 
     // status
-    status            : {type: String},
+    status            : {type: String,enum: constants.returnFileStatus, default:"pending"},
     lastUpdate        :{type:Date , default: new Date()},
     isDelete          : {type: Boolean, default:false},
 
