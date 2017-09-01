@@ -1,0 +1,123 @@
+<section class="content-header m-b-40">
+      <h1>
+        User Profile
+      </h1>
+</section>
+<section class="content" ng-init="getUser()">
+     <div class="row">
+        <div class="col-md-5">          
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                   <h2 class="profile-username text-center">{{userDetails.firstname+" "+userDetails.middlename+" "+userDetails.middlename}}</h2>
+                      <p class="text-muted text-center">Software Developers</p>
+
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Father Name:</b><strong class="pull-right"> {{userDetails.father}}</strong>
+                </li>
+                <li class="list-group-item">
+                  <b>Username:</b> <strong class="pull-right">{{userDetails.username}}</strong>
+                </li>
+                <li class="list-group-item">
+                  <b>DOB:</b><strong class="pull-right"> {{userDetails.dob}}</strong>
+                </li>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- About Me Box -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">About</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <strong><i class="fa fa-map-marker margin-r-5"></i>Address</strong>
+
+              <p class="text-muted">
+                {{userDetails.plotNo+","+userDetails.lane+","+userDetails.at+","+userDetails.po+","+userDetails.city+","+userDetails.dist}}</p>
+                <p> {{userDetails.plotNo+","+userDetails.lane+","+userDetails.city+","+userDetails.dist}}
+              </p>
+
+              <hr>
+
+              <strong>Contacts</strong>
+
+              <p class="text-muted">Mobile:<b>{{userDetails.mobile}}</b></p>
+              <p class="text-muted">Telephone:<b>{{userDetails.telephone}}</b></p>
+              <p class="text-muted">Email: <b>{{userDetails.email}}</b></p>
+
+              <hr>
+              <strong>Bank Details</strong>
+              <p class="text-muted">Bank Name:<b>{{userDetails.bank}}</b></p>
+              <p class="text-muted">Branch Name:<b>{{userDetails.branch}}</b></p>
+              <p class="text-muted">Account Type:<b>{{userDetails.accType}}</b></p>
+              <p class="text-muted">Account No:<b>{{userDetails.accNo}}</b></p>
+              <p class="text-muted">IFSC:<b>{{userDetails.ifsc}}</b></p>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-7">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="" ng-class="{'active':active_tab == 'details'}"><a ng-click="tabChange('details')" href="" data-toggle="tab">Details</a></li>
+              <li ng-class="{'active':active_tab == 'update'}"><a href="" ng-click="tabChange('update')" data-toggle="tab">Update</a></li>
+              <li><a href=""  ng-click="tabChange('setting')" data-toggle="tab">Settings</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane" id="activity"  ng-class="{'active':active_tab == 'details'}">
+                <!-- Post -->
+                <div class="row">
+					<div class="col-xs-12">
+							<h3>Company Details</h3>
+							    <ul class="list-group list-group-unbordered">
+										<li class="list-group-item">
+										  <b>Incorporation Date:</b> <a class="pull-right">23-07-17</a>
+										</li>
+										<li class="list-group-item">
+										  <b>PAN No:</b> <a class="pull-right">543132465744</a>
+										</li>
+										<li class="list-group-item">
+										  <b>GST No</b> <a class="pull-right">157864534687</a>
+										</li>
+										<li class="list-group-item">
+										  <b>TAN No</b> <a class="pull-right">157864534687</a>
+										</li>
+										<li class="list-group-item">
+										  <b>Accessing Office</b> <a class="pull-right">157864534687</a>
+										</li>
+										<li class="list-group-item">
+										  <b>Paid up Share Capital</b> <a class="pull-right">157864534687</a>
+										</li>
+										<li class="list-group-item">
+										  <b>Authorized Shared Capital</b> <a class="pull-right">157864534687</a>
+										</li>
+										<li class="list-group-item">
+										  <b>Auditor</b><a href="#" class="pull-right">Sarah Ross</a>
+										</li>
+										
+										
+								</ul>
+                   
+						</div>
+					</div>
+                <!-- /.post -->
+
+
+			</div>
+				<!--anotjer tab starts-->
+				<div class="tab-pane" id="update"  ng-class="{'active':active_tab == 'update'}">
+					<h1>yeah its maybe working</h1>
+				</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			</section>
+           
+             
