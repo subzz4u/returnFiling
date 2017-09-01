@@ -25,12 +25,18 @@ exports.getReturnFile = function(req,res){
   if(req.query._id){
     params['_id'] = req.query._id
   }
-  if(req.query.caFirm){
-    params['caFirm'] = mongoose.Types.ObjectId(req.query.caFirm);
-  }
-  models.roleModel.find(params,function(err,data){
-    response.sendResponse(res,200,"success",constants.messages.success.fetchRoles,data);
-  })
+
+    models.returnFileModel.find(params)
+    .populate('client')
+    .exec()
+    .then(function(data) {
+      return response.sendResponse(res,200,"success",constants.messages.success.getData,data);
+    })
+    .catch(function(err){
+      return response.sendResponse(res,500,"error",constants.messages.errors.getData,err);
+    })
+
+
 }
 exports.udpateReturnFile = function(req,res){
   var query = {
@@ -38,7 +44,7 @@ exports.udpateReturnFile = function(req,res){
   }
   delete req.body['_id'];
   var options = {new:true};
-  models.roleModel.findOneAndUpdate(query, req.body,options).exec()
+  models.returnFileModel.findOneAndUpdate(query, req.body,options).exec()
   .then(function(data) {
     response.sendResponse(res,200,"success",constants.messages.success.udpateRole,data);
   })
@@ -51,7 +57,7 @@ exports.deleteReturnFile = function(req,res){
     "_id":req.params.id
   }
   delete req.body['_id'];
-  models.roleModel.findOneAndUpdate(query,{"isDelete":true},{"new" :true},function(err,data) {
+  models.returnFileModel.findOneAndUpdate(query,{"isDelete":true},{"new" :true},function(err,data) {
     if(err)
       response.sendResponse(res,500,"error",constants.messages.errors.deleteRole,err);
     else
