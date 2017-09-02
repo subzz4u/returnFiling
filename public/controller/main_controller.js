@@ -35,7 +35,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.checkAdmin = function(){
     var superAdmin = false;
     var loggedIn_user = UserModel.getUser();
-    if(loggedIn_user.role._id == "59a67678cc865a0ec49ccc7f"){
+    if(loggedIn_user.role.type == "superAdmin"){
       var superAdmin = true;
     }
     return superAdmin;
