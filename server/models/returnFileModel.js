@@ -38,7 +38,10 @@ var returnFileSchema = new mongoose.Schema({
     fiscalYear  :{type: String,required:constants.messages.errors.fiscalYearRequired},
 
     //payment information
-
+    tranId : {type: String,default:null},
+    tranAmt : {type: Number,default:0},
+    tranStatus : {type:String,default:"success"},
+    tranVerification : {type: String,enum: constants.tranVerification, default:"pending"},
 
     // status
     status            : {type: String,enum: constants.returnFileStatus, default:"pending"},

@@ -79,6 +79,19 @@ exports.getItr = function(req, res) {
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
     })
 }
+exports.getfiscalYear = function(req, res) {
+  var params = {
+    isDelete: false
+  };
+  models.returnFileModel.find(params).distinct('fiscalYear',function(err,data){
+    if(err){
+      return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
+    }
+    else{
+      return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
+    }
+  })
+}
 exports.getReturnFileCounts = function(req, res) {
 
 
@@ -129,4 +142,26 @@ exports.deleteReturnFile = function(req, res) {
     else
       response.sendResponse(res, 200, "success", constants.messages.success.deleteRole);
   })
+}
+
+
+// transaction services
+exports.saveTransaction = function(req,res) {
+  //validation starts
+
+  var query = {
+    "_id": req.body._id
+  }
+  delete req.body['_id'];
+  var update = req.body;
+  var options = {
+    "new": true
+  };
+  models.returnFileModel.findOneAndUpdate(query, update ,options, function(err, data) {
+    if (err)
+      response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
+    else
+      response.sendResponse(res, 200, "success", constants.messages.success.saveData);
+  })
+
 }

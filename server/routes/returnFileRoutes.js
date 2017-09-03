@@ -12,6 +12,9 @@ router.get('/', passport.authenticate('token', {session:false}),function(req, re
 router.get('/itr', passport.authenticate('token', {session:false}),function(req, res, next) {
   controllers.returnFileCtrl.getItr(req, res);
 });
+router.get('/fiscalYear', passport.authenticate('token', {session:false}),function(req, res, next) {
+  controllers.returnFileCtrl.getfiscalYear(req, res);
+});
 router.get('/count', function(req, res, next) {
   controllers.returnFileCtrl.getReturnFileCounts(req, res);
 });
@@ -21,5 +24,11 @@ router.put('/', function(req, res, next) {
 router.delete('/:id', function(req, res, next) {
   controllers.returnFileCtrl.deleteReturnFile(req, res);
 });
+
+// payment transaction
+router.post('/transaction',function(req, res, next) {
+  controllers.returnFileCtrl.saveTransaction(req, res);
+});
+
 
 module.exports = router;
