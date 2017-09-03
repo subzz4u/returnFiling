@@ -36,6 +36,10 @@ var returnFileSchema = new mongoose.Schema({
     saving80TTA  :{type:Number,default:null},
 
     fiscalYear  :{type: String,required:constants.messages.errors.fiscalYearRequired},
+
+    //payment information
+
+
     // status
     status            : {type: String,enum: constants.returnFileStatus, default:"pending"},
     lastUpdate        :{type:Date , default: new Date()},

@@ -56,8 +56,28 @@ exports.getReturnFile = function(req, res) {
     .catch(function(err) {
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
     })
+}
+exports.getItr = function(req, res) {
+  var params = {
+    isDelete: false
+  };
 
-
+  if(req.user._doc.role.type == 'client') // send only those return files that are posted by the client only
+  {
+    params['client'] = req.user._doc._id;
+  }
+  else{
+    return response.sendResponse(res, 401, "error", constants.messages.errors.invalidUser);
+  }
+  models.returnFileModel.find(params).select('itrId fiscalYear')
+    //.populate('client')
+    .exec()
+    .then(function(data) {
+      return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
+    })
+    .catch(function(err) {
+      return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
+    })
 }
 exports.getReturnFileCounts = function(req, res) {
 

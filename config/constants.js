@@ -78,6 +78,7 @@ var constants = {
         "deleteData"                 :   "delete Data Error",
         "checkedIn"                 :   "checkedIn Error",
         "invalidPriceQuery"                 :   "Invalid Price in Query",
+        "invalidUser"                 :   "User is invalid for the service",
 
         //***** Cafirm ***** //
         "saveCafirm"                : "Error in saving Ca Firm",

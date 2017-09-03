@@ -9,6 +9,9 @@ router.post('/',function(req, res, next) {
 router.get('/', passport.authenticate('token', {session:false}),function(req, res, next) {
   controllers.returnFileCtrl.getReturnFile(req, res);
 });
+router.get('/itr', passport.authenticate('token', {session:false}),function(req, res, next) {
+  controllers.returnFileCtrl.getItr(req, res);
+});
 router.get('/count', function(req, res, next) {
   controllers.returnFileCtrl.getReturnFileCounts(req, res);
 });
