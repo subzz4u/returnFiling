@@ -48,7 +48,7 @@ exports.getReturnFile = function(req, res) {
     params['client'] = req.user._doc._id;
   }
   models.returnFileModel.find(params)
-    .populate('client')
+    //.populate('client')
     .exec()
     .then(function(data) {
       return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
