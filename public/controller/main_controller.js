@@ -190,6 +190,8 @@ $scope.userDetails = {};
 
 $scope.getUser = function(){
   var loggedIn_user = UserModel.getUser();
+  if(!loggedIn_user)
+    return;
   $stateParams.user_id =loggedIn_user._id;
   var obj = {
        "_id": $stateParams.user_id
@@ -212,10 +214,10 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
     $scope.userLogin = function(){
       ApiCall.userLogin($scope.user ,function(response){
         $rootScope.showPreloader = false;
-        $rootScope.is_loggedin = true;
         $localStorage.token = response.data.token;
         console.log("login success");
       $timeout(function() {
+        $rootScope.is_loggedin = true;
         $state.go('profile-update');
       },500);
       },function(error){
