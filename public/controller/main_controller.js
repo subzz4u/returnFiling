@@ -23,8 +23,8 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
      })
     },function(error){
     })
-   
-  } 
+
+  }
 
   $scope.checkAdmin = function(){
     var superAdmin = false;
@@ -34,7 +34,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     }
     return superAdmin;
   }
-  $scope.checkUpdate = function(){ 
+  $scope.checkUpdate = function(){
      var loggedIn_user = UserModel.getUser();
      $stateParams.user_id =loggedIn_user._id
      var obj = {
@@ -50,8 +50,8 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
    },function(error){
 
    })
-    
-    
+
+
 
   }
   $scope.deleteUser = function(data){
@@ -118,7 +118,7 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
     ApiCall.getRole(function(response){
       angular.forEach(response.data,function(item){
         if(item.type == "client"){
-          $scope.user.role = item._id; 
+          $scope.user.role = item._id;
         }
       })
     })
@@ -248,7 +248,7 @@ $scope.active_tab = 'year';
     $scope.active_tab = tab;
   }
 
-  
+
 $scope.change = function(){
 
 }
@@ -256,6 +256,7 @@ $scope.change = function(){
 
 $scope.returnFile = function(){
   $scope.user.client = UserModel.getUser()._id;
+  $scope.user.itrId = Date.now();
   ApiCall.postReturnFile($scope.user , function(response){
   Util.alertMessage('success',"Data Saved Successfully");
   },function(error){
