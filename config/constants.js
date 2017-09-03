@@ -84,6 +84,7 @@ var constants = {
         "getCafirm"                : "Error in fetch Ca Firm",
         //*** it return **//
         "itrIdUnique"               :"ITR id should be unique",
+        "fiscalYearRequired"               :"fiscal Year is Required",
       },
     success:{
       "verified":"verified",

@@ -35,7 +35,7 @@ var returnFileSchema = new mongoose.Schema({
     Mediclaim80D  :{type:Number,default:null},
     saving80TTA  :{type:Number,default:null},
 
-
+    fiscalYear  :{type: String,required:constants.messages.errors.fiscalYearRequired},
     // status
     status            : {type: String,enum: constants.returnFileStatus, default:"pending"},
     lastUpdate        :{type:Date , default: new Date()},
