@@ -27,6 +27,8 @@ var returnFileSchema = new mongoose.Schema({
     uip80C  :{type:Number,default:null},
     ssy80C  :{type:Number,default:null},
     prh80C  :{type:Number,default:null},
+    nps80C  :{type:Number,default:null},
+    nsc80C  :{type:Number,default:null},
 
     nps80CCD  :{type:Number,default:null},
     eduLoan80E  :{type:Number,default:null},

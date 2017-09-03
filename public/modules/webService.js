@@ -70,18 +70,24 @@ angular.module('WebService', [])
                 'Accept': 'application/json'
             },
           },
-          postCaFirm: {
-            url: "/caFirm",
+          postReturnFile: {
+            url: "/returnFile",
             method: "POST",
             "headers": {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
           },
-          getCaFirm : {
-            url:"/caFirm/",
+          getcount : {
+            url:"/returnFile/count",
             method: "GET"
           },
+          getReturnList : {
+            url:"/returnFile",
+            method: "GET"
+          },
+
+
         }
     })
     .factory('ApiGenerator', function($http, $resource, API, EnvService) {
@@ -106,8 +112,9 @@ angular.module('WebService', [])
          postUser: ApiGenerator.getApi('postUser'),
         // deleteUser: ApiGenerator.getApi('deleteUser'),
          updateUser: ApiGenerator.getApi('updateUser'),
-        // postCaFirm: ApiGenerator.getApi('postCaFirm'),
-        // getCaFirm: ApiGenerator.getApi('getCaFirm'),
+         postReturnFile: ApiGenerator.getApi('postReturnFile'),
+         getcount: ApiGenerator.getApi('getcount'),
+         getReturnList:ApiGenerator.getApi('getReturnList'),
       })
     })
     .factory('EnvService',function($http,$localStorage){

@@ -44,9 +44,9 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
    }
   })
-  .state('profile', {
-    templateUrl: 'view/profile.html',
-    url: '/profile',
+  .state('profile-update', {
+    templateUrl: 'view/profile_update.html',
+    url: '/profile-update',
     controller:'User_Controller',
     resolve: {
       loggedout: checkLoggedout
@@ -63,6 +63,22 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   .state('return-file', {
     templateUrl: 'view/return_file.html',
     url: '/return-file',
+    controller:'Return_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+  .state('return-file-list', {
+    templateUrl: 'view/return_file_list.html',
+    url: '/return-file-list',
+    controller:'Return_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+  .state('return-file-details', {
+    templateUrl: 'view/return_file_details.html',
+    url: '/return-file-details',
     controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout

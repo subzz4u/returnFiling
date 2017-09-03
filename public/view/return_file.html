@@ -5,220 +5,245 @@
   </h1>
 </section>
 <section>
-	<div class="row">
-    	<div class="col-xs-10 col-md-offset-1">
-     	 	<div class="nav-tabs-custom">
-        		<ul class="nav nav-tabs">
-		        	<li ng-class="{'active':active_tab == 'income'}" ><a ng-click="tabChange('income')" href="" data-toggle="tab"><b>Income Details</b></a></li>
-		          	<li ng-class="{'active':active_tab == 'deduction'}"><a href="" ng-click="tabChange('deduction')" data-toggle="tab"><b>Deduction Under Chapter VIA</b></a></li>
-		        </ul>
-        	<div class="tab-content">
-          		<div class="tab-pane" id="income" ng-class="{'active':active_tab == 'income'}">
-					<div class="box box-info ">
-			      		<div class="box-header with-border">
-			        		<h3 class="box-title">Income Details</h3>
-			      		</div>
-		    		<form class="form-horizontal" name="income">
-			    		<div class="box-body">
-			        		<div class="row">
-			        			<div class="col-sm-12">
-			        				<div class="col-xs-4">
-						        		<div class="form-group has-feedback" ng-class="{'has-error':income.emp_income.$touched && income.emp_income.$invalid}">
-							          		<label for="uname" class="control-label">Contractual Employement  Income:</label>
-											<input type="text" name="emp_income" ng-model="user.empIncome" ng-change="change()" class="form-control" placeholder="Contractual Employement  Income" required>
-											<span class="help-block" ng-show="income.emp_income.$error.required && income.emp_income.$touched">Employment Income is required</span>		
-					          			</div>
-							          	<div class="form-group">
-								          		<label for="uname" class="control-label">Income from Business / Profession:</label>
-												<input type="text" name="business_income" ng-model="user.businessIncome" ng-change="change()" class="form-control" placeholder="Income from Business / Profession">
-							          	</div>
-							          	<div class="form-group">
-								          		<label for="uname" class="control-label">Income from Capital Gain:</label>
-												<input type="text" name="business_income" ng-model="user.capitalGainIncome" ng-change="change()" class="form-control" placeholder="Income from Capital Gain">
-							          	</div>
-					      			</div>
-									<div class="col-xs-4">
-					          				<div class="box box-info ">
-								    			<div class="box-header with-border">
-								        			<h3 class="box-title">Income from House Property</h3>
-								    			</div>
-								    			<div class="box-body">
-								    				<div class="form-group col-sm-10">
-										          		<label for="uname" class="control-label">Rental Income:</label>
-														<input type="text" name="rental_income" ng-model="user.rentalIncome" ng-change="change()" class="form-control" placeholder="Rental Income">		
-								          			</div>  
-								          			<div class="form-group col-sm-10">
-										          		<label for="uname" class="control-label">Interest on House Loan:</label>
-														<input type="text" name="house_interest_income" ng-model="user.homeLoan" ng-change="change()" class="form-control" placeholder="Interest on House Loan">		
-					          						</div>  
-								    			</div>
+	<form class="form-horizontal" name="income">
+		<div class="row">
+    		<div class="col-xs-10 col-md-offset-1">
+     	 		<div class="nav-tabs-custom">
+	        		<ul class="nav nav-tabs">
+	        			<li ng-class="{'active':active_tab == 'year'}" ><a ng-click="tabChange('year')" href="" data-toggle="tab"><b>Financial Year</b></a></li>
+			        	<li ng-class="{'active':active_tab == 'income'}" ><a ng-click="tabChange('income')" href="" data-toggle="tab"><b>Income Details</b></a></li>
+			          	<li ng-class="{'active':active_tab == 'deduction'}"><a href="" ng-click="tabChange('deduction')" data-toggle="tab"><b>Deduction Under Chapter VIA</b></a></li>
+			        </ul>
+        			<div class="tab-content">
+        				 <div class="tab-pane" id="year" ng-class="{'active':active_tab == 'year'}">
+        				 	<div class="box box-info">
+        				 		<div class="box-header with-border">
+        				 			<h3 class="box-title">Please Enter The Financial Year</h3>
+					        		<h3 class="box-title">   You Want to Return </h3>
+        				 		</div>
+        				 		<div class="box-body">
+        				 			<div class="row">
+        				 				<div class="col-xs-10">
+        				 					<div class="" ng-class="{'has-error':income.fiscal_year.$touched && income.fiscal_year.$invalid}">
+        				 					<label for="uname" class="control-label pull-left">Financial Year:</label>
+								          		<div class="col-xs-5">
+								          		<select class="form-control" name="fiscal_year" ng-model="user.fiscalYear">
+								          			<option value=""><i class="fa fa-sort-desc">Financial Year</i></option>
+								          			<option value="2">15-16</option>
+								          			<option value="3">16-17</option>
+								          			<option value="4">17-18</option>
+								          		</select>
+								          		</div>
+				          					</div>
+        				 				</div>
+        				 			</div>
+        				 		</div>
+        				 		<div class="box-footer">
+        				 			<button type="submit" class="btn btn-default" ui-sref="user-profile">Back</button>
+							         <button type="submit" ng-click="tabChange('income')" class="btn btn-info pull-right">Next</button>
+        				 		</div>
+        				 	</div>
+
+       					</div> 
+		          		<div class="tab-pane" id="income" ng-class="{'active':active_tab == 'income'}">
+							<div class="box box-info ">
+					      		<div class="box-header with-border">
+					        		<h3 class="box-title">Income Details</h3>
+					      		</div>
+					    		<div class="box-body">
+						        		<div class="row">
+						        			<div class="col-sm-12">
+						        				<div class="col-xs-4">
+									        		<div class="form-group" ng-class="{'has-error':income.emp_income.$touched && income.emp_income.$invalid}">
+										          		<label for="uname" class="control-label">Contractual Employement  Income:</label>
+														<input type="text" name="emp_income" ng-model="user.conEmpInc" ng-change="change()" class="form-control" placeholder="Contractual Employement  Income" required>
+														<span class="help-block" ng-show="income.emp_income.$error.required && income.emp_income.$touched">Employment Income is required</span>		
+								          			</div>
+										          	<div class="form-group">
+											          		<label for="uname" class="control-label">Income from Business / Profession:</label>
+															<input type="text" name="business_income" ng-model="user.businessInc" ng-change="change()" class="form-control" placeholder="Income from Business / Profession">
+										          	</div>
+										          	<div class="form-group">
+											          		<label for="uname" class="control-label">Income from Capital Gain:</label>
+															<input type="text" name="business_income" ng-model="user.capitalGainInc" ng-change="change()" class="form-control" placeholder="Income from Capital Gain">
+										          	</div>
+								      			</div>
+												<div class="col-xs-4">
+								          				<div class="box box-info ">
+											    			<div class="box-header with-border">
+											        			<h3 class="box-title">Income from House Property</h3>
+											    			</div>
+											    			<div class="box-body">
+											    				<div class="form-group col-sm-10">
+													          		<label for="uname" class="control-label">Rental Income:</label>
+																	<input type="text" name="rental_income" ng-model="user.rentalInc" ng-change="change()" class="form-control" placeholder="Rental Income">		
+											          			</div>  
+											          			<div class="form-group col-sm-10">
+													          		<label for="uname" class="control-label">Interest on House Loan:</label>
+																	<input type="text" name="house_interest_income" ng-model="user.houseLoanInterestInc" ng-change="change()" class="form-control" placeholder="Interest on House Loan">		
+								          						</div>  
+											    			</div>
+														</div>
+													</div>
+													<div class="col-xs-4">
+														<div class="box box-info ">
+										    				<div class="box-header with-border">
+										        				<h3 class="box-title">Income from Other Sources</h3>
+										    				</div>
+										    				<div class="box-body">
+														    	<div class="form-group col-sm-10">
+													          		<label for="uname" class="control-label">Interest (Fixed Deposit):</label>
+																	<input type="text" name="rental_income" ng-model="user.fixDepositInc" ng-change="change()" class="form-control" placeholder="Interest (Fixed Deposit)">		
+											          			</div>  
+											          			<div class="form-group col-sm-10">
+													          		<label for="uname" class="control-label">Interest (Savings A/c):</label>
+																	<input type="text" name="savings_interest" ng-model="user.savingAcInc" ng-change="change()" class="form-control" placeholder="Interest (Savings A/c)">		
+											          			</div>  
+											          			<div class="form-group col-sm-10">
+													          		<label for="uname" class="control-label">Any other income:</label>
+																	<input type="text" name="house_interest_income" ng-model="user.otherInc" ng-change="change()" class="form-control" placeholder="Any other income">		
+											          			</div>  
+										    				</div>
+														</div>										
+												</div>
+
 											</div>
 										</div>
-										<div class="col-xs-4">
-											<div class="box box-info ">
-							    				<div class="box-header with-border">
-							        				<h3 class="box-title">Income from Other Sources</h3>
-							    				</div>
-							    				<div class="box-body">
-											    	<div class="form-group col-sm-10">
-										          		<label for="uname" class="control-label">Interest (Fixed Deposit):</label>
-														<input type="text" name="rental_income" ng-model="user.fixedDeposit" ng-change="change()" class="form-control" placeholder="Interest (Fixed Deposit)">		
-								          			</div>  
-								          			<div class="form-group col-sm-10">
-										          		<label for="uname" class="control-label">Interest (Savings A/c):</label>
-														<input type="text" name="savings_interest" ng-model="user.savingsInterest" ng-change="change()" class="form-control" placeholder="Interest (Savings A/c)">		
-								          			</div>  
-								          			<div class="form-group col-sm-10">
-										          		<label for="uname" class="control-label">Any other income:</label>
-														<input type="text" name="house_interest_income" ng-model="user.otherIncome" ng-change="change()" class="form-control" placeholder="Any other income">		
-								          			</div>  
-							    				</div>
-											</div>										
+										<div class="row">
+											<div class="form-group">
+												<label for="lname" class="col-sm-3 control-label">Total:</label>
+												<div class="col-sm-3">
+													<input type="text" name="total" ng-model="user.total" class="form-control" read-only required>	
+												</div>
+											</div>
+										</div>
 									</div>
+							        <div class="box-footer">
+							          	<button type="submit" class="btn btn-default" ng-click="tabChange('year')">Back</button>
+							          	<button type="submit" ng-click="tabChange('deduction')" class="btn btn-info pull-right">Next</button>
+							        </div>
+				     		    </div>
+		        			</div>
+	        				<div class="tab-pane" id="deduction" ng-class="{'active':active_tab == 'deduction'}">
+			    				<div class="row">
+						        	<div class="col-xs-12">		
+							       	 	<div class="box box-info">
+											<div class="box-header with-border">
+												        <h3 class="box-title">Section 80 C</h3>
+											</div>
+											<div class="box-body">
+												<div class="row">
+													<div class="col-xs-12 col-sm-6 col-md-4">
+						                              	 <label for="uname" class="control-label">Life Insurance Premium:</label>
+														 <input type="text"  name="life_insurance" ng-model="user.lip80C" class="form-control" placeholder="Life Insurance Premium">		 
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4">
+						                                <label for="uname" class="control-label">PPF:</label>
+														<input type="text" name="ppf" ng-model="user.pff80C" class="form-control" placeholder="PPF">
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4">
+										          		<label for="uname" class="control-label">PF:</label>
+														<input type="text" name="pf" ng-model="user.pf80C" class="form-control" placeholder="PF">				
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-12 col-sm-6 col-md-4">
+						                              	<label for="uname" class="control-label">Children’s Tuition Fees:</label>
+														<input type="text" name="child_tution" ng-model="user.tutionFees80C" class="form-control" placeholder="Children’s Tuition Fees">		 
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4">
+						                                <label for="uname" class="control-label">Mutual Fund:</label>
+														<input type="text" name="mutual_fund" ng-model="user.mf80C" class="form-control" placeholder="Mutual Fund">
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4">
+										          		<label for="uname" class="control-label">Senior Citizens Scheme :</label>
+														<input type="text" name="scss" ng-model="user.senCitizec80C" class="form-control" placeholder="Senior Citizens Savings Scheme ">				
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-12 col-sm-6 col-md-4">
+						                              	<label for="uname" class="control-label">Fixed Deposit (5 Yrs):</label>
+														<input type="text" name="fixed_deposit" ng-model="user.fd80C" class="form-control" placeholder="Fixed Deposit (5 Yrs)">		 
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4">
+						                                <label for="uname" class="control-label">National Pension System:</label>
+														<input type="text" name="nps" ng-model="user.nps80C" class="form-control" placeholder="National Pension System (NPS)">		
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4">						          			
+										          		<label for="uname" class="control-label">National Savings Certificate:</label>
+														<input type="text" name="nsc" ng-model="user.nsc80C" class="form-control" placeholder="National Savings Certificate (NSC)">			
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-12 col-sm-6 col-md-4">
+														<label for="uname" class="control-label">Unit Linked Insurance Plans:</label>
+														<input type="text" class="form-control" name="link_insurance" ng-model="user.uip80C" class="form-control" placeholder="Unit Linked Insurance Plans">
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4">
+														<label for="uname" class="control-label">Sukanya Samriddhi Yojana:</label>
+														<input type="text" name="SSY" ng-model="user.ssy80C" class="form-control" placeholder="Sukanya Samriddhi Yojana">
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4">
+														<label for="uname" class="control-label"> Principal	Repayment of home loan:</label>
+														<input type="text" name="repay_home_loan" ng-model="user.prh80C" class="form-control" placeholder="Principal Repayment of home loan">
+													</div>
+												</div>
+												<div class="row">
+													<p>TOTAL:</p>
+												</div>
+											</div>
+										</div>						
+									</div>
+									<div class="col-xs-6">
+										<div class="box box-info">
+											<div class="box-header with-border">
+										       	<h3 class="box-title"><strong>Section 80CCD (1B)</strong></h3>
+										   	</div>
+										   	<div class="box-body">
+										   		<label for="uname" class="control-label">Contribution to NPS:</label>
+												<input type="text" name="contribution_nps" ng-model="user.nps80CCD" class="form-control" placeholder="Contribution to National Pension Scheme">
+										   	</div>
+										</div>
+										<div class="box box-info">
+											<div class="box-header with-border">
+										       	<h3 class="box-title"><strong>Section 80D</strong></h3>
+										   	</div>
+										   	<div class="box-body">
+										   		<label for="uname" class="control-label">Mediclaim Insurance:</label>
+												<input type="text" name="med_insurance" ng-model="user.Mediclaim80D" class="form-control" placeholder="Mediclaim Insurance">
+										   	</div>
+										</div>
 
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group has-feedback">
-									<label for="lname" class="col-sm-3 control-label">Total:</label>
-								<div class="col-sm-3">
-									<input type="text" name="total" ng-model="user.total" class="form-control" read-only required>
-								
-								</div>
-							</div>
-							</div>
-						</div>
-			        <div class="box-footer">
-			          	<button type="submit" class="btn btn-default"  ui-sref="dashboard">Back</button>
-			          	<button type="submit" ng-click="tabChange('deduction')" class="btn btn-info pull-right">Next</button>
-			        </div>
-		      </form>
-		    </div>
-        </div>
-        <div class="tab-pane" id="deduction" ng-class="{'active':active_tab == 'deduction'}">
-		    <div class="row">
-		        <form class="form-horizontal" name="deduction">	
-		        	<div class="col-xs-12">		
-			       	 	<div class="box box-info">
-							<div class="box-header with-border">
-								        <h3 class="box-title">Section 80 C</h3>
-							</div>
-							<div class="box-body">
-								<div class="row">
-									<div class="col-xs-12 col-sm-6 col-md-4">
-		                              	 <label for="uname" class="control-label">Life Insurance Premium:</label>
-										 <input type="text"  name="life_insurance" ng-model="user.sec80C.lifeInsurance" class="form-control" placeholder="Life Insurance Premium">		 
 									</div>
-									<div class="col-xs-12 col-sm-6 col-md-4">
-		                                <label for="uname" class="control-label">PPF:</label>
-										<input type="text" name="ppf" ng-model="user.sec80C.ppf" class="form-control" placeholder="PPF">
+									<div class="col-xs-6">
+										<div class="box box-info">
+											<div class="box-header with-border">
+										       	<h3 class="box-title"><strong>Section 80E</strong></h3>
+										   	</div>
+										   	<div class="box-body">
+										   		<label for="uname" class="control-label">Interest on Education Loan:</label>
+												<input type="text" name="edu_loan" ng-model="user.eduLoan80E" class="form-control" placeholder="Interest on Education Loan">
+										   	</div>
+										</div>
+										<div class="box box-info">
+											<div class="box-header with-border">
+										       	<h3 class="box-title"><strong>Section 80TTA</strong></h3>
+										   	</div>
+										   	<div class="box-body">
+										   		<label for="uname" class="control-label">Savings Bank Interest:</label>
+												<input type="text" name="savings_interest" ng-model="user.saving80TTA" class="form-control" placeholder="Savings Bank Interest">
+										   	</div>
+										</div>
 									</div>
-									<div class="col-xs-12 col-sm-6 col-md-4">
-						          		<label for="uname" class="control-label">PF:</label>
-										<input type="text" name="pf" ng-model="user.sec80C.pf" class="form-control" placeholder="PF">				
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 col-sm-6 col-md-4">
-		                              	<label for="uname" class="control-label">Children’s Tuition Fees:</label>
-										<input type="text" name="child_tution" ng-model="user.sec80C.child" class="form-control" placeholder="Children’s Tuition Fees">		 
-									</div>
-									<div class="col-xs-12 col-sm-6 col-md-4">
-		                                <label for="uname" class="control-label">Mutual Fund:</label>
-										<input type="text" name="mutual_fund" ng-model="user.sec80C.mutualFund" class="form-control" placeholder="Mutual Fund">
-									</div>
-									<div class="col-xs-12 col-sm-6 col-md-4">
-						          		<label for="uname" class="control-label">Senior Citizens Scheme :</label>
-										<input type="text" name="scss" ng-model="user.sec80C.scss" class="form-control" placeholder="Senior Citizens Savings Scheme ">				
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 col-sm-6 col-md-4">
-		                              	<label for="uname" class="control-label">Fixed Deposit (5 Yrs):</label>
-										<input type="text" name="fixed_deposit" ng-model="user.sec80C.fixedDeposit" class="form-control" placeholder="Fixed Deposit (5 Yrs)">		 
-									</div>
-									<div class="col-xs-12 col-sm-6 col-md-4">
-		                                <label for="uname" class="control-label">National Pension System:</label>
-										<input type="text" name="nps" ng-model="user.sec80C.nps" class="form-control" placeholder="National Pension System (NPS)">		
-									</div>
-									<div class="col-xs-12 col-sm-6 col-md-4">						          			
-						          		<label for="uname" class="control-label">National Savings Certificate:</label>
-										<input type="text" name="nsc" ng-model="user.sec80C.nsc" class="form-control" placeholder="National Savings Certificate (NSC)">			
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12 col-sm-6 col-md-4">
-										<label for="uname" class="control-label">Unit Linked Insurance Plans:</label>
-										<input type="text" class="form-control" name="link_insurance" ng-model="user.sec80C.linkedInsurance" class="form-control" placeholder="Unit Linked Insurance Plans">
-									</div>
-									<div class="col-xs-12 col-sm-6 col-md-4">
-										<label for="uname" class="control-label">Sukanya Samriddhi Yojana:</label>
-										<input type="text" name="SSY" ng-model="user.sec80C.ssy" class="form-control" placeholder="Sukanya Samriddhi Yojana">
-									</div>
-									<div class="col-xs-12 col-sm-6 col-md-4">
-										<label for="uname" class="control-label"> Principal	Repayment of home loan:</label>
-										<input type="text" name="repay_home_loan" ng-model="user.sec80C.repayHomeLoan" class="form-control" placeholder="Principal Repayment of home loan">
-									</div>
-								</div>
-								<div class="row">
-									<p>TOTAL:</p>
-								</div>
-							</div>
-						</div>						
-					</div>
-					
-						<div class="col-xs-6">
-							<div class="box box-info">
-								<div class="box-header with-border">
-							       	<h3 class="box-title"><strong>Section 80CCD (1B)</strong></h3>
-							   	</div>
-							   	<div class="box-body">
-							   		<label for="uname" class="control-label">Contribution to NPS:</label>
-									<input type="text" name="contribution_nps" ng-model="user.contributeNps" class="form-control" placeholder="Contribution to National Pension Scheme">
-							   	</div>
-							</div>
-							<div class="box box-info">
-								<div class="box-header with-border">
-							       	<h3 class="box-title"><strong>Section 80D</strong></h3>
-							   	</div>
-							   	<div class="box-body">
-							   		<label for="uname" class="control-label">Mediclaim Insurance:</label>
-									<input type="text" name="med_insurance" ng-model="user.medInsurance" class="form-control" placeholder="Mediclaim Insurance">
-							   	</div>
-							</div>
-
-						</div>
-						<div class="col-xs-6">
-							<div class="box box-info">
-								<div class="box-header with-border">
-							       	<h3 class="box-title"><strong>Section 80E</strong></h3>
-							   	</div>
-							   	<div class="box-body">
-							   		<label for="uname" class="control-label">Interest on Education Loan:</label>
-									<input type="text" name="edu_loan" ng-model="user.educationLoan" class="form-control" placeholder="Interest on Education Loan">
-							   	</div>
-							</div>
-							<div class="box box-info">
-								<div class="box-header with-border">
-							       	<h3 class="box-title"><strong>Section 80TTA</strong></h3>
-							   	</div>
-							   	<div class="box-body">
-							   		<label for="uname" class="control-label">Savings Bank Interest:</label>
-									<input type="text" name="savings_interest" ng-model="user.savingsInterest" class="form-control" placeholder="Savings Bank Interest">
-							   	</div>
-							</div>
-						</div>
-						<div class="col-xs-12">
-						        <button type="submit" class="btn btn-default"  ng-click="tabChange('income')">Back</button>
-						        <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button>
-				    	</div>	
-		     	</form>
-		    
-          </div><!--row-->
-        </div><!--tab Pane-->
-
-      </div><!--tab content-->
-    </div><!--nav-tabs-custom-->
-  </div><!--col-xs-10-->
-  </div><!--row-->
+									<div class="col-xs-12">
+									        <button type="submit" class="btn btn-default"  ng-click="tabChange('income')">Back</button>
+									        <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button>
+							    	</div>	
+	          					</div><!--row-->
+	       		 			</div><!--tab Pane-->
+      				</div><!--tab content-->
+    			</div><!--nav-tabs-custom-->
+  			</div><!--col-xs-10-->
+  		</div><!--row-->
+  	</form>
 </section>

@@ -2,7 +2,7 @@
 
   /******Main controller ends here******/
   /*******************************************************/
-app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal){
+app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal,$stateParams){
 
   $scope.signOut = function(){
     delete $localStorage.token;
@@ -10,10 +10,6 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     $state.go('login');
   }
 
-  $scope.active_tab = 'income';
-  $scope.tabChange = function(tab){
-    $scope.active_tab = tab;
-  }
 
 
   $scope.userList = {};
@@ -21,13 +17,11 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     ApiCall.getUser(function(response){
     $scope.userList = response.data;
     $scope.userList.nos = response.data.length;
-    console.log($scope.userList);
      $scope.userData = new NgTableParams;
      $scope.userData.settings({
       dataset:$scope.userList
      })
     },function(error){
-      console.log("error");
     })
    
   } 
@@ -40,19 +34,27 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     }
     return superAdmin;
   }
-  $scope.checkUpdate = function(){
-    var loggedIn_user = UserModel.getUser();
-    if(loggedIn_user.firstname){
-      $state.go('user-profile',{'user_id':loggedIn_user._id});
-    }
-    else{
-      
-      $state.go('profile');
-    }
+  $scope.checkUpdate = function(){ 
+     var loggedIn_user = UserModel.getUser();
+     $stateParams.user_id =loggedIn_user._id
+     var obj = {
+       "_id": $stateParams.user_id
+     }
+   ApiCall.getUser(obj, function(response){
+    if(response.data.firstname){
+        $state.go('user-profile',{'user_id':loggedIn_user._id});
+      }
+      else{
+            $state.go('profile-update');
+           }
+   },function(error){
+
+   })
+    
+    
 
   }
   $scope.deleteUser = function(data){
-    console.log(data);
    $scope.deleteUserId = data._id;
    $scope.modalInstance = $uibModal.open({
       animation : true,
@@ -74,12 +76,15 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
         Util.alertMessage('success', res.message);
         $scope.getUserList();
       }, function(error) {
-        console.log(err);
       })
     }
-
-
-
+    $scope.count = {};
+  $scope.getReturnCount = function(){
+    ApiCall.getcount(function(response){
+     $scope.count.nos = response.data.length;
+    },function(error){
+    })
+  }
 
 });
 
@@ -138,6 +143,7 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
       $rootScope.showPreloader = false;
       if(response.statusCode == 200){
         Util.alertMessage('success',"You have successfully register please check your mail");
+        $state.go('login');
       }
       else{
         Util.alertMessage('danger',"Something went wrong please try again");
@@ -151,7 +157,6 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   $scope.getUserDetails = function(){
     $scope.user = UserModel.getUser();
-    console.log($scope.user);
   }
   /*******************************************************/
   /********FUNCTION IS USED TO UPDATE PROFILE INFO********/
@@ -170,7 +175,10 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
       }
     }
     ApiCall.updateUser($scope.user , function(response){
-      console.log(response);
+       var loggedIn_user = UserModel.getUser();
+
+      Util.alertMessage('success',"Datas Updated Successfully");
+        $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
 
     })
@@ -179,15 +187,16 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
 
 
 $scope.userDetails = {};
+
 $scope.getUser = function(){
+  var loggedIn_user = UserModel.getUser();
+  $stateParams.user_id =loggedIn_user._id;
   var obj = {
-    "_id": $stateParams.user_id
-  }
+       "_id": $stateParams.user_id
+     }
   ApiCall.getUser(obj, function(response){
     $scope.userDetails = response.data;
-    console.log($scope.userDetails);
   },function(error){
-    console.log("error");
   })
 }
 
@@ -207,7 +216,7 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
         $localStorage.token = response.data.token;
         console.log("login success");
       $timeout(function() {
-        $state.go('dashboard');
+        $state.go('profile-update');
       },500);
       },function(error){
 
@@ -231,12 +240,46 @@ app.controller("Payment_Controller",function($scope,$rootScope,$rootScope,$state
 /*******************************************************/
   /*****Return controller starts here******/
   /*******************************************************/
-app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
+app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel){
 
 $scope.user = {};
+$scope.active_tab = 'year';
+  $scope.tabChange = function(tab){
+    $scope.active_tab = tab;
+  }
+
+  
 $scope.change = function(){
 
 }
+
+
+$scope.returnFile = function(){
+  $scope.user.client = UserModel.getUser()._id;
+  ApiCall.postReturnFile($scope.user , function(response){
+  Util.alertMessage('success',"Data Saved Successfully");
+  },function(error){
+
+  })
+}
+$scope.list  = {};
+$scope.returnFileList = function(){
+  ApiCall.getReturnList(function(response){
+    $scope.list = response.data;
+    $scope.returnList = new NgTableParams;
+    $scope.returnList.settings({
+        dataset:$scope.list
+    })
+},function(error){
+
+  })
+}
+$scope.returnFileDetails = function(){
+
+}
+
+
+
 });
 /*----------------------------------------------------------------------------------------------------------------------------------*/
                         /*-------------------------------------------------------------------------------*/

@@ -6,7 +6,7 @@
 </section>
 <section class="content" ng-init="getAllUsers()">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
       <div class="box box-info collapsed-box">
           <div class="box-header">
             <div class="info-box">
@@ -41,48 +41,24 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="box box-info collapsed-box">
-          <div class="box-header">
-            <div class="info-box">
-              <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">Return File Completed</span>
-                <span class="info-box-number">{{}}</span>
-              </div>
-                  <div class="box-tools pull-right">
-                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                      </button>
-                </div>
+    <div class="col-md-5 col-xs-6">
+          <div class="small-box bg-yellow" ng-init="getReturnCount()">
+            <div class="inner">
+              <h3>{{count.nos}}</h3>
+
+              <p>Return Files Submitted</p>
             </div>
+            <div class="icon">
+              <i class="fa fa-file"></i>
+            </div>
+            <a href="" ui-sref="return-file-list" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
         </div>
-        <div class="box-body">
-            <table ng-table="userData" class="table table-bordered table-hover">
-                <tr   ng-repeat="row in $data">
-                    <td data-title="'Sl No'">{{ $index + 1}}</td>
-                    <td data-title="'Email'" sortable="'email'">{{row.email}}</td>
-                    <td data-title="'User Role'" sortable="'user_role'">{{row.role.type}}</td>
-                    <td data-title="'Username'" sortable="'username'"> {{row.username}}</td>
-                    <td data-title="'Action'">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success"><a href="" class="option-btn" ui-sref="user-profile"><i class="fa fa-eye"></i></a></button>
-                        </div>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-warning" ng-click="updateUser(row)"><i class="fa fa-edit"></i></button>
-                        </div>
-                        <div class="btn-group">
-                          <button type="button" ng-click="deleteUser(row)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                        </div>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-danger">Deactivate</button>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-      </div>
-    </div>
-        <div class="col-md-5">
+     </div>
+   <div class="row"> 
+    <div class="col-md-5">
       <div class="box box-info collapsed-box">
           <div class="box-header">
             <div class="info-box">
@@ -122,6 +98,48 @@
             </table>
         </div>
       </div>
+    </div>
+    <div class="col-md-5">
+      <div class="box box-info collapsed-box">
+          <div class="box-header">
+            <div class="info-box">
+              <span class="info-box-icon bg-red"><i class="fa fa-setting"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">ReturnFile Pending</span>
+                <span class="info-box-number">{{}}</span>
+              </div>
+                  <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                      </button>
+                </div>
+            </div>
+        </div>
+        <div class="box-body">
+            <table ng-table="userData" class="table table-bordered table-hover">
+                <tr   ng-repeat="row in $data">
+                    <td data-title="'Sl No'">{{ $index + 1}}</td>
+                    <td data-title="'Email'" sortable="'email'">{{row.email}}</td>
+                    <td data-title="'User Role'" sortable="'user_role'">{{row.role.type}}</td>
+                    <td data-title="'Username'" sortable="'username'"> {{row.username}}</td>
+                    <td data-title="'Action'">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success"><a href="" class="option-btn" ui-sref="user-profile"><i class="fa fa-eye"></i></a></button>
+                        </div>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-warning" ng-click="updateUser(row)"><i class="fa fa-edit"></i></button>
+                        </div>
+                        <div class="btn-group">
+                          <button type="button" ng-click="deleteUser(row)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-danger">Deactivate</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+      </div>
+    </div>
     </div>
     </div>
  </section>
