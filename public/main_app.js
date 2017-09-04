@@ -60,6 +60,14 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
+  .state('user-list', {
+    templateUrl: 'view/user_list.html',
+    url: '/user-list',
+    controller:'User_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   .state('return-file', {
     templateUrl: 'view/return_file.html',
     url: '/return-file',

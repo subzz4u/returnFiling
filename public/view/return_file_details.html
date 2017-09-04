@@ -10,7 +10,7 @@
 				
 					<select class="form-control" name="fiscal_year" ng-model="user.fiscalYear" ng-init="showFiscalYear()">
 	          			<option ng-value=""><i class="fa fa-sort-desc">Financial Year</i></option>
-	          			<option ng-value="itrs._id" ng-repeat="years in yearList">{{itrs.itrId}}</option>
+	          			<option ng-value="years" ng-repeat="years in yearList">{{years}}</option>
 	          		</select>
           		
 			</div>

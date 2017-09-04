@@ -1,0 +1,41 @@
+<section class="content-header m-b-40">
+  <h1 class="pull-left">
+    Users List
+  </h1>
+</section>
+<section class="content" ng-init="getAllUsers()">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-body over-x-sc">
+          <div class="table-responsive">
+            <table ng-table="userData" class="table table-bordered table-hover">
+              <tr ng-repeat="row in $data">
+                <td data-title="'Sl No'">{{ $index + 1}}</td>
+                <td data-title="'ID'" sortable="'Id'">{{row._id}}</td>
+                <td data-title="'Email'" sortable="'email'">{{row.email}}</td>
+                <td data-title="'Username'" sortable="'user_role'">{{row.username}}</td>
+
+                <td data-title="'Action'">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-success"><a href="" class="option-btn" ui-sref="user-profile({'user_id':row._id})"><i class="fa fa-eye"></i></a></button>
+                  </div>
+                 <!--  <div class="btn-group">
+                    <button type="button" class="btn btn-warning" ui-sref="profile-update({'user_id':row._id})"><i class="fa fa-edit"></i></button>
+                  </div> -->
+                  <div class="btn-group">
+                    <button type="button" ng-click="deleteUser(row)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                  </div>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-danger">Deactivate</button>
+                  </div>
+
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+            </div>
+    </div>
+  </div>
+</section>

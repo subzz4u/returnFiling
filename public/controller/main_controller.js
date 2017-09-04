@@ -1,10 +1,10 @@
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal,$stateParams,$timeout){
+app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal,$stateParams,Util,$timeout){
   $scope.userList = {};
   $scope.count = {};
-
+  $scope.users = {};
   /*******************************************************/
   /*********FUNCTION IS USED TO SIGN OUT PROFILE**********/
   /*******************************************************/
@@ -19,27 +19,25 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   $scope.getAllUsers = function(){
     ApiCall.getUser(function(response){
+      $scope.users.nos = response.data.length;
       $scope.userList = response.data;
-      $scope.userList.nos = response.data.length;
       $scope.userData = new NgTableParams;
       $scope.userData.settings({
-        dataset:$scope.userList
+        dataset: $scope.userList
       })
-    },function(error){
-
-    })
+      },function(error){
+      })
   }
   /*******************************************************/
   /*********FUNCTION IS USED TO CHECK ADMIN USER**********/
   /*******************************************************/
   $scope.checkAdmin = function(){
-    var superAdmin = false;
+    $scope.superAdmin = false;
     $timeout(function() {
       var loggedIn_user = UserModel.getUser();
       if(loggedIn_user.role.type == "superAdmin"){
-        var superAdmin = true;
+        $scope.superAdmin = true;
       }
-      return superAdmin;
     }, 500);
   }
   /*******************************************************/
@@ -67,7 +65,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
       _id: $scope.deleteUserId
     }, function(res) {
       Util.alertMessage('success', res.message);
-      $scope.getUserList();
+      $scope.getAllUsers();
     }, function(error) {
     })
   }
@@ -76,7 +74,6 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   $scope.getReturnCount = function(){
     ApiCall.getcount(function(response){
-      console.log(response);
      $scope.count.nos = response.data.length;
     },function(error){
     })
@@ -181,7 +178,7 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
   /*********FUNCTION IS USED TO GET USER DETAILS**********/
   /*******************************************************/
   $scope.getUserDetails = function(){
-    // $scope.user = UserModel.getUser();
+     $scope.user = UserModel.getUser();
     // var loggedIn_user = UserModel.getUser();
     // if(!loggedIn_user){
     //   return;
@@ -196,6 +193,26 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
 
     })
   }
+  // /******************************************************************************/
+  // /*********FUNCTION IS USED TO GET USER DETAILS during update by admin **********/
+  // /******************************************************************************/
+  // $scope.getUserUpdates = function(){
+  //    $scope.user = UserModel.getUser();
+  //   // var loggedIn_user = UserModel.getUser();
+  //   // if(!loggedIn_user){
+  //   //   return;
+  //   // }
+  //   // $stateParams.user_id = loggedIn_user._id;
+  //   var obj = {
+  //     "_id": $stateParams.user_id || UserModel.getUser()._id
+  //   }
+  //   ApiCall.getUser(obj, function(response){
+  //     $scope.user = response.data;
+  //   },function(error){
+
+  //   })
+  // }
+
 });
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
@@ -219,7 +236,7 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
       $localStorage.token = response.data.token;
       $rootScope.is_loggedin = true;
       if(response.data.user.firstname){
-        $state.go('user-profile',{'user_id':loggedIn_user._id});
+        $state.go('user-profile',{'user_id':response.data.user._id});
       }
       else{
         $state.go('profile-update');
@@ -280,8 +297,9 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   }
   $scope.showFiscalYear = function(){
     ApiCall.getFiscalYear(function(response){
-      console.log(response);
+      
       $scope.yearList = response.data;
+      console.log($scope.yearList);
      // Util.alertMessage('success',"Fiscal year  Successfully");
     },function(error){
 
