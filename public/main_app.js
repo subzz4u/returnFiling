@@ -87,7 +87,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
  .state('payment', {
     templateUrl: 'view/payment.html',
     url: '/payment',
-    controller:'Payment_Controller',
+    controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout
     }

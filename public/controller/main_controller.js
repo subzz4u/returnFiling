@@ -2,7 +2,7 @@
 
   /******Main controller ends here******/
   /*******************************************************/
-app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal,$stateParams){
+app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal,$stateParams,$timeout){
 
   $scope.signOut = function(){
     delete $localStorage.token;
@@ -23,35 +23,40 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
      })
     },function(error){
     })
-
-  }
+   
+  } 
 
   $scope.checkAdmin = function(){
     var superAdmin = false;
     var loggedIn_user = UserModel.getUser();
+    console.log(loggedIn_user);
     if(loggedIn_user.role.type == "superAdmin"){
       var superAdmin = true;
     }
     return superAdmin;
   }
-  $scope.checkUpdate = function(){
+  $scope.checkUpdate = function(){ 
      var loggedIn_user = UserModel.getUser();
+
      $stateParams.user_id =loggedIn_user._id
      var obj = {
        "_id": $stateParams.user_id
      }
    ApiCall.getUser(obj, function(response){
-    if(response.data.firstname){
-        $state.go('user-profile',{'user_id':loggedIn_user._id});
+    console.log(response);
+    if(!response.data.firstname){
+       $state.go('profile-update');
       }
       else{
-            $state.go('profile-update');
-           }
+        timeout(function(){
+          $state.go('user-profile',{'user_id':loggedIn_user._id});
+        },500);
+       }
    },function(error){
 
    })
-
-
+    
+    
 
   }
   $scope.deleteUser = function(data){
@@ -81,6 +86,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     $scope.count = {};
   $scope.getReturnCount = function(){
     ApiCall.getcount(function(response){
+      console.log(response);
      $scope.count.nos = response.data.length;
     },function(error){
     })
@@ -118,7 +124,7 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
     ApiCall.getRole(function(response){
       angular.forEach(response.data,function(item){
         if(item.type == "client"){
-          $scope.user.role = item._id;
+          $scope.user.role = item._id; 
         }
       })
     })
@@ -140,6 +146,7 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.registerUser = function(){
     $rootScope.showPreloader = true;
     ApiCall.postUser($scope.user, function(response){
+      console.log(43235);
       $rootScope.showPreloader = false;
       if(response.statusCode == 200){
         Util.alertMessage('success',"You have successfully register please check your mail");
@@ -155,9 +162,9 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   /*********FUNCTION IS USED TO REGISTER A USER***********/
   /*******************************************************/
-  $scope.getUserDetails = function(){
-    $scope.user = UserModel.getUser();
-  }
+  // $$scope.user = UserModel.getUser();
+  // }scope.getUserDetails = function(){
+    
   /*******************************************************/
   /********FUNCTION IS USED TO UPDATE PROFILE INFO********/
   /*******************************************************/
@@ -188,15 +195,18 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
 
 $scope.userDetails = {};
 
-$scope.getUser = function(){
+$scope.getUserDetails = function(){
+  $scope.user = UserModel.getUser();
   var loggedIn_user = UserModel.getUser();
-  if(!loggedIn_user)
+  if(!loggedIn_user){
     return;
+  }
   $stateParams.user_id =loggedIn_user._id;
   var obj = {
        "_id": $stateParams.user_id
      }
   ApiCall.getUser(obj, function(response){
+    //console.log(response);
     $scope.userDetails = response.data;
   },function(error){
   })
@@ -209,8 +219,9 @@ $scope.getUser = function(){
   /******Login controller starts here******/
   /*******************************************************/
 
-app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
+app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout,UserModel){
     $scope.user = {};
+     
     $scope.userLogin = function(){
       ApiCall.userLogin($scope.user ,function(response){
         $rootScope.showPreloader = false;
@@ -218,7 +229,7 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
         console.log("login success");
       $timeout(function() {
         $rootScope.is_loggedin = true;
-        $state.go('profile-update');
+        $state.go('user-profile');
       },500);
       },function(error){
 
@@ -245,7 +256,7 @@ app.controller("Payment_Controller",function($scope,$rootScope,$rootScope,$state
 app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel){
 
 $scope.user = {};
-$scope.active_tab = 'year';
+$scope.active_tab = 'income';
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
   }
@@ -258,9 +269,10 @@ $scope.change = function(){
 
 $scope.returnFile = function(){
   $scope.user.client = UserModel.getUser()._id;
-  $scope.user.itrId = Date.now();
   ApiCall.postReturnFile($scope.user , function(response){
   Util.alertMessage('success',"Data Saved Successfully");
+  var loggedIn_user = UserModel.getUser();
+   $state.go('user-profile',{'user_id':loggedIn_user._id});
   },function(error){
 
   })
@@ -280,7 +292,23 @@ $scope.returnFileList = function(){
 $scope.returnFileDetails = function(){
 
 }
+$scope.itrIdList = {};
+$scope.getItrId = function(){
+  ApiCall.getItr(function(response){
+    $scope.itrIdList  = response.data;
+  },function(error){
 
+  })
+}
+$scope.paymentConfirm = function(){
+  ApiCall.postTransaction($scope.user, function(response){
+   Util.alertMessage('success',"Payment Confirmed Successfully");
+   var loggedIn_user = UserModel.getUser();
+    $state.go('user-profile',{'user_id':loggedIn_user._id});
+  },function(error){
+
+  });
+}
 
 
 });

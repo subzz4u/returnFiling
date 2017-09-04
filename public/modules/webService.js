@@ -86,7 +86,18 @@ angular.module('WebService', [])
             url:"/returnFile",
             method: "GET"
           },
-
+          getItr : {
+            url:"/returnFile/itr",
+            method: "GET"
+          },
+          postTransaction: {
+            url: "/returnFile/transaction",
+            method: "POST",
+            "headers": {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+          },
 
         }
     })
@@ -103,10 +114,7 @@ angular.module('WebService', [])
     })
     .factory('ApiCall', function($http, $resource, API, EnvService,ApiGenerator) {
       return $resource('/',null, {
-        getRole: ApiGenerator.getApi('getRole'),
-       // postRole: ApiGenerator.getApi('postRole'),
-       // deleteRole: ApiGenerator.getApi('deleteRole'),
-        //updateRole: ApiGenerator.getApi('updateRole'),
+        getRole: ApiGenerator.getApi('getRole'),      
         userLogin : ApiGenerator.getApi('userLogin'),
         getUser: ApiGenerator.getApi('getUser'),
          postUser: ApiGenerator.getApi('postUser'),
@@ -115,6 +123,9 @@ angular.module('WebService', [])
          postReturnFile: ApiGenerator.getApi('postReturnFile'),
          getcount: ApiGenerator.getApi('getcount'),
          getReturnList:ApiGenerator.getApi('getReturnList'),
+         getItr:ApiGenerator.getApi('getItr'),
+         postTransaction: ApiGenerator.getApi('postTransaction'),
+
       })
     })
     .factory('EnvService',function($http,$localStorage){

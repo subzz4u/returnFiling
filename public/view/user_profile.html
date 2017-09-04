@@ -1,9 +1,11 @@
-<section class="content-header m-b-40">
+<section class="content-header m-b-40" ng-init="checkUpdate()">
       <h1>
         User Profile
       </h1>
+      <button type="button" ui-sref="profile-update" class="btn btn-primary pull-right">
+    <i class="fa fa-plus"></i> Update</button>
 </section>
-<section class="content" ng-init="getUser()">
+<section class="content" ng-init="getUserDetails()">
      <div class="row">
         <div class="col-md-5">          
             <div class="box box-primary">
