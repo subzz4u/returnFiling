@@ -9,10 +9,5 @@ app.factory("UserModel",function() {
   userModel.unsetUser = function(user){
     userModel.user = null ;
   }
-
-
-
-
-
   return userModel;
 })

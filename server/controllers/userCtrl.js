@@ -25,7 +25,7 @@ exports.verifiedUser = function(req, res, isError) {
     response.sendResponse(res, 200, "success", constants.messages.success.verified);
   } else {
     console.log(isError);
-    response.sendResponse(res, 200, "success", constants.messages.error.verified);
+    response.sendResponse(res, 200, "success", constants.messages.errors.verified);
   }
 }
 var refreshToken = function(_id,callback){
@@ -214,18 +214,17 @@ exports.udpateUser = function(req, res) {
         console.log("calling refresh token");
         refreshToken(data._id,function(err,data){
           if(err)
-            return response.sendResponse(res,500, "error", constants.messages.error.saveUser, err);
+            return response.sendResponse(res,500, "error", constants.messages.errors.saveUser, err);
           else
             return response.sendResponse(res, 200, "success", constants.messages.success.saveUser, data);
         })
         // return response.sendResponse(res, 200, "success", constants.messages.success.saveUser, data);
       })
       .catch(function(err) {
-        return response.sendResponse(500, "error", constants.messages.error.saveUser, err);
+        return response.sendResponse(res, 500, "error", constants.messages.errors.saveUser, err);
       })
     }
   });
-
 }
 exports.deleteUser = function(req, res) {
   var query = {
