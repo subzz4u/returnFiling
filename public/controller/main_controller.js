@@ -114,7 +114,7 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
     ApiCall.getRole(function(response){
       angular.forEach(response.data,function(item){
         if(item.type == "client"){
-          $scope.user.role = item._id; 
+          $scope.user.role = item._id;
         }
       })
     })
@@ -148,7 +148,7 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
       $rootScope.showPreloader = false;
     })
   }
-  
+
   /*******************************************************/
   /********FUNCTION IS USED TO UPDATE PROFILE INFO********/
   /*******************************************************/
@@ -165,12 +165,16 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
         base64 : $scope.tempPAN.image.split(";base64,")[1]
       }
     }
+    $scope.user._id = UserModel.getUser()._id;
     ApiCall.updateUser($scope.user , function(response){
+      UserModel.setUser(response.data.user);
+      $localStorage.token = response.data.token;
       var loggedIn_user = UserModel.getUser();
+
       Util.alertMessage('success',"Data Updated Successfully");
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
-
+      console.log("updateUser  "+error);
     })
   }
   /*******************************************************/
@@ -184,7 +188,7 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
     // }
     // $stateParams.user_id = loggedIn_user._id;
     var obj = {
-      "_id": $stateParams.user_id
+      "_id": $stateParams.user_id || UserModel.getUser()._id
     }
     ApiCall.getUser(obj, function(response){
       $scope.userDetails = response.data;
@@ -219,7 +223,7 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
       }
       else{
         $state.go('profile-update');
-      } 
+      }
     },function(error){
 
     })
@@ -240,7 +244,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.list  = {};
   $scope.itrIdList = {};
   $scope.yearList = {};
-  
+
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
   }
@@ -305,4 +309,3 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     });
   }
 });
-

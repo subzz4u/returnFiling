@@ -211,17 +211,17 @@ exports.udpateUser = function(req, res) {
     else{
       userModel.findOneAndUpdate(query, req.body, options).exec()
       .then(function(data) {
-        console.log("calling refresh token");
+        
         refreshToken(data._id,function(err,data){
           if(err)
             return response.sendResponse(res,500, "error", constants.messages.errors.saveUser, err);
           else
-            return response.sendResponse(res, 200, "success", constants.messages.success.saveUser, data);
+            return response.sendResponse(res, 200, "success", "rrrrrrr", data);
         })
         // return response.sendResponse(res, 200, "success", constants.messages.success.saveUser, data);
       })
       .catch(function(err) {
-        return response.sendResponse(res, 500, "error", constants.messages.errors.saveUser, err);
+        return response.sendResponse(res, 500, "error", "qqqqqq", err);
       })
     }
   });
