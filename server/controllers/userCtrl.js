@@ -36,7 +36,7 @@ exports.login = function(req, res) {
       },
       function(token) {
         var data = {
-          //user:req.user,
+          user:req.user,
           token: token
         }
         response.sendResponse(res, 200, "success", constants.messages.success.login, data);
