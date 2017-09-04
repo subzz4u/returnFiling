@@ -28,6 +28,29 @@ exports.verifiedUser = function(req, res, isError) {
     response.sendResponse(res, 200, "success", constants.messages.error.verified);
   }
 }
+var refreshToken = function(_id,callback){
+  var user;
+  models.userModel.findById(_id).populate('role')
+  .exec()
+  .then(function(data){
+    user = data;
+    return jwt.sign(user, config.token.secret, {
+            expiresIn: config.token.expiry
+          })
+    //callback(false,user);
+  })
+  .then(function(token){
+    var data = {
+      user:user,
+      token:token
+    }
+    callback(false,data);
+  })
+  .catch(function(err){
+    callback(err,false);
+  })
+
+}
 exports.login = function(req, res) {
   // creating token that will send to the client side
   try {
@@ -188,10 +211,17 @@ exports.udpateUser = function(req, res) {
     else{
       userModel.findOneAndUpdate(query, req.body, options).exec()
       .then(function(data) {
-        response.sendResponse(res, 200, "success", constants.messages.success.udpateRole, data);
+        console.log("calling refresh token");
+        refreshToken(data._id,function(err,data){
+          if(err)
+            return response.sendResponse(res,500, "error", constants.messages.error.saveUser, err);
+          else
+            return response.sendResponse(res, 200, "success", constants.messages.success.saveUser, data);
+        })
+        // return response.sendResponse(res, 200, "success", constants.messages.success.saveUser, data);
       })
       .catch(function(err) {
-        response.sendResponse(500, "error", constants.messages.error.udpateRole, err);
+        return response.sendResponse(500, "error", constants.messages.error.saveUser, err);
       })
     }
   });
