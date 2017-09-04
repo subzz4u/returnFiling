@@ -98,7 +98,10 @@ angular.module('WebService', [])
                 'Accept': 'application/json'
             },
           },
-
+          getFiscalYear: {
+            url:"/returnFile/fiscalYear",
+            method: "GET"
+          },
         }
     })
     .factory('ApiGenerator', function($http, $resource, API, EnvService) {
@@ -118,7 +121,7 @@ angular.module('WebService', [])
         userLogin : ApiGenerator.getApi('userLogin'),
         getUser: ApiGenerator.getApi('getUser'),
          postUser: ApiGenerator.getApi('postUser'),
-        // deleteUser: ApiGenerator.getApi('deleteUser'),
+        getFiscalYear: ApiGenerator.getApi('getFiscalYear'),
          updateUser: ApiGenerator.getApi('updateUser'),
          postReturnFile: ApiGenerator.getApi('postReturnFile'),
          getcount: ApiGenerator.getApi('getcount'),

@@ -309,7 +309,16 @@ $scope.paymentConfirm = function(){
 
   });
 }
+$scope.yearList = {};
+$scope.showFiscalYear = function(){
+  ApiCall.getFiscalYear(function(response){
+    console.log(response);
+    $scope.yearList = response.data;
+   // Util.alertMessage('success',"Fiscal year  Successfully");
+  },function(error){
 
+  });
+}
 
 });
 /*----------------------------------------------------------------------------------------------------------------------------------*/

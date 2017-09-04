@@ -34,7 +34,7 @@
 							<div class="form-group has-feedback" ng-class="{'has-error':update.lname.$touched && update.lname.$invalid}">
 								<label for="uname" class="col-sm-3 control-label">Last Name:</label>
 								<div class="col-sm-9">
-									<input type="text" name="lname" ng-model="user.name" class="form-control" placeholder="Name" required ng-pattern="/^(\D)+$/">
+									<input type="text" name="lname" ng-model="user.lastname" class="form-control" placeholder="Name" required ng-pattern="/^(\D)+$/">
 									<span class="help-block" ng-show="update.lname.$error.required && update.lname.$touched">Last Name is required</span>
 									<span class="help-block" ng-show="update.lname.$error.pattern && update.lname.$touched">Numeric not allowed</span>
 								</div>
@@ -175,7 +175,7 @@
 
                                     </div>
 									<div class="col-xs-12 col-sm-6 col-md-2" ng-class="{'has-error':update.comp_bank_ifsc.$touched && update.comp_bank_ifsc.$invalid}">
-                                        <input type="text" class="form-control" placeholder="IFSC " name="comp_bank_ifsc" ng-model="company.ifsc" required>
+                                        <input type="text" class="form-control" placeholder="IFSC " name="comp_bank_ifsc" ng-model="user.ifsc" required>
 											<span class="help-block" ng-show="update.comp_bank_ifsc.$error.required && update.comp_bank_ifsc.$touched">IFSC no is required</span>
                                     </div>
                                 </div>
