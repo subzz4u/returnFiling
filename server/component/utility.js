@@ -22,6 +22,13 @@ utility.sendVerificationMail = function(userObj,callback) {
       user: constantsObj.gmailSMTPCredentials.username,
       pass: constantsObj.gmailSMTPCredentials.password
     }
+    // host: 'smtp.goappssolutions.com',
+    // port: 587,
+    // secure: false, // upgrade later with STARTTLS
+    // auth: {
+    //     user: 'rajendra',
+    //     pass: 'infy@123'
+    // }
 });
 // udpate data as per the user input
   var mailOptions = {
@@ -33,7 +40,8 @@ utility.sendVerificationMail = function(userObj,callback) {
           .replace("{{name}}",userObj.name)
           .replace("{{link}}",constantsObj.mailFormat[userObj.type].link)
   }
-  LOG.error(JSON.stringify(mailOptions));
+  LOG.info(JSON.stringify(mailOptions));
+  // verify connection configuration
   transporter.sendMail(mailOptions,function(err,response) {
     if(err){
         console.log("Message sent: Error" + err.message);
