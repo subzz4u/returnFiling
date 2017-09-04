@@ -56,7 +56,6 @@ exports.addUser = function(req, res) {
   ) {
     return response.sendResponse(res, 400, "error", constants.statusCode['400']);
   }
-  // caFirm check for the level 3 users like S.Auditor , auditor etc
   models.roleModel.findById(req.body.role)
     .then(function(role) {
       console.log(role + ">>>>>");
@@ -70,8 +69,8 @@ exports.addUser = function(req, res) {
             LOG.error(err.message);
             return response.sendResponse(res, 500, "error", constants.messages.errors.saveUser, err);
           } else {
-            //response.sendResponse(res, 200, "success", constants.messages.success.saveUser);
             LOG.info("User saved !!!!");
+            return response.sendResponse(res, 200, "success", constants.messages.success.saveUser);
             // sending email verification
             var data = {
               type: "signUp",
@@ -80,10 +79,11 @@ exports.addUser = function(req, res) {
             }
             utility.sendVerificationMail(data, function(err, success) {
               if (err) {
-                // console.log("mail error send  ");
-                return response.sendResponse(res, 500, "error", constants.messages.errors.forgetPasswordFailed, err);
+                LOG.error("mail error send  error"+err);
+                // return response.sendResponse(res, 500, "error", constants.messages.errors.forgetPasswordFailed, err);
               } else {
-                return response.sendResponse(res, 200, "success", constants.messages.success.verificationMailSent);
+                LOG.info("mail error send  success");
+                // return response.sendResponse(res, 200, "success", constants.messages.success.verificationMailSent);
               }
             })
           }
