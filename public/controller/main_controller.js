@@ -94,7 +94,7 @@ app.controller('daleteUserModalCtrl',function($scope, $uibModalInstance,userDele
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
+app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
   $scope.user = {};
   $scope.tempAdhar = {};
   $scope.tempPAN = {};
@@ -178,20 +178,18 @@ app.controller("User_Controller",function($scope,$rootScope,$state,$localStorage
   /*********FUNCTION IS USED TO GET USER DETAILS**********/
   /*******************************************************/
   $scope.getUserDetails = function(){
-     $scope.user = UserModel.getUser();
-    // var loggedIn_user = UserModel.getUser();
-    // if(!loggedIn_user){
-    //   return;
-    // }
-    // $stateParams.user_id = loggedIn_user._id;
-    var obj = {
-      "_id": $stateParams.user_id || UserModel.getUser()._id
-    }
-    ApiCall.getUser(obj, function(response){
-      $scope.userDetails = response.data;
-    },function(error){
-
-    })
+    $timeout(function() {
+      $scope.user = UserModel.getUser();
+      if($scope.user || $stateParams.user_id){
+        var obj = {
+          "_id": $stateParams.user_id || $scope.user._id
+        }
+        ApiCall.getUser(obj, function(response){
+          $scope.userDetails = response.data;
+        },function(error){
+        })
+      }
+    });
   }
   // /******************************************************************************/
   // /*********FUNCTION IS USED TO GET USER DETAILS during update by admin **********/

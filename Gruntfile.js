@@ -30,6 +30,7 @@ module.exports = function(grunt) {
                     "public/dist/js/angular/angular.js",
                     "public/dist/js/angular/ng-animate.js",
                     "public/dist/js/angular/ngStorage.min.js",
+                    "public/dist/js/angular/angular-resource.js",
                     "public/dist/js/angular/angular-ui-router.js",
                     "public/dist/js/angular/ui-bootstrap-tpls-0.14.3.min.js",
                     "public/dist/js/angular/ng-table.min.js",
@@ -78,14 +79,14 @@ module.exports = function(grunt) {
                 livereload: true,
             },
             debug: {
-                files: ['public/*.js', 'public/**/*.js','public/*.html','public/**/*.html','!**/built/**','!**/public/custom.js','!**/public/lib.js','!**/public/ng-lib.js'],
+                files: ['public/*.js', 'public/**/*.js','public/*.html','public/**/*.html','!**/built/**','!**/public/custom.js','!**/public/libs.js','!**/public/ng-libs.js'],
                 tasks: ['concat', 'comments:my_target', 'ngAnnotate:appannotate',"cssmin:combine"],
                 options: {
                     livereload: true
                 }
             },
             built: {
-                files: ['public/dist/css/**','public/*.js', 'public/**/*.js','public/*.html','public/**/*.html','!**/built/**','!**/public/custom.js','!**/public/lib.js','!**/public/ng-lib.js'],
+                files: ['public/dist/css/**','public/*.js', 'public/**/*.js','public/*.html','public/**/*.html','!**/built/**','!**/public/custom.js','!**/public/libs.js','!**/public/ng-libs.js'],
                 tasks: ['concat', 'comments:my_target', 'ngAnnotate:appannotate', 'uglify:my_target', "cssmin:combine",'copy:main','htmlmin:dist'],
                 options: {
                     livereload: true
