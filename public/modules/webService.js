@@ -101,6 +101,10 @@ angular.module('WebService', [])
       url:"/returnFile/fiscalYear",
       method: "GET"
     },
+    getReturnFile: {
+      url:"/returnFile",
+      method: "GET"
+    },
   }
 })
 .factory('ApiCall', function($http, $resource, API, EnvService,ApiGenerator) {
@@ -115,6 +119,7 @@ angular.module('WebService', [])
     postReturnFile: ApiGenerator.getApi('postReturnFile'),
     getcount: ApiGenerator.getApi('getcount'),
     getReturnList:ApiGenerator.getApi('getReturnList'),
+    getReturnFile:ApiGenerator.getApi('getReturnFile'),
     getItr:ApiGenerator.getApi('getItr'),
     postTransaction: ApiGenerator.getApi('postTransaction'),
   })

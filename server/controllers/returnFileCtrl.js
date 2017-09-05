@@ -34,28 +34,33 @@ exports.addReturnFile = function(req, res) {
 
 }
 exports.getReturnFile = function(req, res) {
-  var params = {
-    isDelete: false
-  };
-  if (req.query._id) {
-    params['_id'] = req.query._id
-  }
-  if (req.query.status) {
-    params['status'] = req.query.status;
-  }
-  if(req.user._doc.role.type == 'client') // send only those return files that are posted by the client only
-  {
-    params['client'] = req.user._doc._id;
-  }
-  models.returnFileModel.find(params)
-    //.populate('client')
-    .exec()
-    .then(function(data) {
-      return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
-    })
-    .catch(function(err) {
-      return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
-    })
+   var params = {
+       isDelete: false
+   };
+   if (req.query._id) {
+       params['_id'] = req.query._id
+   }
+   if (req.query.status) {
+       params['status'] = req.query.status;
+   }
+   if (req.user._doc.role.type == 'client') // send only those return files that are posted by the client only
+   {
+       params['client'] = req.user._doc._id;
+   }
+// make fileter with fiscal year
+if (req.query.fiscalYear) 
+   {
+       params['fiscalYear'] = req.query.fiscalYear;
+   }
+   models.returnFileModel.find(params)
+       //.populate('client')
+       .exec()
+       .then(function(data) {
+           return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
+       })
+       .catch(function(err) {
+           return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
+       })
 }
 exports.getItr = function(req, res) {
   var params = {

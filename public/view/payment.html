@@ -18,9 +18,9 @@
 				    <p>IFSC:<strong>   ICIC0000061</strong></p>
 				    <p>Bank Name:<strong>   ICICI Bank Ltd.</strong></p>
 				    <div class="form-group has-feedback col-sm-4" ng-class="{'has-error':payment.fiscal_year.$touched && payment.fiscal_year.$invalid}">
-							<label for="uname" class="control-label">Financial Year:</label>						
+							<label for="uname" class="control-label">ITR ID:</label>						
 							<select class="form-control" name="fiscal_year" ng-model="user._id">
-			          			<option value=""><i class="fa fa-sort-desc">Financial Year</i></option>
+			          			<option value=""><i class="fa fa-sort-desc">ITR ID</i></option>
 			          			<option ng-value="itrs._id" ng-repeat="itrs in itrIdList">{{itrs.itrId}}</option>
 			          		</select>
 							

@@ -1,4 +1,4 @@
-<section class="content-header m-b-40" ng-init="returnFileDetails()">
+<section class="content-header m-b-40">
   <h1 class="pull-left">
     Previous Return Files
   </h1>
@@ -6,22 +6,24 @@
 <section class="content">
 	<div class="row">
 		<div class="col-xs-3 col-md-offset-1 p-b-10" ng-class="{'has-error':income.fiscal_year.$touched && income.fiscal_year.$invalid}">
+		<form class="form-horizontal" name="year">
         	<label class="control-label pull-left">Financial Year:</label>
 				
 					<select class="form-control" name="fiscal_year" ng-model="user.fiscalYear" ng-init="showFiscalYear()">
 	          			<option ng-value=""><i class="fa fa-sort-desc">Financial Year</i></option>
 	          			<option ng-value="years" ng-repeat="years in yearList">{{years}}</option>
 	          		</select>
-          		
+          			<button type="submit" ng-click="returnFileDetails()" class="btn btn-info">Submit</button>
+			</form>
 			</div>
-		    		<div class="col-xs-10 col-md-offset-1">
+			<div class="col-xs-10 col-md-offset-1">
      	 		<div class="nav-tabs-custom">
 	        		<ul class="nav nav-tabs">
-			        	<li ng-class="{'active':active_tab == 'income'}" ><a ng-click="tabChange('income')" href="" data-toggle="tab"><b>Income Details</b></a></li>
-			          	<li ng-class="{'active':active_tab == 'deduction'}"><a href="" ng-click="tabChange('deduction')" data-toggle="tab"><b>Deduction Under Chapter VIA</b></a></li>
+			        	<li ng-class="{'active':active_tab1 == 'income'}" ><a ng-click="tabChangeDetails('income')" href="" data-toggle="tab"><b>Income Details</b></a></li>
+			          	<li ng-class="{'active':active_tab1 == 'deduction'}"><a href="" ng-click="tabChangeDetails('deduction')" data-toggle="tab"><b>Deduction Under Chapter VIA</b></a></li>
 			        </ul>
         			<div class="tab-content">
-		          		<div class="tab-pane" id="income" ng-class="{'active':active_tab == 'income'}">
+		          		<div class="tab-pane" id="income" ng-class="{'active':active_tab1 == 'income'}">
 							<div class="box box-info ">
 					      		<div class="box-header with-border">
 					        		<h3 class="box-title">Income Details</h3>
@@ -95,11 +97,11 @@
 									</div>
 							        <div class="box-footer">
 <!-- 							          	<button type="submit" class="btn btn-default" ng-click="tabChange('year')">Back</button> -->
-							          	<button type="submit" ng-click="tabChange('deduction')" class="btn btn-info pull-right">Next</button>
+							          	<button type="submit" ng-click="tabChangeDetails('deduction')" class="btn btn-info pull-right">Next</button>
 							        </div>
 				     		    </div>
 		        			</div>
-	        				<div class="tab-pane" id="deduction" ng-class="{'active':active_tab == 'deduction'}">
+	        				<div class="tab-pane" id="deduction" ng-class="{'active':active_tab1 == 'deduction'}">
 			    				<div class="row">
 						        	<div class="col-xs-12">		
 							       	 	<div class="box box-info">
@@ -211,8 +213,8 @@
 										</div>
 									</div>
 									<div class="col-xs-12">
-									        <button type="submit" class="btn btn-default"  ng-click="tabChange('income')">Back</button>
-									        <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button>
+									        <button type="submit" class="btn btn-default"  ng-click="tabChangeDetails('income')">Back</button>
+									        <!-- <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button> -->
 							    	</div>	
 	          					</div><!--row-->
 	       		 			</div><!--tab Pane-->

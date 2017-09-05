@@ -257,13 +257,17 @@ app.controller("Payment_Controller",function($scope,$rootScope,$rootScope,$state
 /*****************************************************************************************************************/
 app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel){
   $scope.user = {};
-  $scope.active_tab = 'income';
+  $scope.active_tab1 = 'income';
   $scope.list  = {};
   $scope.itrIdList = {};
   $scope.yearList = {};
+  $scope.active_tab = 'year';
 
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
+  }
+  $scope.tabChangeDetails = function(tab){
+    $scope.active_tab1 = tab;
   }
   $scope.change = function(){
 
@@ -314,6 +318,21 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     },function(error){
 
     })
+  }
+ /*******************************************************/
+  /*********FUNCTION IS USED TO GET Particular returnfile through fiscalyear***********/
+  /*******************************************************/
+  $scope.returnFileDetails = function(){
+    console.log($scope.user.fiscalYear);
+    var obj = {
+      fiscalYear:$scope.user.fiscalYear
+    }
+    ApiCall.getReturnFile(obj, function(response){
+      $scope.user = response.data;
+      console.log($scope.user);
+    },function(error){
+
+    });
   }
   /*******************************************************/
   /*****FUNCTION IS USED TO ADD PAYMENT CONFIRMATION******/
