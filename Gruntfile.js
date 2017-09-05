@@ -122,8 +122,8 @@ module.exports = function(grunt) {
             files:[
               {
                 expand: true,
-                cwd:'',
-                src: ['public/dist/css/all.css','public/dist/fonts/**','public/dist/img/**','public/custom.js','public/ng-libs.js','public/libs.js'],
+                cwd:'public/',
+                src: ['dist/css/all.css','dist/fonts/**','dist/img/**','custom.js','ng-libs.js','libs.js'],
                 dest: 'built/'
               }
             ]
@@ -137,9 +137,9 @@ module.exports = function(grunt) {
               },
               files: [{
                 expand: true,
-                cwd: '',
-                src: ['public/**/*.html', 'public/*.html'],
-                dest: 'built'
+                cwd: 'public/',
+                src: ['**/*.html', '*.html'],
+                dest: 'built/'
               }]
             }
         }
