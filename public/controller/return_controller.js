@@ -5,6 +5,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.itrIdList = {};
   $scope.yearList = {};
   $scope.active_tab = 'year';
+  $scope.user.fiscalYear = '';
 
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
@@ -66,13 +67,30 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*********FUNCTION IS USED TO GET Particular returnfile through fiscalyear***********/
   /*******************************************************/
   $scope.returnFileDetails = function(){
-    console.log($scope.user.fiscalYear);
     var obj = {
       fiscalYear:$scope.user.fiscalYear
     }
     ApiCall.getReturnFile(obj, function(response){
-      $scope.user = response.data;
-      console.log($scope.user);
+      $scope.returnDetails = response.data[0];
+      console.log($scope.returnDetails);
+      $scope.returnDetails.total = 0;
+      if($scope.returnDetails.conEmpInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.conEmpInc);
+      if($scope.returnDetails.businessInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.businessInc);
+      if($scope.returnDetails.capitalGainInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.capitalGainInc);
+      if($scope.returnDetails.rentalInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.rentalInc);
+      if($scope.returnDetails.houseLoanInterestInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
+      if($scope.returnDetails.fixDepositInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.fixDepositInc);
+      if($scope.returnDetails.savingAcInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.savingAcInc);
+      if($scope.returnDetails.otherInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
+      $scope.returnDetails.total = $scope.user.total.toFixed(2);
     },function(error){
 
     });
@@ -87,5 +105,25 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
     });
+  }
+  $scope.incomeCalculation = function(){
+    $scope.user.total = 0;
+    if($scope.user.conEmpInc)
+      $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.conEmpInc);
+    if($scope.user.businessInc)
+      $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.businessInc);
+    if($scope.user.capitalGainInc)
+      $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.capitalGainInc);
+    if($scope.user.rentalInc)
+      $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.rentalInc);
+    if($scope.user.houseLoanInterestInc)
+      $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.houseLoanInterestInc);
+    if($scope.user.fixDepositInc)
+      $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.fixDepositInc);
+    if($scope.user.savingAcInc)
+      $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.savingAcInc);
+    if($scope.user.otherInc)
+      $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.otherInc);
+    $scope.user.total = $scope.user.total.toFixed(2);
   }
 });

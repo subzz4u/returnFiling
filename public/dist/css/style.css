@@ -5143,3 +5143,8 @@ table.text-center th {
 }
 .border-none{border:none !important;}
 .ng-table-pager{margin-top:10px;}
+.disable-link{
+  pointer-events: none;
+  cursor: no-drop;
+  color: #a7abb1 !important;
+}

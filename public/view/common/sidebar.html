@@ -1,10 +1,10 @@
 <aside class="main-sidebar" ng-controller="Main_Controller">
   <section class="sidebar">
-    <div class="user-panel">
-      <div class="pull-left image">
-         <span class="profile-pic-name m-t-6">{{userDetails.firstname+" "+userDetails.lastname | getShortName}}</span>
+    <div class="user-panel"  ng-controller="User_Controller">
+      <div class="pull-left image" ng-init="getUserDetails()">
+         <span class="profile-pic-name m-t-6 color-white">{{userDetails.firstname+" "+userDetails.lastname | getShortName}}</span>
       </div>
-      <div class="pull-left info" ng-init="getUserDetails()" ng-controller="User_Controller">
+      <div class="pull-left info">
           <p>{{userDetails.firstname+" "+userDetails.lastname}}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
@@ -22,7 +22,7 @@
         </a>
       </li>
       <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file'}">
-          <a href="#">
+          <a href="">
             <i class="fa fa-files-o"></i>
             <span>Return Files</span>
           </a>
