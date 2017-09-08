@@ -21,14 +21,14 @@
           <i class="fa fa-dashboard"></i> <span>Profile</span>
         </a>
       </li>
-      <li class="treeview">
+      <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file'}">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Return Files</span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="" ui-sref="return-file-details"><i class="fa fa-circle-o"></i>Previous Return Files</a></li>
-            <li ><a href="" ui-sref="return-file"><i class="fa fa-circle-o"></i> New return Files</a></li>
+            <li ng-class="{'active':stateName == 'return-file-details'}"><a href="" ui-sref="return-file-details"><i class="fa fa-circle-o"></i>Previous Return Files</a></li>
+            <li ng-class="{'active':stateName == 'return-file'}"><a href="" ui-sref="return-file"><i class="fa fa-circle-o"></i> New return Files</a></li>
           </ul>
         </li>
       <!-- <li class="treeview" ng-class="{'active':stateName == 'return-file'}">

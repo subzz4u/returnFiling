@@ -91,6 +91,7 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
           "_id": $stateParams.user_id || $scope.user._id
         }
         ApiCall.getUser(obj, function(response){
+          console.log(response);
           $scope.userDetails = response.data;
           $scope.userDetails.accNo = parseInt($scope.userDetails.accNo);
           $scope.userDetails.pin = parseInt($scope.userDetails.pin);
