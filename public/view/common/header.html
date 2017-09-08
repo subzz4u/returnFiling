@@ -11,15 +11,14 @@
       <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
-            <span class="profile-pic-name"></span>
-            <span class="hidden-xs">{{userDetails.firstname+" "+userDetails.middlename}}</span>
+            <span class="profile-pic-name">{{userDetails.firstname+" "+userDetails.lastname | getShortName}}</span>
+            <span class="hidden-xs">{{userDetails.firstname+" "+userDetails.lastname}}</span>
           </a>
           <ul class="dropdown-menu">
             <li class="user-header">
-              <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+              <span class="profile-pic-name m-t-6">{{userDetails.firstname+" "+userDetails.lastname | getShortName}}</span>
                 <p>
-                 {{userDetails.firstname+" "+userDetails.middlename}}
+                 {{userDetails.firstname+" "+userDetails.lastname}}
                   <!-- <small>Member since Nov. 2012</small> -->
                 </p>
             </li>

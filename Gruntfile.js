@@ -37,7 +37,7 @@ module.exports = function(grunt) {
                     "public/dist/js/angular/xlsx.core.min.js",
                     "public/dist/js/angular/angular-js-xlsx.js",
                     "public/dist/js/date-picker/angular-datepicker.min.js",
-                    "public/dist/js/date-picker/moment",
+                    "public/dist/js/date-picker/moment.js",
 
                 ],
                 dest: 'public/ng-libs.js'

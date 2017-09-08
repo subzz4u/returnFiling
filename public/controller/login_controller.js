@@ -1,4 +1,4 @@
-app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout,UserModel){
+app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout,UserModel,Util){
   $scope.user = {};
   $scope.user.username = ($localStorage.user) ? $localStorage.user.uname : "";
   $scope.user.password = ($localStorage.user) ? $localStorage.user.password : "";
@@ -16,14 +16,15 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
       $rootScope.showPreloader = false;
       $localStorage.token = response.data.token;
       $rootScope.is_loggedin = true;
-      if(response.data.user.firstname){
+      if(response.data.user.mobile){
         $state.go('user-profile',{'user_id':response.data.user._id});
       }
       else{
         $state.go('profile-update');
       }
     },function(error){
-
+      $rootScope.showPreloader = false;
+      Util.alertMessage('danger',"Invalid username and password");
     })
   }
 });

@@ -46,6 +46,8 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
         Util.alertMessage('danger',"Something went wrong please try again");
       }
     },function(error){
+    console.log(error);
+     Util.alertMessage('danger',error.data.data.errors.username.message);
       $rootScope.showPreloader = false;
     })
   }
@@ -90,6 +92,8 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
         }
         ApiCall.getUser(obj, function(response){
           $scope.userDetails = response.data;
+          $scope.userDetails.accNo = parseInt($scope.userDetails.accNo);
+          $scope.userDetails.pin = parseInt($scope.userDetails.pin);
         },function(error){
         })
       }
