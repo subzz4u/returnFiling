@@ -75,8 +75,9 @@ var BearerStrategy = require('passport-http-bearer').Strategy;
   used in case of the signIn and signUp user
 */
 passport.use('login', new LocalStrategy(
-  function(username, password, done) {
-    userModel.findOne({ username: username }).populate('role').exec(function (err, user) {
+  function(username,password, done) {
+    console.log("login instercepter  ",username,password);
+    userModel.findOne({ $or: [{"email":username},{'mobile':username}]}).populate('role').exec(function (err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
       console.log("got user/pass",username,password);

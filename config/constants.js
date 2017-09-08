@@ -7,6 +7,9 @@ var constants = {
   tranVerification:["pending","failed","success"],
   messages:{
     errors:{
+      // unique keys
+      "emailExist":"Email is already Exist",
+      "mobileExist":"Mobile is already Exist",
       "verified"                    :"Error in token verification",
       "auth"                        :"Authentication Error",
       "getUser"                     :"Error in fething user details",

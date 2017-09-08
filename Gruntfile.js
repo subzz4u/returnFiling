@@ -62,7 +62,7 @@ module.exports = function(grunt) {
                     singleline: true,
                     multiline: true
                 },
-                src: ['public/custom.js', 'public/libs.js'] 
+                src: ['public/custom.js', 'public/libs.js']
             },
         },
         ngAnnotate: {
@@ -92,6 +92,14 @@ module.exports = function(grunt) {
                 options: {
                     livereload: true
                 }
+            },
+            server: {
+              files: ['app.js','server/*.js','server/**/*.js'],
+              tasks: ['jshint'],
+              options: {
+                livereload: true,
+                spawn: false,
+              },
             }
         },
         clean: ["public/custom.js","public/libs.js","public/ng-libs.js","public/dist/css/all.css","built"],
@@ -131,9 +139,9 @@ module.exports = function(grunt) {
             ]
           }
         },
-        htmlmin: {                                     
-            dist: {                                      
-              options: {                                 
+        htmlmin: {
+            dist: {
+              options: {
                 removeComments: true,
                 collapseWhitespace: true
               },
@@ -144,7 +152,17 @@ module.exports = function(grunt) {
                 dest: 'built/'
               }]
             }
-        }
+        },
+        nodemon: {
+          // start: {
+          //   script: './bin/www',
+          //   tasks: ["concat:client","watch:client"]
+          // },
+          server: {
+            script: './bin/www',
+            tasks: ['watch:server']
+          }
+        },
     });
 
     // Load the plugin that provides the "uglify" task.
@@ -159,8 +177,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-notify');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-nodemon');
     // Default task(s).
     grunt.registerTask('default', ['clean','concat','ngAnnotate:appannotate','cssmin:combine','comments:my_target','cachebreaker:dev','watch:debug']);
     grunt.registerTask('built', ['clean','concat','ngAnnotate:appannotate','uglify:my_target','cssmin:combine','copy:main','htmlmin:dist','comments:my_target','cachebreaker:dev','watch:built']);
+    grunt.registerTask('server', ["nodemon:server"]);
 
 };

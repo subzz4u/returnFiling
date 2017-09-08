@@ -22,13 +22,15 @@ var users = {
     //"role":"5994bc801673f817483651c6", // this will be added dynamically
     "username": "superAdmin",
     "password": "superAdmin",
-    "email": "superAdmin@yopmail.com"
+    "email": "superAdmin@yopmail.com",
+    "mobile":"1111111111"
   },
   client: {
     //"role":"5994bc801673f817483651c6", // this will be added dynamically
     "username": "client",
     "password": "client",
-    "email": "client@yopmail.com"
+    "email": "client@yopmail.com",
+    "mobile":"9999999999"
   },
 }
 waterfall([
@@ -63,23 +65,24 @@ waterfall([
               password(users.superAdmin.password).hash(function(error, hash) {
                 users.superAdmin.password = hash;
                 users.superAdmin.role = role[0]._id.toString();
-                new models.userModel(users.superAdmin).save();
+                console.log(users.superAdmin);
+                return new models.userModel(users.superAdmin).save(function(superAdmin){
+                  LOG.info("saved super admin")
+                  models.roleModel.find({
+                      type: "client"
+                    })
+                    .then(function(role) {
+                      password(users.client.password).hash(function(error, hash) {
+                        users.client.password = hash;
+                        users.client.role = role[0]._id.toString();
+                        console.log(users.client);
+                        new models.userModel(users.client).save();
+                        callback(null, false);
+                      })
+
+                    })
+                });
               })
-
-              models.roleModel.find({
-                  type: "client"
-                })
-                .then(function(role) {
-                  password(users.client.password).hash(function(error, hash) {
-                    users.client.password = hash;
-                    users.client.role = role[0]._id.toString();
-                    console.log(users.client);
-                    new models.userModel(users.client).save();
-                    callback(null, false);
-                  })
-
-                })
-
             })
             .catch(function(err) {
               LOG.error("error in saving user admin user", err)

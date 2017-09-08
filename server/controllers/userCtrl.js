@@ -72,9 +72,10 @@ exports.login = function(req, res) {
 exports.addUser = function(req, res) {
   LOG.info("add user");
   // cheking validation
-  if (component.utility.isEmpty(req.body.username) ||
+  if (
     component.utility.isEmpty(req.body.password) ||
     component.utility.isEmpty(req.body.email) ||
+    component.utility.isEmpty(req.body.mobile) ||
     component.utility.isEmpty(req.body.role)
   ) {
     return response.sendResponse(res, 400, "error", constants.statusCode['400']);
@@ -211,7 +212,7 @@ exports.udpateUser = function(req, res) {
     else{
       userModel.findOneAndUpdate(query, req.body, options).exec()
       .then(function(data) {
-        
+
         refreshToken(data._id,function(err,data){
           if(err)
             return response.sendResponse(res,500, "error", constants.messages.errors.saveUser, err);
