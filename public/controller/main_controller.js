@@ -74,7 +74,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   $scope.getReturnCount = function(){
     ApiCall.getcount(function(response){
-     $scope.count.nos = response.data.length;
+     $scope.returnFilesCounts = response.data;
     },function(error){
     })
   }
