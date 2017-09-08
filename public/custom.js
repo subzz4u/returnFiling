@@ -549,7 +549,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     var loggedIn_user = UserModel.getUser();
      $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
-
+      Util.alertMessage('danger',error.data.message);
     })
   }
   $scope.returnFileList = function(){
@@ -564,9 +564,9 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     })
   }
   $scope.showFiscalYear = function(){
-    
+
     ApiCall.getFiscalYear(function(response){
-      
+
       $scope.yearList = response.data;
       console.log($scope.yearList);
     },function(error){

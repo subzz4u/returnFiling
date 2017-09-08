@@ -19,7 +19,7 @@ exports.addReturnFile = function(req, res) {
     else {
       // produce itrId key
       if (!req.body.itrId)
-        req.body.itrId = client.username + "_" + utility.getDateFormat(new Date());
+        req.body.itrId = client.email + "_" + req.body.fiscalYear;
       // saving return files
       new models.returnFileModel(req.body).save(function(err) {
         if (err)
@@ -48,7 +48,7 @@ exports.getReturnFile = function(req, res) {
        params['client'] = req.user._doc._id;
    }
 // make fileter with fiscal year
-if (req.query.fiscalYear) 
+if (req.query.fiscalYear)
    {
        params['fiscalYear'] = req.query.fiscalYear;
    }
