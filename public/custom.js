@@ -564,6 +564,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     })
   }
   $scope.showFiscalYear = function(){
+    
     ApiCall.getFiscalYear(function(response){
       
       $scope.yearList = response.data;

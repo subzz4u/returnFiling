@@ -111,19 +111,19 @@
 											<span class="help-block" ng-show="update.flat_door_block.$error.pattern && update.flat_door_block.$touched">Enter a valid Plot No.(Only Alphabets and Numerics allowed)</span>
                                         </div>
                                         <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.road_street.$touched && update.road_street.$invalid}">
-                                            <input type="text" class="form-control" placeholder="Road/Lane/Building" name="road_street" ng-model="user.lane" required ng-pattern="/^[a-zA-Z0-9]{3,20}$/">
+                                            <input type="text" class="form-control" placeholder="Road/Lane/Building" name="road_street" ng-model="user.lane" required ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.road_street.$error.required && update.road_street.$touched">Please Enter this field</span>
-											<span class="help-block" ng-show="update.road_street.$error.pattern && update.road_street.$touched">Enter a valid Lane(Only Alphabets and Numerics allowed)</span>
+											<span class="help-block" ng-show="update.road_street.$error.pattern && update.road_street.$touched">Enter a valid Lane(Only Alphabets allowed)</span>
                                         </div>
                                          <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.At.$touched && update.At.$invalid}">
-                                            <input type="text" class="form-control" placeholder="At" name="At" ng-model="user.at" required ng-pattern="/^[a-zA-Z0-9]{3,}$/">
+                                            <input type="text" class="form-control" placeholder="At" name="At" ng-model="user.at" required ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.At.$error.required && update.At.$touched">Please Enter This field</span>
-											<span class="help-block" ng-show="update.At.$error.pattern && update.At.$touched">Enter a valid At(Only Alphabets and Numerics allowed)</span>
+											<span class="help-block" ng-show="update.At.$error.pattern && update.At.$touched">Enter a valid At(Only Alphabets allowed)</span>
                                         </div>
                                          <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.Po.$touched && update.Po.$invalid}">
-                                            <input type="text" class="form-control" placeholder="PO" name="Po" ng-model="user.po" required ng-pattern="/^[a-zA-Z0-9]{3,}$/">
+                                            <input type="text" class="form-control" placeholder="PO" name="Po" ng-model="user.po" required ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.Po.$error.required && update.Po.$touched">Please Enter This field</span>
-											<span class="help-block" ng-show="update.Po.$error.pattern && update.Po.$touched">Enter a valid At(Only Alphabets and Numerics allowed)</span>
+											<span class="help-block" ng-show="update.Po.$error.pattern && update.Po.$touched">Enter a valid At(Only Alphabets allowed)</span>
                                         </div>
 			                            <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.local_city.$touched && update.local_city.$invalid}">
                                             <input type="text" class="form-control" placeholder="Locality/City" name="local_city" ng-model="user.city" required ng-pattern="/^(\D)+$/">
