@@ -5148,3 +5148,8 @@ table.text-center th {
   cursor: no-drop;
   color: #a7abb1 !important;
 }
+/*user profile page*/
+.docImg{
+  height: 150px;
+  width: 100%;
+}
