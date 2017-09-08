@@ -45,3 +45,43 @@ app.directive('fileModel', ['$parse', function ($parse) {
       }
    };
 }]);
+app.directive('numbersOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attr, ngModelCtrl) {
+            function fromUser(text) {
+                if (text) {
+                    var transformedInput = text.replace(/[^0-9]/g, '');
+                    if (transformedInput !== text) {
+                        ngModelCtrl.$setViewValue(transformedInput);
+                        ngModelCtrl.$render();
+                    }
+                    return transformedInput;
+                }
+                return undefined;
+            }            
+            ngModelCtrl.$parsers.push(fromUser);
+        }
+    };
+});
+app.directive('capitalize', function(uppercaseFilter, $parse) {
+   return {
+     require: 'ngModel',
+     link: function(scope, element, attrs, modelCtrl) {
+        var capitalize = function(inputValue) {
+          if(inputValue){
+            input = inputValue.toLowerCase();
+           var capitalized = input.substring(0,3).toUpperCase();
+           if(capitalized !== inputValue) {
+              modelCtrl.$setViewValue(capitalized);
+              modelCtrl.$render();
+            }
+            return capitalized;
+          }
+         }
+         var model = $parse(attrs.ngModel);
+         modelCtrl.$parsers.push(capitalize);
+         capitalize(model(scope));
+     }
+   };
+});

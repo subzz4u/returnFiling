@@ -1,4 +1,4 @@
-var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService']);
+var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils']);
 app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($stateProvider, $urlRouterProvider,$httpProvider) {
   checkLoggedin.$inject = ["$q", "$timeout", "$rootScope", "$http", "$state", "$localStorage"];
   checkLoggedout.$inject = ["$q", "$timeout", "$rootScope", "$state", "$http", "$localStorage", "UserModel"];
@@ -185,6 +185,11 @@ app.filter('getShortName', function () {
         return temp.toUpperCase();
       }
     };
+});
+app.filter('capitalize', function() {
+    return function(input) {
+      return (!!input) ? input.charAt(0,3).toUpperCase() : '';
+    }
 });;app.constant("Constants", {
         "debug":true,
         "storagePrefix": "goAppAccount$",
@@ -479,6 +484,44 @@ app.controller('daleteUserModalCtrl',["$scope", "$uibModalInstance", "userDelete
     $uibModalInstance.dismiss('cancel');
   };
 }]);
+app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
+        $scope.today = function() {
+            $scope.dt = new Date();
+        };
+        $scope.today();
+
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+
+        $scope.toggleMin = function() {
+            $scope.minDate = null; //$scope.minDate = null || new Date();
+            $scope.maxDate = new Date();
+            $scope.dateMin = null || new Date();
+        };
+        $scope.toggleMin();
+
+        $scope.open1 = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
+
+        $scope.mode = 'month';
+
+        $scope.initDate = new Date();
+        $scope.formats = ['MM-dd-yyyy', 'dd-MMM-yyyy', 'dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd/MM/yyyy', 'yyyy-MMM','shortDate'];
+        $scope.format = $scope.formats[4];
+        $scope.format1 = $scope.formats[5];
+
+    }
+]);
 ;app.controller("Payment_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
 
 }]);;app.controller("Return_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "Util", "$timeout", "UserModel", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel){
@@ -688,5 +731,45 @@ app.directive('fileModel', ['$parse', function ($parse) {
             fileReader.readAsDataURL(element[0].files[0]);
          });
       }
+   };
+}]);
+app.directive('numbersOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attr, ngModelCtrl) {
+            function fromUser(text) {
+                if (text) {
+                    var transformedInput = text.replace(/[^0-9]/g, '');
+                    if (transformedInput !== text) {
+                        ngModelCtrl.$setViewValue(transformedInput);
+                        ngModelCtrl.$render();
+                    }
+                    return transformedInput;
+                }
+                return undefined;
+            }            
+            ngModelCtrl.$parsers.push(fromUser);
+        }
+    };
+});
+app.directive('capitalize', ["uppercaseFilter", "$parse", function(uppercaseFilter, $parse) {
+   return {
+     require: 'ngModel',
+     link: function(scope, element, attrs, modelCtrl) {
+        var capitalize = function(inputValue) {
+          if(inputValue){
+            input = inputValue.toLowerCase();
+           var capitalized = input.substring(0,3).toUpperCase();
+           if(capitalized !== inputValue) {
+              modelCtrl.$setViewValue(capitalized);
+              modelCtrl.$render();
+            }
+            return capitalized;
+          }
+         }
+         var model = $parse(attrs.ngModel);
+         modelCtrl.$parsers.push(capitalize);
+         capitalize(model(scope));
+     }
    };
 }]);

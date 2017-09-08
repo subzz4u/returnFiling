@@ -1,4 +1,4 @@
-var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService']);
+var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils']);
 app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   $httpProvider.interceptors.push(function ($q, $location, $window,$localStorage) {
     return {

@@ -28,10 +28,11 @@ module.exports = function(grunt) {
             angular: {
                 src: [
                     "public/dist/js/angular/angular.js",
-                    "public/dist/js/angular/ng-animate.js",
+                    "public/dist/js/angular/angular-animate.js",
                     "public/dist/js/angular/ngStorage.min.js",
                     "public/dist/js/angular/angular-resource.js",
                     "public/dist/js/angular/angular-ui-router.js",
+                    "public/dist/js/angular/angular-ui-utils.min.js",
                     "public/dist/js/angular/ui-bootstrap-tpls-0.14.3.min.js",
                     "public/dist/js/angular/ng-table.min.js",
                     "public/dist/js/angular/xlsx.core.min.js",

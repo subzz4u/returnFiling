@@ -15,3 +15,8 @@ app.filter('getShortName', function () {
       }
     };
 });
+app.filter('capitalize', function() {
+    return function(input) {
+      return (!!input) ? input.charAt(0,3).toUpperCase() : '';
+    }
+});
