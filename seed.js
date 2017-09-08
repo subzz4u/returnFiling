@@ -20,15 +20,15 @@ var roles = [{
 var users = {
   superAdmin: {
     //"role":"5994bc801673f817483651c6", // this will be added dynamically
-    "username": "superAdmin",
-    "password": "superAdmin",
+    // "username": "superAdmin",
+    "password": "asdf!234",
     "email": "superAdmin@yopmail.com",
     "mobile":"1111111111"
   },
   client: {
     //"role":"5994bc801673f817483651c6", // this will be added dynamically
-    "username": "client",
-    "password": "client",
+    // "username": "client",
+    "password": "asdf!234",
     "email": "client@yopmail.com",
     "mobile":"9999999999"
   },

@@ -40,7 +40,7 @@ var userSchema = new mongoose.Schema({
 
 
 });
-userSchema.plugin(uniqueValidator, {message: "Username already exists"});
+userSchema.plugin(uniqueValidator, {message: "Email / Mobile already exists"});
 
 var userModel = mongoose.model('user', userSchema);
 module.exports = userModel;
