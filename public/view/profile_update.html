@@ -58,7 +58,8 @@
 							<div class="form-group has-feedback" >
 								<label for="pass" class="col-sm-3 control-label">Aadhar:</label>
 								<div class="col-sm-9">
-									<input class="upload l-h-70" name="imagee" type="file" file-model fileread="tempAdhar.image" filename="tempAdhar.imageName" required/>
+									<input class="upload l-h-70 pull-left" name="imagee" type="file" file-model fileread="tempAdhar.image" filename="tempAdhar.imageName" required/>
+									<img height="70" src="{{user.adhar}}">
 								</div>
 							</div>
 						</div>
@@ -89,8 +90,8 @@
 							<div class="form-group has-feedback" >
 								<label for="pass" class="col-sm-3 control-label">PAN Card:</label>
 								<div class="col-sm-9">
-									<input class="upload l-h-70" name="imagee" type="file" file-model fileread="tempPAN.image" filename="tempPAN.imageName" required/>
-									<!-- <img src="{{user.pan}}"> -->
+									<input class="upload l-h-70 pull-left" name="imagee" type="file" file-model fileread="tempPAN.image" filename="tempPAN.imageName" required/>
+									<img height="70" src="{{user.pan}}">
 								</div>
 							</div>
 						</div>

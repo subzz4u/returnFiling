@@ -18,32 +18,28 @@
 				    <p>IFSC:<strong>   ICIC0000061</strong></p>
 				    <p>Bank Name:<strong>   ICICI Bank Ltd.</strong></p>
 				    <div class="form-group has-feedback col-sm-4" ng-class="{'has-error':payment.fiscal_year.$touched && payment.fiscal_year.$invalid}">
-							<label for="uname" class="control-label">ITR ID:</label>						
-							<select class="form-control" name="fiscal_year" ng-model="user._id">
-			          			<option value=""><i class="fa fa-sort-desc">ITR ID</i></option>
-			          			<option ng-value="itrs._id" ng-repeat="itrs in itrIdList">{{itrs.itrId}}</option>
-			          		</select>
-							
-							<span class="help-block" ng-show="payment.fiscal_year.$error.required && payment.fiscal_year.$touched">Please enter a valid Amount </span>						
+						<label for="uname" class="control-label">ITR ID:</label>						
+						<select class="form-control" name="fiscal_year" ng-model="user._id" required>
+		          			<option value=""><i class="fa fa-sort-desc">ITR ID</i></option>
+		          			<option ng-value="itrs._id" ng-repeat="itrs in itrIdList">{{itrs.itrId}}</option>
+		          		</select>
+						<span class="help-block" ng-show="payment.fiscal_year.$error.required && payment.fiscal_year.$touched">Please enter a valid Amount </span>						
 					</div>			    
 			    	<div class="form-group has-feedback col-sm-4" ng-class="{'has-error':payment.transacId.$touched && payment.transacId.$invalid}">
-							<label for="uname" class="control-label">Transaction ID:</label>
-						
-							<input type="text" name="transacId" ng-model="user.tranId" class="form-control" placeholder="Transaction Id" required >
-							<p><b>(Note:Please enter your Successfull payment Transaction No )</b></p>
-							<span class="help-block" ng-show="payment.transacId.$error.required && payment.transacId.$touched">Please enter a valid transaction Id </span>						
+						<label for="uname" class="control-label">Transaction ID:</label>
+						<input type="text" name="transacId" ng-model="user.tranId" class="form-control" placeholder="Transaction Id" required >
+						<p><b>(Note:Please enter your Successfull payment Transaction No )</b></p>
+						<span class="help-block" ng-show="payment.transacId.$error.required && payment.transacId.$touched">Please enter a valid transaction Id </span>						
 					</div>
 					<div class="form-group has-feedback col-sm-4" ng-class="{'has-error':payment.amount.$touched && payment.amount.$invalid}">
-							<label for="uname" class="control-label">Amount:</label>
-						
-							<input type="text" name="amount" ng-model="user.tranAmt" class="form-control" placeholder="Amount" required >
-							
-							<span class="help-block" ng-show="payment.amount.$error.required && payment.amount.$touched">Please enter a valid Amount </span>						
+						<label for="uname" class="control-label">Amount:</label>
+						<input type="text" name="amount" floats-only ng-model="user.tranAmt" class="form-control" placeholder="Amount" required >
+						<span class="help-block" ng-show="payment.amount.$error.required && payment.amount.$touched">Please enter Amount </span>						
 					</div>
 			   	</div> 
 			   	<div class="box-footer">
-					  <button type="submit" class="btn btn-default"  ui-sref="dashboard">Back</button>
-					  <button type="submit" class="btn btn-info pull-right" ng-click="paymentConfirm()">Submit</button>
+				 	<button type="submit" class="btn btn-default"  ui-sref="dashboard">Back</button>
+				  	<button type="submit" ng-disabled="payment.$invalid" class="btn btn-info pull-right" ng-click="paymentConfirm()">Submit</button>
 				</div>
 	        </form>
 		</div>
