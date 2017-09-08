@@ -10,6 +10,8 @@ var jwt     = require('jsonwebtoken');
 var passwordHash = require('password-hash-and-salt');
 // initilising routes
 var routes = require('./server/routes/index');
+var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
+  var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*20,type:'application/x-www-form-urlencoding' })
 // swagger integration
 //const swaggerUi = require('swagger-ui-express');
 // const swaggerDocument = require('./temp/swagger-sample.json');
@@ -47,10 +49,12 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json({limit: '2048mb'}));
+// app.use(bodyParser.urlencoded({limit: '2048mb', extended: true}));
+app.use(jsonParser);
+ app.use(urlencodedParser);
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

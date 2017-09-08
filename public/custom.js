@@ -725,7 +725,8 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     });
   }
 
-}]);;app.directive('fileModell', ['$parse', function ($parse) {
+}]);
+;app.directive('fileModell', ['$parse', function ($parse) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
