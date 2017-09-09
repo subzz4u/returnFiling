@@ -18,8 +18,7 @@ exports.addReturnFile = function(req, res) {
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
     else {
       // produce itrId key
-      if (!req.body.itrId)
-        req.body.itrId = client.email + "_" + req.body.fiscalYear;
+      req.body.itrId = client.email + "_" + req.body.fiscalYear;
       // saving return files
       new models.returnFileModel(req.body).save(function(err) {
         if (err)

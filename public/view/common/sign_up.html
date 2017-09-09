@@ -23,13 +23,14 @@
 	        <span class="help-block" ng-show="register.user_email.$error.required && register.user_email.$touched">Email is required</span>
 	        <span class="help-block" ng-show="register.user_email.$error.pattern && register.user_email.$touched">Please Enter Valid Email</span>
      	</div>
-        <div class="form-group has-feedback" ng-class="{'has-error':register.user_name.$touched && register.user_name.$invalid}">
-	        <input type="text" class="form-control" placeholder="User Name*" name="user_name" ng-model="user.username" required ng-pattern="/^[a-zA-Z0-9]{6,8}$/
-">
-	        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-	        <span class="help-block" ng-show="register.user_name.$error.required && register.user_name.$touched">User Name is required</span>
-	        <span class="help-block" ng-show="register.user_name.$error.pattern && register.user_name.$touched">User Name Should be 6 to 8 characters and special characters not allowed</span>
-      	</div>
+     	<div class="form-group has-feedback" ng-class="{'has-error':register.user_mobile.$touched && register.user_mobile.$invalid}">
+	        <input type="text" class="form-control" name="user_mobile" numbers-only ng-model="user.mobile" placeholder="Mobile*" required ng-maxlength="10" ng-minlength="10">
+	        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+	        <span><h6>Please Enter Your 10 digit mobile no</h6></span>
+	        <span class="help-block" ng-show="register.user_mobile.$error.required && register.user_mobile.$touched">Email is required</span>
+	        <!-- <span class="help-block" ng-show="register.user_mobile.$error.pattern && register.user_mobile.$touched">Please Enter Valid Email</span> -->
+     	</div>
+       
       	<div class="form-group has-feedback" ng-class="{'has-error':register.user_pass.$touched && register.user_pass.$invalid}">
 	        <input type="password" class="form-control" placeholder="Password" name="user_pass" ng-model="user.password" required ng-pattern="/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,8}$/">
 	        <span class="glyphicon glyphicon-lock form-control-feedback"></span>

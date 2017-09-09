@@ -108,6 +108,10 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       $timeout(function(){
         $rootScope.is_loggedin = true;
           UserModel.setUser(response.user);
+          if($state.current.name == "dashboard" && UserModel.getUser().role.type == "client") {
+            $state.go('user-profile');
+          }
+          console.log("$state >>>>> ",$state.current.name)
           deferred.resolve();
       },200)
     })

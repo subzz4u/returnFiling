@@ -86,8 +86,8 @@
               <!-- /.widget-user-image -->
               <h4 class="widget-user-username">Adhaar Details</h4>
             </div>
-            <div class="box-footer no-padding">
-              <img class="docImg" src="{{userDetails.adhar}}">
+            <div class="box-footer no-padding" ng-if="userDetails.adhar">
+              <img class="docImg" src="{{userDetails.adhar}}" >
             </div>
           </div>
           <!-- /.widget-user -->
@@ -101,8 +101,8 @@
               <!-- /.widget-user-image -->
               <h4 class="widget-user-username">PAN Details</h4>
             </div>
-            <div class="box-footer no-padding">
-              <img class="docImg" src="{{userDetails.pan}}">
+            <div class="box-footer no-padding" ng-if="userDetails.pan">
+              <img class="docImg" src="{{userDetails.pan}}" >
             </div>
           </div>
           <!-- /.widget-user -->

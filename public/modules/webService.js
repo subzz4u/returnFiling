@@ -105,6 +105,14 @@ angular.module('WebService', [])
       url:"/returnFile",
       method: "GET"
     },
+    updateReturnFile: {
+        url: "/returnFile/",
+        method: "PUT",
+        "headers": {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    },
   }
 })
 .factory('ApiCall', function($http, $resource, API, EnvService,ApiGenerator) {
@@ -122,6 +130,7 @@ angular.module('WebService', [])
     getReturnFile:ApiGenerator.getApi('getReturnFile'),
     getItr:ApiGenerator.getApi('getItr'),
     postTransaction: ApiGenerator.getApi('postTransaction'),
+    updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
   })
 })
 

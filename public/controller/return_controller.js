@@ -6,7 +6,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.yearList = {};
   $scope.active_tab = 'year';
   $scope.user.fiscalYear = '';
-
+  $scope.muna = {};
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
   }
@@ -59,6 +59,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*******************************************************/
   $scope.getItrId = function(){
     ApiCall.getItr(function(response){
+      console.log(response);
       $scope.itrIdList  = response.data;
     },function(error){
 
@@ -91,7 +92,8 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.savingAcInc);
       if($scope.returnDetails.otherInc)
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
-      $scope.returnDetails.total = $scope.user.total.toFixed(2);
+      if($scope.user.total)
+        $scope.returnDetails.total = $scope.user.total.toFixed(2);
     },function(error){
 
     });
@@ -99,13 +101,22 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*******************************************************/
   /*****FUNCTION IS USED TO ADD PAYMENT CONFIRMATION******/
   /*******************************************************/
+
+
   $scope.paymentConfirm = function(){
     ApiCall.postTransaction($scope.user, function(response){
-     Util.alertMessage('success',"Payment Confirmed Successfully");
+      $scope.user._id = $scope.user.itrId;
+      $scope.user.status = "processing";
+      ApiCall.updateReturnFile($scope.user, function(response){
+      console.log(response);
+      },function(error){
+    });
+    Util.alertMessage('success',"Payment Confirmed Successfully And Status Is Processing");
      var loggedIn_user = UserModel.getUser();
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
     });
+  
   }
   $scope.incomeCalculation = function(){
     $scope.user.total = 0;

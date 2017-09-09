@@ -110,6 +110,10 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       $timeout(function(){
         $rootScope.is_loggedin = true;
           UserModel.setUser(response.user);
+          if($state.current.name == "dashboard" && UserModel.getUser().role.type == "client") {
+            $state.go('user-profile');
+          }
+          console.log("$state >>>>> ",$state.current.name)
           deferred.resolve();
       },200)
     })
@@ -319,6 +323,14 @@ app.filter('capitalize', function() {
       url:"/returnFile",
       method: "GET"
     },
+    updateReturnFile: {
+        url: "/returnFile/",
+        method: "PUT",
+        "headers": {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    },
   }
 }])
 .factory('ApiCall', ["$http", "$resource", "API", "EnvService", "ApiGenerator", function($http, $resource, API, EnvService,ApiGenerator) {
@@ -336,6 +348,7 @@ app.filter('capitalize', function() {
     getReturnFile:ApiGenerator.getApi('getReturnFile'),
     getItr:ApiGenerator.getApi('getItr'),
     postTransaction: ApiGenerator.getApi('postTransaction'),
+    updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
   })
 }])
 
@@ -470,7 +483,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   }
   $scope.getReturnCount = function(){
     ApiCall.getcount(function(response){
-     $scope.count.nos = response.data.length;
+     $scope.returnFilesCounts = response.data;
     },function(error){
     })
   }
@@ -523,7 +536,15 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     }
 ]);
 ;app.controller("Payment_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
+	$scope.user = {};
+	$scope.paymentConfirm = function(){
+		ApiCall.postTransaction($scope.user , function(response){
+			console.log("posted");
 
+		},function(error){
+
+		});
+	}
 }]);;app.controller("Return_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "Util", "$timeout", "UserModel", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel){
   $scope.user = {};
   $scope.active_tab1 = 'income';
@@ -532,7 +553,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   $scope.yearList = {};
   $scope.active_tab = 'year';
   $scope.user.fiscalYear = '';
-
+  $scope.muna = {};
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
   }
@@ -575,6 +596,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   }
   $scope.getItrId = function(){
     ApiCall.getItr(function(response){
+      console.log(response);
       $scope.itrIdList  = response.data;
     },function(error){
 
@@ -604,18 +626,28 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.savingAcInc);
       if($scope.returnDetails.otherInc)
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
-      $scope.returnDetails.total = $scope.user.total.toFixed(2);
+      if($scope.user.total)
+        $scope.returnDetails.total = $scope.user.total.toFixed(2);
     },function(error){
 
     });
   }
+
+
   $scope.paymentConfirm = function(){
     ApiCall.postTransaction($scope.user, function(response){
-     Util.alertMessage('success',"Payment Confirmed Successfully");
+      $scope.user._id = $scope.user.itrId;
+      $scope.user.status = "processing";
+      ApiCall.updateReturnFile($scope.user, function(response){
+      console.log(response);
+      },function(error){
+    });
+    Util.alertMessage('success',"Payment Confirmed Successfully And Status Is Processing");
      var loggedIn_user = UserModel.getUser();
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
     });
+  
   }
   $scope.incomeCalculation = function(){
     $scope.user.total = 0;
