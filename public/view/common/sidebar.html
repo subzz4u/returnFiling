@@ -21,17 +21,22 @@
           <i class="fa fa-dashboard"></i> <span>Profile</span>
         </a>
       </li>
+      <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details'}" ng-show="checkAdmin()">
+        <a href="" ui-sref="user-list">
+          <i class="fa fa-dashboard"></i> <span>User Management</span>
+        </a>
+      </li>
       <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file'}" ng-hide="checkAdmin()" >
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>Return Files</span>
           </a>
           <ul class="treeview-menu">
-            <li ng-class="{'active':stateName == 'return-file-details'}"><a href="" ui-sref="return-file-details"><i class="fa fa-circle-o"></i>Previous Return Files</a></li>
+            <li ng-class="{'active':stateName == 'return-file-details' || stateName == 'admin-returnFile-details'}"><a href="" ui-sref="return-file-details"><i class="fa fa-circle-o"></i>Previous Return Files</a></li>
             <li ng-class="{'active':stateName == 'return-file'}"><a href="" ui-sref="return-file"><i class="fa fa-circle-o"></i> New return Files</a></li>
           </ul>
         </li>
-      <li class="treeview" ng-class="{'active':stateName == 'return-file-list'}">
+      <li class="treeview" ng-class="{'active':stateName == 'return-file-list' || stateName == 'returnFile-details'}" ng-show="checkAdmin()">
         <a href="" ui-sref="return-file-list">
           <i class="fa fa-dashboard"></i> <span>Return Files</span>
         </a>

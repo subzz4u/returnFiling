@@ -6,7 +6,7 @@
 </section>
 <section class="content">
   <div class="row"  ng-init="getReturnCount()">
-    <div class="col-md-5 col-xs-6">
+    <div class="col-md-5 col-sm-6 col-xs-12">
         <div class="small-box bg-green"  ng-init="getAllUsers()">
             <div class="inner">
               <h3>{{users.nos}}</h3>
@@ -21,12 +21,12 @@
             </a>
           </div>
     </div>
-    <div class="col-md-5 col-xs-6" ng-if="returnFilesCounts[0].count">
+    <div class="col-md-5 col-sm-6 col-xs-12" ng-if="returnFilesCounts[0].count">
           <div class="small-box bg-yellow" >
             <div class="inner">
               <h3>{{returnFilesCounts[0].count}}</h3>
               
-              <p>All Return Files {{returnFilesCounts[0]._id.status}}</p>
+              <p> Return Files {{returnFilesCounts[0]._id.status}}</p>
             </div>
             <div class="icon">
               <i class="fa fa-file"></i>
@@ -38,12 +38,12 @@
         </div>
      </div>
    <div class="row">
-     <div class="col-md-5 col-xs-6" ng-if="returnFilesCounts[1].count" >
+     <div class="col-md-5 col-sm-6 col-xs-12" ng-if="returnFilesCounts[1].count" >
            <div class="small-box bg-yellow" >
              <div class="inner">
                <h3>0{{returnFilesCounts[1].count}}</h3>
 
-               <p>All Return Files: Submitted{{returnFilesCounts[1]._id.status}}</p>
+               <p>Return Files {{returnFilesCounts[1]._id.status}}</p>
              </div>
              <div class="icon">
                <i class="fa fa-file"></i>
@@ -53,12 +53,12 @@
              </a>
            </div>
          </div>
-         <div class="col-md-5 col-xs-6" ng-if="returnFilesCounts[2].count">
+         <div class="col-md-5 col-sm-6 col-xs-12" ng-if="returnFilesCounts[2].count">
                <div class="small-box bg-yellow">
                  <div class="inner">
                    <h3>0{{returnFilesCounts[2].count}}</h3>
 
-                   <p>All Return Files: Completed{{returnFilesCounts[2]._id.status}}</p>
+                   <p>Return Files {{returnFilesCounts[2]._id.status}}</p>
                  </div>
                  <div class="icon">
                    <i class="fa fa-file"></i>

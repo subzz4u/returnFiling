@@ -62,6 +62,14 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
+  .state('user-details', {
+    templateUrl: 'view/user_details.html',
+    url: '/user-details/:user_id',
+    controller:'User_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   .state('user-list', {
     templateUrl: 'view/user_list.html',
     url: '/user-list',
@@ -112,7 +120,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
   })
  .state('returnFile-details', {
     templateUrl: 'view/returnFile-details.html',
-    url: '/admin-returnFile-details/fiscalYear/:returnFile_id',
+    url: '/returnFile-details/fiscalYear/:returnFile_id',
     controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout
@@ -433,11 +441,14 @@ app.filter('capitalize', function() {
       $rootScope.showPreloader = false;
       $localStorage.token = response.data.token;
       $rootScope.is_loggedin = true;
-      if(response.data.user.mobile){
-        $state.go('user-profile',{'user_id':response.data.user._id});
+      if(response.data.user.role.type == "superAdmin" && !response.data.user.adhar){
+           $state.go('profile-update');
       }
-      else if(response.data.user.role.type == "superAdmin"){
+      else if(response.data.user.role.type == "superAdmin" && response.data.user.adhar){
            $state.go('dashboard');
+      }
+      else if(response.data.user.adhar){
+        $state.go('user-profile',{'user_id':response.data.user._id});
       }
       else{
         $state.go('profile-update');
@@ -631,6 +642,17 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       $scope.itrIdList  = response.data;
     },function(error){
 
+    })
+  }
+  $scope.changeReturnFileStatus = function(return_id){
+    $scope.user._id = return_id;
+    $scope.user.status = "processing";
+    ApiCall.updateReturnFile($scope.user , function(response){
+    Util.alertMessage('success',"Status Changed Successfully");
+    var loggedIn_user = UserModel.getUser();
+     $state.go('return-file-list');
+    },function(error){
+      Util.alertMessage("Failed");
     })
   }
   $scope.returnFileDetails = function(){

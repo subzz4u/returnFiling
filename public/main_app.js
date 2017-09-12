@@ -60,6 +60,14 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
+  .state('user-details', {
+    templateUrl: 'view/user_details.html',
+    url: '/user-details/:user_id',
+    controller:'User_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   .state('user-list', {
     templateUrl: 'view/user_list.html',
     url: '/user-list',
@@ -110,7 +118,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   })
  .state('returnFile-details', {
     templateUrl: 'view/returnFile-details.html',
-    url: '/admin-returnFile-details/fiscalYear/:returnFile_id',
+    url: '/returnFile-details/fiscalYear/:returnFile_id',
     controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout

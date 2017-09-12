@@ -16,11 +16,14 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
       $rootScope.showPreloader = false;
       $localStorage.token = response.data.token;
       $rootScope.is_loggedin = true;
-      if(response.data.user.mobile){
-        $state.go('user-profile',{'user_id':response.data.user._id});
+      if(response.data.user.role.type == "superAdmin" && !response.data.user.adhar){
+           $state.go('profile-update');
       }
-      else if(response.data.user.role.type == "superAdmin"){
+      else if(response.data.user.role.type == "superAdmin" && response.data.user.adhar){
            $state.go('dashboard');
+      }
+      else if(response.data.user.adhar){
+        $state.go('user-profile',{'user_id':response.data.user._id});
       }
       else{
         $state.go('profile-update');

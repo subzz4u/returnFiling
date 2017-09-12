@@ -4,84 +4,85 @@
   </h1>
 </section>
 <section class="content" ng-init="returnFilesDetails()">
-	
 	<div class="row">
-		<div class="col-xs-10 col-md-offset-1">
-   			<div class="box box-info ">
-	      		<div class="box-header with-border">
-	        		<h3 class="box-title">Income Details</h3>
-	      		</div>
-	    		<div class="box-body">
-		        		<div class="row">
-		        			<div class="col-sm-12">
-		        				<div class="col-xs-4">
-					        		<div class="form-group">
-						          		<label for="uname" class="control-label">Contractual Employement  Income:*</label>
-										<input type="text" ng-model="returnDetails.conEmpInc" class="form-control" readonly>
-				          			</div>
-						          	<div class="form-group">
-							          		<label for="uname" class="control-label">Income from Business / Profession:</label>
-											<input type="text" ng-model="returnDetails.businessInc" class="form-control" readonly>
-						          	</div>
-						          	<div class="form-group">
-							          		<label for="uname" class="control-label">Income from Capital Gain:</label>
-											<input type="text" name="business_income" ng-model="returnDetails.capitalGainInc" ng-change="change()" class="form-control" readonly>
-						          	</div>
-				      			</div>
-								<div class="col-xs-4">
-			          				<div class="box box-info ">
-						    			<div class="box-header with-border">
-						        			<h3 class="box-title">Income from House Property</h3>
-						    			</div>
-						    			<div class="box-body">
-						    				<div class="form-group col-sm-10">
-								          		<label for="uname" class="control-label">Rental Income:</label>
-												<input type="text" name="rental_income" ng-model="returnDetails.rentalInc" ng-change="change()" class="form-control" readonly>		
-						          			</div>  
-						          			<div class="form-group col-sm-10">
-								          		<label for="uname" class="control-label">Interest on House Loan:</label>
-												<input type="text" name="house_interest_income" ng-model="returnDetails.houseLoanInterestInc" ng-change="change()" class="form-control" readonly>		
-			          						</div>  
-						    			</div>
+		<div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-1">
+			<div class="row">
+				<div class="col-xs-12 col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">
+		   			<div class="box box-info">
+			      		<div class="box-header with-border">
+			        		<h3 class="box-title">Income Details</h3>
+			      		</div>
+			    		<div class="box-body">
+				        		<div class="row">
+				        			<div class="col-sm-12 col-xs-12 col-md-12">
+				        				<div class="col-xs-12 col-md-4 col-sm-4">
+							        		<div class="form-group">
+								          		<label for="uname" class="control-label">Contractual Employement  Income:*</label>
+												<input type="text" ng-model="returnDetails.conEmpInc" class="form-control" readonly>
+						          			</div>
+								          	<div class="form-group">
+									          		<label for="uname" class="control-label">Income from Business / Profession:</label>
+													<input type="text" ng-model="returnDetails.businessInc" class="form-control" readonly>
+								          	</div>
+								          	<div class="form-group">
+									          		<label for="uname" class="control-label">Income from Capital Gain:</label>
+													<input type="text" name="business_income" ng-model="returnDetails.capitalGainInc" ng-change="change()" class="form-control" readonly>
+								          	</div>
+						      			</div>
+										<div class="col-xs-12 col-md-4 col-sm-4">
+					          				<div class="box box-info ">
+								    			<div class="box-header with-border">
+								        			<h3 class="box-title">Income from House Property</h3>
+								    			</div>
+								    			<div class="box-body">
+								    				<div class="form-group col-sm-10">
+										          		<label for="uname" class="control-label">Rental Income:</label>
+														<input type="text" name="rental_income" ng-model="returnDetails.rentalInc" ng-change="change()" class="form-control" readonly>		
+								          			</div>  
+								          			<div class="form-group col-sm-10">
+										          		<label for="uname" class="control-label">Interest on House Loan:</label>
+														<input type="text" name="house_interest_income" ng-model="returnDetails.houseLoanInterestInc" ng-change="change()" class="form-control" readonly>		
+					          						</div>  
+								    			</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-md-4 col-sm-4">
+											<div class="box box-info ">
+							    				<div class="box-header with-border">
+							        				<h3 class="box-title">Income from Other Sources</h3>
+							    				</div>
+							    				<div class="box-body">
+											    	<div class="form-group col-sm-10">
+										          		<label for="uname" class="control-label">Interest (Fixed Deposit):</label>
+														<input type="text" name="rental_income" ng-model="returnDetails.fixDepositInc" ng-change="change()" class="form-control" readonly>		
+								          			</div>  
+								          			<div class="form-group col-sm-10">
+										          		<label for="uname" class="control-label">Interest (Savings A/c):</label>
+														<input type="text" name="savings_interest" ng-model="returnDetails.savingAcInc" ng-change="change()" class="form-control" readonly>		
+								          			</div>  
+								          			<div class="form-group col-sm-10">
+										          		<label for="uname" class="control-label">Any other income:</label>
+														<input type="text" name="house_interest_income" ng-model="returnDetails.otherInc" ng-change="change()" class="form-control" readonly>	
+								          			</div>  
+							    				</div>
+											</div>										
+										</div>
 									</div>
 								</div>
-								<div class="col-xs-4">
-									<div class="box box-info ">
-					    				<div class="box-header with-border">
-					        				<h3 class="box-title">Income from Other Sources</h3>
-					    				</div>
-					    				<div class="box-body">
-									    	<div class="form-group col-sm-10">
-								          		<label for="uname" class="control-label">Interest (Fixed Deposit):</label>
-												<input type="text" name="rental_income" ng-model="returnDetails.fixDepositInc" ng-change="change()" class="form-control" readonly>		
-						          			</div>  
-						          			<div class="form-group col-sm-10">
-								          		<label for="uname" class="control-label">Interest (Savings A/c):</label>
-												<input type="text" name="savings_interest" ng-model="returnDetails.savingAcInc" ng-change="change()" class="form-control" readonly>		
-						          			</div>  
-						          			<div class="form-group col-sm-10">
-								          		<label for="uname" class="control-label">Any other income:</label>
-												<input type="text" name="house_interest_income" ng-model="returnDetails.otherInc" ng-change="change()" class="form-control" readonly>	
-						          			</div>  
-					    				</div>
-									</div>										
+								<div class="row">
+									<div class="form-group">
+										<label for="lname" class="col-sm-3 control-label">Total:</label>
+										<div class="col-sm-3">
+											<input type="text" ng-model="returnDetails.total" class="form-control" readonly>	
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="form-group">
-								<label for="lname" class="col-sm-3 control-label">Total:</label>
-								<div class="col-sm-3">
-									<input type="text" ng-model="returnDetails.total" class="form-control" readonly>	
-								</div>
-							</div>
-						</div>
-					</div>
-     		    </div>
-		     </div>
-		</div>   		
+		     		    </div>
+				     </div>
+				</div>   		
 		<div class="row">
-        	<div class="col-xs-10 col-md-offset-1">		
+        	<div class="col-xs-12 col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">		
 	       	 	<div class="box box-info">
 	       	 		<div class="box-header with-border">
 						<h3 class="box-title">Deduction Under Chapter VIA</h3><hr>
@@ -189,12 +190,15 @@
 								</div>
 							</div>
 							<div class="col-xs-12">
-							        <button type="submit" class="btn btn-default"><a href="" class="option-btn" ui-sref="dashboard">Back</button>
+							        <button type="submit" class="btn btn-default"><a href="" class="option-btn" ui-sref="return-file-list">Back</a></button>
 							        <!-- <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button> -->
 					    	</div>	
 					</div>
 	    		</div>
 			</div>	
 		</div>
+
 	</div><!--row-->
+	</div>
+	</div>
 </section>

@@ -75,7 +75,21 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
     })
   }
- /*******************************************************/
+  /*******************************************************/
+  /*********FUNCTION IS USED TO CHANGE STATUS OF THE RETURN FILE***********/
+  /*******************************************************/
+  $scope.changeReturnFileStatus = function(return_id){
+    $scope.user._id = return_id;
+    $scope.user.status = "processing";
+    ApiCall.updateReturnFile($scope.user , function(response){
+    Util.alertMessage('success',"Status Changed Successfully");
+    var loggedIn_user = UserModel.getUser();
+     $state.go('return-file-list');
+    },function(error){
+      Util.alertMessage("Failed");
+    })
+  }
+/*******************************************************/
   /*********FUNCTION IS USED TO GET Particular returnfile through fiscalyear***********/
   /*******************************************************/
   $scope.returnFileDetails = function(){
@@ -115,6 +129,9 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
     });
   }
+  /*******************************************************/
+  /*********FUNCTION IS USED TO show RT Details to Super Admin directly from RT List***********/
+  /*******************************************************/
   $scope.returnFilesDetails = function(){
     var loggedin_user = UserModel.getUser();
     var obj = {

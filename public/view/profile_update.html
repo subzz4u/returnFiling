@@ -106,27 +106,27 @@
 	                            <div class="box-body">
 			                        <div class="row">
 			                        	<div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.flat_door_block.$touched && update.flat_door_block.$invalid}">
-                                            <input type="text" class="form-control" placeholder="Flat/Door/Plot No " name="flat_door_block" ng-model="user.plotNo" required ng-pattern="/^[a-zA-Z0-9]{3,20}$/">
+                                            <input type="text" class="form-control" placeholder="Flat/Door/Plot No " name="flat_door_block" ng-model="user.plotNo"  ng-pattern="/^[a-zA-Z0-9]{3,20}$/">
 											<span class="help-block" ng-show="update.flat_door_block.$error.required && update.flat_door_block.$touched">This Field Can not be empty</span>
 											<span class="help-block" ng-show="update.flat_door_block.$error.pattern && update.flat_door_block.$touched">Enter a valid Plot No.(Only Alphabets and Numerics allowed)</span>
                                         </div>
                                         <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.road_street.$touched && update.road_street.$invalid}">
-                                            <input type="text" class="form-control" placeholder="Road/Lane/Building" name="road_street" ng-model="user.lane" required ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="Road/Lane/Building" name="road_street" ng-model="user.lane"  ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.road_street.$error.required && update.road_street.$touched">Please Enter this field</span>
 											<span class="help-block" ng-show="update.road_street.$error.pattern && update.road_street.$touched">Enter a valid Lane(Only Alphabets allowed)</span>
                                         </div>
                                          <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.At.$touched && update.At.$invalid}">
-                                            <input type="text" class="form-control" placeholder="At" name="At" ng-model="user.at" required ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="At" name="At" ng-model="user.at"  ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.At.$error.required && update.At.$touched">Please Enter This field</span>
 											<span class="help-block" ng-show="update.At.$error.pattern && update.At.$touched">Enter a valid At(Only Alphabets allowed)</span>
                                         </div>
                                          <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.Po.$touched && update.Po.$invalid}">
-                                            <input type="text" class="form-control" placeholder="PO" name="Po" ng-model="user.po" required ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="PO" name="Po" ng-model="user.po"  ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.Po.$error.required && update.Po.$touched">Please Enter This field</span>
 											<span class="help-block" ng-show="update.Po.$error.pattern && update.Po.$touched">Enter a valid At(Only Alphabets allowed)</span>
                                         </div>
 			                            <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.local_city.$touched && update.local_city.$invalid}">
-                                            <input type="text" class="form-control" placeholder="Locality/City" name="local_city" ng-model="user.city" required ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="Locality/City" name="local_city" ng-model="user.city"  ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.local_city.$error.required && update.local_city.$touched">Please Enter City</span>
 											<span class="help-block" ng-show="update.local_city.$error.pattern && update.local_city.$touched">Enter a valid City(Only Alphabets allowed)</span>
                                         </div>
@@ -134,22 +134,22 @@
                                     </div>
                                     <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.dist.$touched && update.dist.$invalid}">
-                                            <input type="text" class="form-control" placeholder="District" name="dist" ng-model="user.dist" required ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="District" name="dist" ng-model="user.dist"  ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.dist.$error.required && update.dist.$touched">Please Enter District</span>
 											<span class="help-block" ng-show="update.dist.$error.pattern && update.dist.$touched">Enter a valid District(Only Alphabets allowed)</span>
                                         </div>
 										<div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.country.$touched && update.country.$invalid}">
-                                            <input type="text" class="form-control" placeholder="Country" name="country" ng-model="user.country" required ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="Country" name="country" ng-model="user.country"  ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.country.$error.required && update.country.$touched">Please Enter Country</span>
 											<span class="help-block" ng-show="update.country.$error.pattern && update.country.$touched">Country name is invalid(Only Alphabets allowed)</span>
 										</div>
                                         <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.state.$touched && update.state.$invalid}">
-                                            <input type="text" class="form-control" placeholder="State" name="state" ng-model="user.state" required ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="State" name="state" ng-model="user.state"  ng-pattern="/^(\D)+$/">
 											<span class="help-block" ng-show="update.state.$error.required && update.state.$touched">Please Enter State</span>
 											<span class="help-block" ng-show="update.state.$error.pattern && update.state.$touched">State name is invalid(Only Alphabets allowed)</span>
 										</div>
 										<div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.pin.$touched && update.pin.$invalid}">
-                                            <input type="text" class="form-control" placeholder="xxxxxx" name="pin" ng-model="user.pin" ui-mask="999999" required>
+                                            <input type="text" class="form-control" placeholder="xxxxxx" name="pin" ng-model="user.pin" ui-mask="999999" >
 											<span class="help-block" ng-show="update.pin.$error.required && update.pin.$touched">Please Enter Pin</span>
 										</div>
                                     </div>
