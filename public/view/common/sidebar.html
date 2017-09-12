@@ -9,9 +9,9 @@
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
-    <ul class="sidebar-menu" ng-init="checkAdmin()">
+    <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
-      <li class="treeview" ng-class="{'active':stateName == 'dashboard'}" ng-if="superAdmin">
+      <li class="treeview" ng-class="{'active':stateName == 'dashboard'}" ng-show="checkAdmin()">
         <a href="" ui-sref="dashboard">
           <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </a>
@@ -21,7 +21,7 @@
           <i class="fa fa-dashboard"></i> <span>Profile</span>
         </a>
       </li>
-      <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file'}">
+      <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file'}" ng-hide="checkAdmin()" >
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>Return Files</span>
@@ -31,11 +31,11 @@
             <li ng-class="{'active':stateName == 'return-file'}"><a href="" ui-sref="return-file"><i class="fa fa-circle-o"></i> New return Files</a></li>
           </ul>
         </li>
-      <!-- <li class="treeview" ng-class="{'active':stateName == 'return-file'}">
-        <a href="" ui-sref="return-file">
-          <i class="fa fa-dashboard"></i> <span>Return Filing</span>
+      <li class="treeview" ng-class="{'active':stateName == 'return-file-list'}">
+        <a href="" ui-sref="return-file-list">
+          <i class="fa fa-dashboard"></i> <span>Return Files</span>
         </a>
-      </li> -->
+      </li>
       <li class="treeview" ng-class="{'active':stateName == 'payment'}">
         <a href="" ui-sref="payment">
           <i class="fa fa-dashboard"></i> <span>Payment Confirmation</span>

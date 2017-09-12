@@ -25,8 +25,8 @@
           <div class="small-box bg-yellow" >
             <div class="inner">
               <h3>{{returnFilesCounts[0].count}}</h3>
-
-              <p>{{returnFilesCounts[0]._id.status}}</p>
+              
+              <p>All Return Files {{returnFilesCounts[0]._id.status}}</p>
             </div>
             <div class="icon">
               <i class="fa fa-file"></i>
@@ -38,12 +38,12 @@
         </div>
      </div>
    <div class="row">
-     <div class="col-md-5 col-xs-6" >
+     <div class="col-md-5 col-xs-6" ng-if="returnFilesCounts[1].count" >
            <div class="small-box bg-yellow" >
              <div class="inner">
-               <h3>{{returnFilesCounts[1].count}}</h3>
+               <h3>0{{returnFilesCounts[1].count}}</h3>
 
-               <p>{{returnFilesCounts[1]._id.status}}</p>
+               <p>All Return Files: Submitted{{returnFilesCounts[1]._id.status}}</p>
              </div>
              <div class="icon">
                <i class="fa fa-file"></i>
@@ -56,9 +56,9 @@
          <div class="col-md-5 col-xs-6" ng-if="returnFilesCounts[2].count">
                <div class="small-box bg-yellow">
                  <div class="inner">
-                   <h3>{{returnFilesCounts[2].count}}</h3>
+                   <h3>0{{returnFilesCounts[2].count}}</h3>
 
-                   <p>{{returnFilesCounts[2]._id.status}}</p>
+                   <p>All Return Files: Completed{{returnFilesCounts[2]._id.status}}</p>
                  </div>
                  <div class="icon">
                    <i class="fa fa-file"></i>

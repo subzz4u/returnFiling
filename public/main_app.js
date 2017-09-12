@@ -100,6 +100,22 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
+ .state('admin-returnFile-details', {
+    templateUrl: 'view/admin-returnFile-details.html',
+    url: '/admin-returnFile-details/:client_id',
+    controller:'Return_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+ .state('returnFile-details', {
+    templateUrl: 'view/returnFile-details.html',
+    url: '/admin-returnFile-details/fiscalYear/:returnFile_id',
+    controller:'Return_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();

@@ -19,6 +19,9 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
       if(response.data.user.mobile){
         $state.go('user-profile',{'user_id':response.data.user._id});
       }
+      else if(response.data.user.role.type == "superAdmin"){
+           $state.go('dashboard');
+      }
       else{
         $state.go('profile-update');
       }

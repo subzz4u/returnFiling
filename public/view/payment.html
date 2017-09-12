@@ -4,8 +4,8 @@
     <small>Control panel</small>
   </h1>
 </section>
-<section class="content" ng-init="getItrId()">
-	<div class="row col-sm-6 col-md-offset-3">
+<section class="content" ng-init="getItrId()" ng-hide="checkAdmin()">
+	<div class="row col-sm-6 col-md-offset-3" >
 		<div class="box box-success">
 	        <div class="box-header with-border">
 	            <h3 class="box-title">Payment Confirmation</h3>
@@ -45,4 +45,33 @@
 	        </form>
 		</div>
 	</div>
+</section>
+<section class="content">
+	<h1>
+   		Welcome
+    <small>SuperAdmin</small>
+  	</h1>
+		<div ng-show="checkAdmin()">
+			<div class="row">
+				<div class="col-xs-10 col-md-offset-1">
+					<div class="box box-info">
+		          		<div class="box-header">
+		          			<h4><b>All Submitted Payments</b></h4>
+		            	</div>
+			        	<div class="box-body">
+				            <table ng-table="returnList" class="table table-bordered table-hover">
+				                <tr   ng-repeat="row in $data">
+				                    <td data-title="'Sl No'">{{ $index + 1}}</td>
+				                    <td data-title="' ReturnFile Id'" sortable="'_id'">{{row._id}}</td>
+				                    <td data-title="' ITR Id'" sortable="'_id'">{{row.itrId}}</td>
+				                    <td data-title="'Client Nmae'" sortable="'username'">{{row.client.firstname+" "+row.client.middlename+" "+row.client.lastname}}</td>
+				                    <td data-title="'Status'" sortable="'status'"> {{row.status}}</td>
+				                    <td data-title="'Action'">              </td>
+				                </tr>
+				            </table>
+				        </div>
+			    	</div>
+			    </div>    
+	    	</div>
+		</div>
 </section>

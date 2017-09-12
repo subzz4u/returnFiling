@@ -33,12 +33,14 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
-    $timeout(function() {
       var loggedIn_user = UserModel.getUser();
       if(loggedIn_user.role.type == "superAdmin"){
         $scope.superAdmin = true;
       }
-    }, 500);
+      else{
+        $scope.superAdmin = false;
+      }
+      return  $scope.superAdmin;
   }
   /*******************************************************/
   /******FUNCTION IS USED TO OPEN DELETE USER MODAL*******/

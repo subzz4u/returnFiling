@@ -46,6 +46,10 @@ exports.getReturnFile = function(req, res) {
    {
        params['client'] = req.user._doc._id;
    }
+   if (req.query.client) // send only those return files that are posted by the client only
+   {
+       params['client'] = req.query.client;
+   }
 // make fileter with fiscal year
 if (req.query.fiscalYear)
    {

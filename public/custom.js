@@ -102,6 +102,22 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
+ .state('admin-returnFile-details', {
+    templateUrl: 'view/admin-returnFile-details.html',
+    url: '/admin-returnFile-details/:client_id',
+    controller:'Return_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+ .state('returnFile-details', {
+    templateUrl: 'view/returnFile-details.html',
+    url: '/admin-returnFile-details/fiscalYear/:returnFile_id',
+    controller:'Return_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
@@ -420,6 +436,9 @@ app.filter('capitalize', function() {
       if(response.data.user.mobile){
         $state.go('user-profile',{'user_id':response.data.user._id});
       }
+      else if(response.data.user.role.type == "superAdmin"){
+           $state.go('dashboard');
+      }
       else{
         $state.go('profile-update');
       }
@@ -451,12 +470,14 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   }
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
-    $timeout(function() {
       var loggedIn_user = UserModel.getUser();
       if(loggedIn_user.role.type == "superAdmin"){
         $scope.superAdmin = true;
       }
-    }, 500);
+      else{
+        $scope.superAdmin = false;
+      }
+      return  $scope.superAdmin;
   }
   $scope.deleteUser = function(data){
    $scope.deleteUserId = data._id;
@@ -545,7 +566,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
 		});
 	}
-}]);;app.controller("Return_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "Util", "$timeout", "UserModel", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel){
+}]);;app.controller("Return_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$stateParams", "$localStorage", "NgTableParams", "ApiCall", "Util", "$timeout", "UserModel", function($scope,$rootScope,$rootScope,$state,$stateParams,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel){
   $scope.user = {};
   $scope.active_tab1 = 'income';
   $scope.list  = {};
@@ -560,8 +581,17 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   $scope.tabChangeDetails = function(tab){
     $scope.active_tab1 = tab;
   }
-  $scope.change = function(){
-
+  $scope.checkAdmin = function(){
+    $scope.superAdmin = false;
+    var loggedIn_user = UserModel.getUser();
+    console.log(loggedIn_user);
+    if(loggedIn_user.role.type == "superAdmin"){
+    $scope.superAdmin = true;
+    }
+    else{
+      $scope.superAdmin = false;
+    }
+    return $scope.superAdmin;
   }
   $scope.returnFile = function(){
     $scope.user.client = UserModel.getUser()._id;
@@ -575,6 +605,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   }
   $scope.returnFileList = function(){
     ApiCall.getReturnList(function(response){
+      console.log(response);
       $scope.list = response.data;
       $scope.returnList = new NgTableParams;
       $scope.returnList.settings({
@@ -603,12 +634,18 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     })
   }
   $scope.returnFileDetails = function(){
+    var loggedin_user = UserModel.getUser();
     var obj = {
-      fiscalYear:$scope.user.fiscalYear
+      fiscalYear:$scope.user.fiscalYear,
+    }
+    if (loggedin_user.role.type =="superAdmin")
+    {
+      obj.client = $stateParams.client_id;
     }
     ApiCall.getReturnFile(obj, function(response){
       $scope.returnDetails = response.data[0];
       console.log($scope.returnDetails);
+      if($scope.returnDetails){
       $scope.returnDetails.total = 0;
       if($scope.returnDetails.conEmpInc)
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.conEmpInc);
@@ -628,6 +665,42 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
       if($scope.user.total)
         $scope.returnDetails.total = $scope.user.total.toFixed(2);
+    }
+    },function(error){
+
+    });
+  }
+  $scope.returnFilesDetails = function(){
+    var loggedin_user = UserModel.getUser();
+    var obj = {
+      fiscalYear : $stateParams.fiscalYear,
+      _id : $stateParams.returnFile_id
+    }
+    
+    ApiCall.getReturnFile(obj, function(response){
+      $scope.returnDetails = response.data[0];
+      console.log($scope.returnDetails);
+      if($scope.returnDetails){
+      $scope.returnDetails.total = 0;
+      if($scope.returnDetails.conEmpInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.conEmpInc);
+      if($scope.returnDetails.businessInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.businessInc);
+      if($scope.returnDetails.capitalGainInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.capitalGainInc);
+      if($scope.returnDetails.rentalInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.rentalInc);
+      if($scope.returnDetails.houseLoanInterestInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
+      if($scope.returnDetails.fixDepositInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.fixDepositInc);
+      if($scope.returnDetails.savingAcInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.savingAcInc);
+      if($scope.returnDetails.otherInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
+      if($scope.user.total)
+        $scope.returnDetails.total = $scope.user.total.toFixed(2);
+    }
     },function(error){
 
     });
