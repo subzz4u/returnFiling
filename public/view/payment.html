@@ -1,4 +1,4 @@
-<section class="content-header"
+<section class="content-header" ng-init="getPayment()">
   <h1>
    Payment Confirmation
     <small>Control panel</small>
@@ -19,7 +19,7 @@
 				    <p>Bank Name:<strong>   ICICI Bank Ltd.</strong></p>
 				    <div class="form-group has-feedback col-sm-4" ng-class="{'has-error':payment.itr.$touched && payment.itr.$invalid}">
 						<label for="uname" class="control-label">ITR ID:</label>						
-						<select class="form-control" name="itr" ng-model="user.itrId" required>
+						<select class="form-control" name="itr" ng-model="user._id" required>
 		          			<option value=""><i class="fa fa-sort-desc">ITR ID</i></option>
 		          			<option ng-value="itrs._id" ng-repeat="itrs in itrIdList">{{itrs.itrId}}</option>
 		          		</select>

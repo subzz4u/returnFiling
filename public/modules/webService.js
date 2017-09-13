@@ -113,6 +113,10 @@ angular.module('WebService', [])
             'Accept': 'application/json'
         },
     },
+    getPaymentList: {
+      url:"/returnFile/transaction",
+      method: "GET"
+    },
   }
 })
 .factory('ApiCall', function($http, $resource, API, EnvService,ApiGenerator) {
@@ -131,7 +135,7 @@ angular.module('WebService', [])
     getItr:ApiGenerator.getApi('getItr'),
     postTransaction: ApiGenerator.getApi('postTransaction'),
     updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
-   // updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
+    getPaymentList: ApiGenerator.getApi('updateReturnFile'),
   })
 })
 

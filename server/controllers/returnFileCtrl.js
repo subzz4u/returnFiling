@@ -37,7 +37,7 @@ exports.getReturnFile = function(req, res) {
        isDelete: false
    };
    if (req.query._id) {
-       params['_id'] = req.query._id
+       params['_id'] = req.query._id;
    }
    if (req.query.status) {
        params['status'] = req.query.status;
@@ -172,4 +172,28 @@ exports.saveTransaction = function(req,res) {
       response.sendResponse(res, 200, "success", constants.messages.success.saveData);
   })
 
+}
+exports.getPaymentList = function(req, res) {
+   var params = {
+       isDelete: false
+   };
+   if (req.query.itrId) {
+       params['itrId'] = req.query.itrId;
+   }
+   // if (req.query.status) {
+   //     params['status'] = req.query.status;
+   // }
+   if (req.query.tranId) 
+   {
+       params['tranId'] = req.query.tranId;
+   }
+   models.returnFileModel.find(params).select('itrId fiscalYear tranId tranAmt tranStatus tranVerification')
+       //.populate('client')
+       .exec()
+       .then(function(data) {
+           return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
+       })
+       .catch(function(err) {
+           return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
+       })
 }

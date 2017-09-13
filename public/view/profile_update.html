@@ -26,8 +26,8 @@
 							<div class="form-group has-feedback" ng-class="{'has-error':update.mname.$touched && update.mname.$invalid}">
 								<label for="mname" class="col-sm-3 control-label">Middle Name:</label>
 								<div class="col-sm-9">
-									<input type="text" name="mname" ng-model="user.middlename" class="form-control" placeholder="Middle Name" required ng-pattern="/^(\D)+$/">
-									<span class="help-block" ng-show="update.mname.$error.required && update.mname.$touched">Middle Name is required</span>
+									<input type="text" name="mname" ng-model="user.middlename" class="form-control" placeholder="Middle Name"  ng-pattern="/^(\D)+$/">
+									<!-- <span class="help-block" ng-show="update.mname.$error.required && update.mname.$touched">Middle Name is required</span> -->
 									<span class="help-block" ng-show="update.mname.$error.pattern && update.mname.$touched">Please Enter Valid Middle Name(Only Alphabets Allowed)</span>
 								</div>
 							</div>

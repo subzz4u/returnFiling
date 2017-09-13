@@ -29,6 +29,9 @@ router.delete('/:id', function(req, res, next) {
 router.post('/transaction',function(req, res, next) {
   controllers.returnFileCtrl.saveTransaction(req, res);
 });
+router.get('/transaction',function(req, res, next) {
+  controllers.returnFileCtrl.getPaymentList(req, res);
+});
 
 
 module.exports = router;

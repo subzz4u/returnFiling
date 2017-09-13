@@ -174,18 +174,26 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
   $scope.paymentConfirm = function(){
     ApiCall.postTransaction($scope.user, function(response){
-      $scope.user._id = $scope.user.itrId;
-      $scope.user.status = "processing";
+      console.log($scope.user);
       ApiCall.updateReturnFile($scope.user, function(response){
       console.log(response);
       },function(error){
     });
-    Util.alertMessage('success',"Payment Confirmed Successfully And Status Is Processing");
+    Util.alertMessage('success',"Payment Confirmed Successfully");
      var loggedIn_user = UserModel.getUser();
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
     });
   
+  }
+  $scope.getPayment = function(){
+    ApiCall.getPaymentList(function(response){
+      console.log("asuchi ethiki");
+      console.log(response);
+    },function(error){
+
+    });
+
   }
   $scope.incomeCalculation = function(){
     $scope.user.total = 0;
@@ -207,4 +215,5 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.otherInc);
     $scope.user.total = $scope.user.total.toFixed(2);
   }
+
 });

@@ -355,6 +355,10 @@ app.filter('capitalize', function() {
             'Accept': 'application/json'
         },
     },
+    getPaymentList: {
+      url:"/returnFile/transaction",
+      method: "GET"
+    },
   }
 }])
 .factory('ApiCall', ["$http", "$resource", "API", "EnvService", "ApiGenerator", function($http, $resource, API, EnvService,ApiGenerator) {
@@ -373,6 +377,7 @@ app.filter('capitalize', function() {
     getItr:ApiGenerator.getApi('getItr'),
     postTransaction: ApiGenerator.getApi('postTransaction'),
     updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
+    getPaymentList: ApiGenerator.getApi('updateReturnFile'),
   })
 }])
 
@@ -731,18 +736,26 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
   $scope.paymentConfirm = function(){
     ApiCall.postTransaction($scope.user, function(response){
-      $scope.user._id = $scope.user.itrId;
-      $scope.user.status = "processing";
+      console.log($scope.user);
       ApiCall.updateReturnFile($scope.user, function(response){
       console.log(response);
       },function(error){
     });
-    Util.alertMessage('success',"Payment Confirmed Successfully And Status Is Processing");
+    Util.alertMessage('success',"Payment Confirmed Successfully");
      var loggedIn_user = UserModel.getUser();
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
     });
   
+  }
+  $scope.getPayment = function(){
+    ApiCall.getPaymentList(function(response){
+      console.log("asuchi ethiki");
+      console.log(response);
+    },function(error){
+
+    });
+
   }
   $scope.incomeCalculation = function(){
     $scope.user.total = 0;
@@ -764,6 +777,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       $scope.user.total = parseFloat($scope.user.total) + parseFloat($scope.user.otherInc);
     $scope.user.total = $scope.user.total.toFixed(2);
   }
+
 }]);
 ;app.controller("User_Controller",["$scope", "$timeout", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope,$timeout,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
   $scope.user = {};
