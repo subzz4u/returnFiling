@@ -231,12 +231,12 @@ app.filter('capitalize', function() {
         "envData" : {
           "env":"dev",
           "dev" : {
-            "basePath" :"http://localhost:4000",
-            "appPath"  :"http://localhost:4000",
+            "basePath" :"http://localhost",
+            "appPath"  :"http://localhost",
           },
           "prod" : {
-            "basePath" :"http://localhost:4000",
-            "appPath"  :"http://localhost:4000",
+            "basePath" :"http://ec2-52-23-158-141.compute-1.amazonaws.com",
+            "appPath"  :"http://ec2-52-23-158-141.compute-1.amazonaws.com",
           }
         },
 });
@@ -837,7 +837,9 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       }
     }
     $scope.user._id = UserModel.getUser()._id;
+    $rootScope.showPreloader = true;
     ApiCall.updateUser($scope.user , function(response){
+      $rootScope.showPreloader = false;
       UserModel.setUser(response.data.user);
       $localStorage.token = response.data.token;
       var loggedIn_user = UserModel.getUser();
@@ -845,6 +847,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       Util.alertMessage('success',"Data Updated Successfully");
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
+      $rootScope.showPreloader = false;
       console.log("updateUser  "+error);
     })
   }

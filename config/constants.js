@@ -4,7 +4,7 @@ var constants = {
     400:" Bad Request",
   },
   returnFileStatus:["pending","processing","closed"],
-  tranVerification:["pending","failed","success"],
+  tranVerification:["pending","failed","success","processing"],
   messages:{
     errors:{
       // unique keys
@@ -90,6 +90,8 @@ var constants = {
         //*** it return **//
         "itrIdUnique"               :"ITR id should be unique",
         "fiscalYearRequired"               :"fiscal Year is Required",
+        // validaton
+        "validationError"             : "Error in validaton",
       },
     success:{
       "verified":"verified",

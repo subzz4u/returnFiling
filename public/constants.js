@@ -11,12 +11,12 @@ app.constant("Constants", {
         "envData" : {
           "env":"dev",
           "dev" : {
-            "basePath" :"http://localhost:4000",
-            "appPath"  :"http://localhost:4000",
+            "basePath" :"http://localhost",
+            "appPath"  :"http://localhost",
           },
           "prod" : {
-            "basePath" :"http://localhost:4000",
-            "appPath"  :"http://localhost:4000",
+            "basePath" :"http://ec2-52-23-158-141.compute-1.amazonaws.com",
+            "appPath"  :"http://ec2-52-23-158-141.compute-1.amazonaws.com",
           }
         },
 });

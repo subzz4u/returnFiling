@@ -1,6 +1,6 @@
 
-var constantsObj = require('./../../config/constants');
-var responseObj = require('./../component/response');
+var constants = require('./../../config/constants');
+var response = require("./../component/response");
 var LOG = require('./../component/LOG');
 
 var nodemailer = require('nodemailer');
@@ -19,8 +19,8 @@ utility.sendVerificationMail = function(userObj,callback) {
   var transporter = nodemailer.createTransport("SMTP", {
     service: "Gmail",
     auth: {
-      user: constantsObj.gmailSMTPCredentials.username,
-      pass: constantsObj.gmailSMTPCredentials.password
+      user: constants.gmailSMTPCredentials.username,
+      pass: constants.gmailSMTPCredentials.password
     }
     // host: 'smtp.goappssolutions.com',
     // port: 587,
@@ -32,22 +32,22 @@ utility.sendVerificationMail = function(userObj,callback) {
 });
 // udpate data as per the user input
   var mailOptions = {
-    from: constantsObj.gmailSMTPCredentials.mailUsername+"<"+constantsObj.gmailSMTPCredentials.verificationMail+">",
+    from: constants.gmailSMTPCredentials.mailUsername+"<"+constants.gmailSMTPCredentials.verificationMail+">",
     // to: userObj.email,
     to: userObj.email,
-    subject: constantsObj.mailFormat[userObj.type].subject,
-    text: constantsObj.mailFormat[userObj.type].content
+    subject: constants.mailFormat[userObj.type].subject,
+    text: constants.mailFormat[userObj.type].content
           .replace("{{name}}",userObj.name)
-          .replace("{{link}}",constantsObj.mailFormat[userObj.type].link)
+          .replace("{{link}}",constants.mailFormat[userObj.type].link)
   }
   LOG.info(JSON.stringify(mailOptions));
   // verify connection configuration
-  transporter.sendMail(mailOptions,function(err,response) {
+  transporter.sendMail(mailOptions,function(err,res) {
     if(err){
         console.log("Message sent: Error" + err.message);
         callback(err,null)
     }else{
-        console.log("Message sent: " + response);
+        console.log("Message sent: " + res);
         callback(null,true)
     }
   });
@@ -142,4 +142,34 @@ utility.uploadImage = function(imageDetail,callback){
 
 		});
 }
+/**
+ * making dynamically validation for the fields passed in the request STARTS
+ @param 1st - represents req
+ @param 2nd - represents res
+ @param 3rd - container where the request paramereres are sent,  body,query or param
+ * Make sure the the first , second,third must be present paramereres while calling this function
+ * must be the req and the res object and rest are checked with the null validation
+ */
+utility.validateNull = function(){
+  var args = arguments;
+  if(args.length < 3){
+    throw Error("Invalid paramereres supplied to  validation");
+  }
+  console.log(args.length);
+   for (var i in args)
+   {
+     if(i<=2)
+      continue; // skip the req and res object
+     if (!args[0][args[2]][args[i]]){
+       return response.sendResponse(args[1], 402, "error", constants.messages.errors.validationError, args[i] +" can not be blank");
+     }
+
+   }
+}
+
+
+
+/**
+ * making dynamically validation for the fields passed in the request ENDS
+ */
 module.exports = utility;

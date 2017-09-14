@@ -69,7 +69,9 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
       }
     }
     $scope.user._id = UserModel.getUser()._id;
+    $rootScope.showPreloader = true;
     ApiCall.updateUser($scope.user , function(response){
+      $rootScope.showPreloader = false;
       UserModel.setUser(response.data.user);
       $localStorage.token = response.data.token;
       var loggedIn_user = UserModel.getUser();
@@ -77,6 +79,7 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
       Util.alertMessage('success',"Data Updated Successfully");
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
+      $rootScope.showPreloader = false;
       console.log("updateUser  "+error);
     })
   }

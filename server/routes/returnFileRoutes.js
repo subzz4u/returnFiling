@@ -26,11 +26,18 @@ router.delete('/:id', function(req, res, next) {
 });
 
 // payment transaction
+router.get('/transaction',passport.authenticate('token', {session:false}),function(req, res, next) {
+  controllers.returnFileCtrl.getTransaction(req, res);
+});
 router.post('/transaction',function(req, res, next) {
   controllers.returnFileCtrl.saveTransaction(req, res);
 });
-router.get('/transaction',function(req, res, next) {
+
+router.get('/payment',passport.authenticate('token', {session:false}),function(req, res, next) {
   controllers.returnFileCtrl.getPaymentList(req, res);
+})
+router.put('/transaction/status',function(req, res, next) {
+  controllers.returnFileCtrl.updateTransactionStatus(req, res);
 });
 
 
