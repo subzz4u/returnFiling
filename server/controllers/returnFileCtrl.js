@@ -72,9 +72,10 @@ exports.getItr = function(req, res) {
   if (req.user._doc.role.type == 'client') // send only those return files that are posted by the client only
   {
     params['client'] = req.user._doc._id;
-  } else {
-    return response.sendResponse(res, 401, "error", constants.messages.errors.invalidUser);
   }
+  // else {
+  //   return response.sendResponse(res, 401, "error", constants.messages.errors.invalidUser);
+  // }
   models.returnFileModel.find(params).select('itrId fiscalYear')
     //.populate('client')
     .exec()

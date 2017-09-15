@@ -33,7 +33,7 @@ router.post('/transaction',function(req, res, next) {
   controllers.returnFileCtrl.saveTransaction(req, res);
 });
 
-router.get('/payment',passport.authenticate('token', {session:false}),function(req, res, next) {
+router.get('/transaction/payment',passport.authenticate('token', {session:false}),function(req, res, next) {
   controllers.returnFileCtrl.getPaymentList(req, res);
 })
 router.put('/transaction/status',function(req, res, next) {
