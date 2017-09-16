@@ -231,9 +231,12 @@ exports.updateTransactionStatus = function(req, res) {
   },
   update = {
     tranVerification : req.body.tranVerification
-  },
+  }
   option = {
     new:true
+  }
+  if(req.body.tranVerification == "closed"){
+    update.status = "processing"
   }
 
   models.returnFileModel.findOneAndUpdate(query,update,option,function(err,transaction) {
