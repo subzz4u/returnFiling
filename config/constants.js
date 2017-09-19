@@ -4,7 +4,7 @@ var constants = {
     400:" Bad Request",
   },
   returnFileStatus:["pending","processing","closed"],
-  tranVerification:["pending","failed","success","processing"],
+  tranVerification:["pending","closed"],
   messages:{
     errors:{
       // unique keys
