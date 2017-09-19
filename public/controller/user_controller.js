@@ -38,6 +38,8 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
     $rootScope.showPreloader = true;
     ApiCall.postUser($scope.user, function(response){
       $rootScope.showPreloader = false;
+      console.log(response);
+      console.log("its response");
       if(response.statusCode == 200){
         Util.alertMessage('success',"You have successfully register please check your mail");
         $state.go('login');
@@ -46,9 +48,18 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
         Util.alertMessage('danger',"Something went wrong please try again");
       }
     },function(error){
-    console.log(error);
-     Util.alertMessage('danger',error.data.data.errors.username.message);
-      $rootScope.showPreloader = false;
+      console.log(error);
+      if(error.data.statusCode == 500){
+        if(error.data.data.errors.email){
+          Util.alertMessage('danger',error.data.data.errors.email.message);
+        } 
+        else if( error.data.data.errors.mobile){
+          Util.alertMessage('danger',error.data.data.errors.mobile.message);
+        }
+         $rootScope.showPreloader = false;
+      }
+     // Util.alertMessage('danger',error.data.data.errors.username.message);
+     //  $rootScope.showPreloader = false;
     })
   }
 

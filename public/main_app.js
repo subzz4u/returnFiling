@@ -86,15 +86,15 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   })
   .state('return-file-list', {
     templateUrl: 'view/return_file_list.html',
-    url: '/return-file-list',
+    url: '/return-file-list/:status',
     controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout
     }
   })
   .state('return-file-details', {
-    templateUrl: 'view/return_file_details.html',
-    url: '/return-file-details',
+    templateUrl: 'view/previous_return_file_details.html',
+    url: '/previous-return-file-details',
     controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout

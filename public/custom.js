@@ -88,15 +88,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
   })
   .state('return-file-list', {
     templateUrl: 'view/return_file_list.html',
-    url: '/return-file-list',
+    url: '/return-file-list/:status',
     controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout
     }
   })
   .state('return-file-details', {
-    templateUrl: 'view/return_file_details.html',
-    url: '/return-file-details',
+    templateUrl: 'view/previous_return_file_details.html',
+    url: '/previous-return-file-details',
     controller:'Return_Controller',
     resolve: {
       loggedout: checkLoggedout
@@ -235,8 +235,8 @@ app.filter('capitalize', function() {
             "appPath"  :"http://localhost",
           },
           "prod" : {
-            "basePath" :"http://ec2-52-23-158-141.compute-1.amazonaws.com",
-            "appPath"  :"http://ec2-52-23-158-141.compute-1.amazonaws.com",
+            "basePath" :"http://localhost",
+            "appPath"  :"http://localhost",
           }
         },
 });
@@ -356,7 +356,7 @@ app.filter('capitalize', function() {
         },
     },
     getPaymentList: {
-      url:"/returnFile/transaction",
+      url:"/returnFile/transaction/payment",
       method: "GET"
     },
   }
@@ -377,7 +377,7 @@ app.filter('capitalize', function() {
     getItr:ApiGenerator.getApi('getItr'),
     postTransaction: ApiGenerator.getApi('postTransaction'),
     updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
-    getPaymentList: ApiGenerator.getApi('updateReturnFile'),
+    getPaymentList: ApiGenerator.getApi('getPaymentList'),
   })
 }])
 
@@ -521,6 +521,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.getReturnCount = function(){
     ApiCall.getcount(function(response){
      $scope.returnFilesCounts = response.data;
+     console.log(response);
     },function(error){
     })
   }
@@ -609,6 +610,22 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     }
     return $scope.superAdmin;
   }
+  $scope.checkStatus = function(status){
+    $scope.is_closed = false;
+    if($state.current.name == 'payment'){
+      if(status == 'closed' || status == 'processing'){
+        $scope.is_closed = true;
+      }
+      return $scope.is_closed;
+    }
+    else if($state.current.name == 'return-file-list'){
+      if(status == 'closed' || status == 'pending'){
+        $scope.is_closed = true;
+      }
+      return $scope.is_closed;
+    }
+    return $scope.is_closed;
+  }
   $scope.returnFile = function(){
     $scope.user.client = UserModel.getUser()._id;
     ApiCall.postReturnFile($scope.user , function(response){
@@ -619,8 +636,16 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       Util.alertMessage('danger',error.data.message);
     })
   }
+  
+ 
   $scope.returnFileList = function(){
-    ApiCall.getReturnList(function(response){
+    
+    var obj = {
+      status:$stateParams.status,
+    }
+
+   console.log(obj);
+    ApiCall.getReturnList(obj, function(response){
       console.log(response);
       $scope.list = response.data;
       $scope.returnList = new NgTableParams;
@@ -651,11 +676,28 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   }
   $scope.changeReturnFileStatus = function(return_id){
     $scope.user._id = return_id;
-    $scope.user.status = "processing";
+    $scope.user.status = "closed";
+    if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
+      delete $scope.user['fiscalYear'];
+    }
     ApiCall.updateReturnFile($scope.user , function(response){
     Util.alertMessage('success',"Status Changed Successfully");
     var loggedIn_user = UserModel.getUser();
      $state.go('return-file-list');
+    },function(error){
+      Util.alertMessage("Failed");
+    })
+  }
+  $scope.changeStatusProcessing = function(return_id){
+    $scope.user._id = return_id;
+    $scope.user.status = "processing";
+    if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
+      delete $scope.user['fiscalYear'];
+    }
+    ApiCall.updateReturnFile($scope.user , function(response){
+    Util.alertMessage('success',"Payment Verified Successfully");
+    var loggedIn_user = UserModel.getUser();
+     $state.go('payment');
     },function(error){
       Util.alertMessage("Failed");
     })
@@ -735,6 +777,9 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
 
   $scope.paymentConfirm = function(){
+    if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
+      delete $scope.user['fiscalYear'];
+    }
     ApiCall.postTransaction($scope.user, function(response){
       console.log($scope.user);
       ApiCall.updateReturnFile($scope.user, function(response){
@@ -749,9 +794,13 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   
   }
   $scope.getPayment = function(){
+
     ApiCall.getPaymentList(function(response){
-      console.log("asuchi ethiki");
-      console.log(response);
+     $scope.paymentList = response.data;
+     $scope.paymentsList = new NgTableParams;
+      $scope.paymentsList.settings({
+          dataset:$scope.paymentList
+      })
     },function(error){
 
     });
@@ -810,6 +859,8 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     $rootScope.showPreloader = true;
     ApiCall.postUser($scope.user, function(response){
       $rootScope.showPreloader = false;
+      console.log(response);
+      console.log("its response");
       if(response.statusCode == 200){
         Util.alertMessage('success',"You have successfully register please check your mail");
         $state.go('login');
@@ -818,9 +869,16 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
         Util.alertMessage('danger',"Something went wrong please try again");
       }
     },function(error){
-    console.log(error);
-     Util.alertMessage('danger',error.data.data.errors.username.message);
-      $rootScope.showPreloader = false;
+      console.log(error);
+      if(error.data.statusCode == 500){
+        if(error.data.data.errors.email){
+          Util.alertMessage('danger',error.data.data.errors.email.message);
+        } 
+        else if( error.data.data.errors.mobile){
+          Util.alertMessage('danger',error.data.data.errors.mobile.message);
+        }
+         $rootScope.showPreloader = false;
+      }
     })
   }
   $scope.profileUpdate = function(){

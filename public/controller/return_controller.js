@@ -25,6 +25,22 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     }
     return $scope.superAdmin;
   }
+  $scope.checkStatus = function(status){
+    $scope.is_closed = false;
+    if($state.current.name == 'payment'){
+      if(status == 'closed' || status == 'processing'){
+        $scope.is_closed = true;
+      }
+      return $scope.is_closed;
+    }
+    else if($state.current.name == 'return-file-list'){
+      if(status == 'closed' || status == 'pending'){
+        $scope.is_closed = true;
+      }
+      return $scope.is_closed;
+    }
+    return $scope.is_closed;
+  }
   /*******************************************************/
   /*********FUNCTION IS USED TO ADD RETURN FILE***********/
   /*******************************************************/
@@ -41,8 +57,16 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*******************************************************/
   /*******FUNCTION IS USED TO GET RETURN FILE LIST********/
   /*******************************************************/
+  
+ 
   $scope.returnFileList = function(){
-    ApiCall.getReturnList(function(response){
+    
+    var obj = {
+      status:$stateParams.status,
+    }
+
+   console.log(obj);
+    ApiCall.getReturnList(obj, function(response){
       console.log(response);
       $scope.list = response.data;
       $scope.returnList = new NgTableParams;
@@ -80,11 +104,28 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*******************************************************/
   $scope.changeReturnFileStatus = function(return_id){
     $scope.user._id = return_id;
-    $scope.user.status = "processing";
+    $scope.user.status = "closed";
+    if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
+      delete $scope.user['fiscalYear'];
+    }
     ApiCall.updateReturnFile($scope.user , function(response){
     Util.alertMessage('success',"Status Changed Successfully");
     var loggedIn_user = UserModel.getUser();
      $state.go('return-file-list');
+    },function(error){
+      Util.alertMessage("Failed");
+    })
+  }
+  $scope.changeStatusProcessing = function(return_id){
+    $scope.user._id = return_id;
+    $scope.user.status = "processing";
+    if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
+      delete $scope.user['fiscalYear'];
+    }
+    ApiCall.updateReturnFile($scope.user , function(response){
+    Util.alertMessage('success',"Payment Verified Successfully");
+    var loggedIn_user = UserModel.getUser();
+     $state.go('payment');
     },function(error){
       Util.alertMessage("Failed");
     })
@@ -173,6 +214,9 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
 
   $scope.paymentConfirm = function(){
+    if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
+      delete $scope.user['fiscalYear'];
+    }
     ApiCall.postTransaction($scope.user, function(response){
       console.log($scope.user);
       ApiCall.updateReturnFile($scope.user, function(response){
@@ -187,9 +231,13 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   
   }
   $scope.getPayment = function(){
+
     ApiCall.getPaymentList(function(response){
-      console.log("asuchi ethiki");
-      console.log(response);
+     $scope.paymentList = response.data;
+     $scope.paymentsList = new NgTableParams;
+      $scope.paymentsList.settings({
+          dataset:$scope.paymentList
+      })
     },function(error){
 
     });

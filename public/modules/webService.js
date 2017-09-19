@@ -114,7 +114,7 @@ angular.module('WebService', [])
         },
     },
     getPaymentList: {
-      url:"/returnFile/transaction",
+      url:"/returnFile/transaction/payment",
       method: "GET"
     },
   }
@@ -135,7 +135,7 @@ angular.module('WebService', [])
     getItr:ApiGenerator.getApi('getItr'),
     postTransaction: ApiGenerator.getApi('postTransaction'),
     updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
-    getPaymentList: ApiGenerator.getApi('updateReturnFile'),
+    getPaymentList: ApiGenerator.getApi('getPaymentList'),
   })
 })
 

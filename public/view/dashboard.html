@@ -1,4 +1,4 @@
-<section class="content-header">
+<section class="content-header" >
   <h1>
     Dashboard
     <small>Control panel</small>
@@ -31,15 +31,15 @@
             <div class="icon">
               <i class="fa fa-file"></i>
             </div>
-            <a href="" ui-sref="return-file-list" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+            <a href="" ui-sref="return-file-list({'status': returnFilesCounts[0]._id.status})" class="small-box-footer">
+              View List {{returnFilesCounts[0]._id.status}} <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
      </div>
    <div class="row">
      <div class="col-md-5 col-sm-6 col-xs-12" ng-if="returnFilesCounts[1].count" >
-           <div class="small-box bg-yellow" >
+           <div class="small-box bg-blue" >
              <div class="inner">
                <h3>0{{returnFilesCounts[1].count}}</h3>
 
@@ -48,13 +48,13 @@
              <div class="icon">
                <i class="fa fa-file"></i>
              </div>
-             <a href="" ui-sref="return-file-list" class="small-box-footer">
-               More info <i class="fa fa-arrow-circle-right"></i>
+             <a href="" ui-sref="return-file-list({ 'status': returnFilesCounts[1]._id.status})" class="small-box-footer">
+               More info {{returnFilesCounts[1]._id.status}} <i class="fa fa-arrow-circle-right"></i>
              </a>
            </div>
          </div>
          <div class="col-md-5 col-sm-6 col-xs-12" ng-if="returnFilesCounts[2].count">
-               <div class="small-box bg-yellow">
+               <div class="small-box bg-black">
                  <div class="inner">
                    <h3>0{{returnFilesCounts[2].count}}</h3>
 
@@ -63,8 +63,8 @@
                  <div class="icon">
                    <i class="fa fa-file"></i>
                  </div>
-                 <a href="" ui-sref="return-file-list" class="small-box-footer">
-                   More info <i class="fa fa-arrow-circle-right"></i>
+                 <a href="" ui-sref="return-file-list({ 'status': returnFilesCounts[2]._id.status})" class="small-box-footer">
+                   More info {{returnFilesCounts[2]._id.status}}<i class="fa fa-arrow-circle-right"></i>
                  </a>
                </div>
              </div>

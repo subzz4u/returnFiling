@@ -156,7 +156,7 @@ exports.saveTransaction = function(req, res) {
   //validation starts
 
   var query = {
-    "_id": req.body._id
+    "itrId": req.body.itrId
   }
   delete req.body['_id'];
   var update = req.body;
@@ -193,7 +193,7 @@ exports.getPaymentList = function(req, res) {
     filter.client = req.user._doc._id;
   }
   models.returnFileModel.find(params)
-    .select('itrId fiscalYear tranId tranAmt tranStatus tranVerification')
+    .select('itrId fiscalYear tranId tranAmt status tranStatus tranVerification')
     .where(filter)
     //.populate('client')
     .exec()
