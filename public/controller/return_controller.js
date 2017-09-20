@@ -1,4 +1,4 @@
-app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$stateParams,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel){
+app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$stateParams,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel,$uibModal){
   $scope.user = {};
   $scope.active_tab1 = 'income';
   $scope.list  = {};
@@ -25,10 +25,10 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     }
     return $scope.superAdmin;
   }
-  $scope.checkStatus = function(status){
+  $scope.checkStatus = function(status, tranId, tranAmt){
     $scope.is_closed = false;
     if($state.current.name == 'payment'){
-      if(status == 'closed' || status == 'processing'){
+      if(status == 'closed' || status == 'processing' || tranId == null || tranAmt == 0){
         $scope.is_closed = true;
       }
       return $scope.is_closed;
@@ -40,6 +40,13 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       return $scope.is_closed;
     }
     return $scope.is_closed;
+  }
+  $scope.checkPending = function(status){
+    $scope.is_pending = false;
+    if(status == 'closed' || status == 'processing'){
+       $scope.is_pending = true;
+    }
+    return  $scope.is_pending;
   }
   /*******************************************************/
   /*********FUNCTION IS USED TO ADD RETURN FILE***********/
@@ -78,8 +85,17 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     })
   }
   $scope.showFiscalYear = function(){
-
-    ApiCall.getFiscalYear(function(response){
+    var loggedin_user = UserModel.getUser();
+    console.log(loggedin_user);
+    var obj = {
+      'client' :  $stateParams.client_id,
+    } 
+    if($state.current.name == "previous-return-file-details" && loggedin_user.role.type == "client"){
+      console.log("client login and previous return file details");
+      obj.client = loggedin_user._id;
+    }
+    console.log(obj);
+    ApiCall.getFiscalYear(obj, function(response){
 
       $scope.yearList = response.data;
       console.log($scope.yearList);
@@ -119,6 +135,8 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.changeStatusProcessing = function(return_id){
     $scope.user._id = return_id;
     $scope.user.status = "processing";
+    $scope.user.successMessage = "Payment Success";
+    $scope.user.failedMessage = "null";
     if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
       delete $scope.user['fiscalYear'];
     }
@@ -130,6 +148,40 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       Util.alertMessage("Failed");
     })
   }
+  /*******************************************************/
+  /*********FUNCTION IS USED TO Open a Fail Transaction modal***********/
+  /*******************************************************/
+  $scope.failTransaction = function(return_id){
+    $scope.failedReturnFileId = return_id;
+    $scope.modalInstance = $uibModal.open({
+      animation : true,
+      templateUrl : 'view/modals/fail-transaction-modal.html',
+      controller : 'FailTransacModalCtrl',
+      size : 'md',
+      resolve:{
+        sendFailMessage : function(){
+          return $scope.sendFailMessage;
+        }
+      }
+    })
+  }
+/*******************************************************/
+  /*********FUNCTION IS USED TO Fail a Transaction***********/
+  /*******************************************************/
+    $scope.sendFailMessage = function(user){
+      $scope.user = user;
+      $scope.user._id = $scope.failedReturnFileId;
+      $scope.user.status = "failed";
+      console.log($scope.user);
+      ApiCall.updateReturnFile($scope.user , function(response){
+        Util.alertMessage('success',"Transaction Failed");
+         $state.go('payment');
+        },function(error){
+          Util.alertMessage("Failed");
+      })
+    }
+
+
 /*******************************************************/
   /*********FUNCTION IS USED TO GET Particular returnfile through fiscalyear***********/
   /*******************************************************/
@@ -233,6 +285,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.getPayment = function(){
 
     ApiCall.getPaymentList(function(response){
+      console.log(response);
      $scope.paymentList = response.data;
      $scope.paymentsList = new NgTableParams;
       $scope.paymentsList.settings({
@@ -265,3 +318,19 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   }
 
 });
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+app.controller('FailTransacModalCtrl',function($scope, $state, $uibModalInstance,sendFailMessage){
+  $scope.user = {};
+  $scope.fail = function () {
+    sendFailMessage($scope.user);
+    $uibModalInstance.close();
+  };
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/

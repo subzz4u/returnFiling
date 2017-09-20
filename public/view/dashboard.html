@@ -69,5 +69,23 @@
                </div>
              </div>
     </div>
+    <div class="row">
+    <div class="col-md-5 col-sm-6 col-xs-12" ng-if="returnFilesCounts[3].count">
+               <div class="small-box bg-purple">
+                 <div class="inner">
+                   <h3>0{{returnFilesCounts[3].count}}</h3>
+
+                   <p>Return Files {{returnFilesCounts[3]._id.status}}</p>
+                 </div>
+                 <div class="icon">
+                   <i class="fa fa-file"></i>
+                 </div>
+                 <a href="" ui-sref="return-file-list({ 'status': returnFilesCounts[3]._id.status})" class="small-box-footer">
+                   More info {{returnFilesCounts[3]._id.status}}<i class="fa fa-arrow-circle-right"></i>
+                 </a>
+               </div>
+             </div>
+
+    </div>
     </div>
  </section>

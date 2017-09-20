@@ -97,12 +97,13 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   /*******************************************************/
   /*********FUNCTION IS USED TO GET USER DETAILS**********/
   /*******************************************************/
-  $scope.getUserDetails = function(){
+  $scope.getUserDetails = function(clients_id){
+    $scope.client_id = clients_id;
     $timeout(function() {
       $scope.user = UserModel.getUser();
-      if($scope.user || $stateParams.user_id){
+      if($scope.user || $stateParams.user_id || $scope.client_id){
         var obj = {
-          "_id": $stateParams.user_id || $scope.user._id
+          "_id": $stateParams.user_id || $scope.user._id || $scope.client_id
         }
         ApiCall.getUser(obj, function(response){
           console.log(response);
@@ -113,6 +114,20 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
         })
       }
     });
+  }
+  $scope.getUser = function(clients_id){
+    $scope.user._id = clients_id;
+    if($scope.user._id){
+      var obj = {
+        "_id" : $scope.user._id
+      }
+   
+    ApiCall.getUser(obj, function(response){
+      console.log(response);
+      $scope.userDetails = response.data;
+    },function(error){
+  })
+ }
   }
   // /******************************************************************************/
   // /*********FUNCTION IS USED TO GET USER DETAILS during update by admin **********/

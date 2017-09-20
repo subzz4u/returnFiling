@@ -9,14 +9,14 @@ app.constant("Constants", {
         "getIsRemember" : function() {return this.storagePrefix + "isRemember";},
         "hashKey" : "goAppAccount",
         "envData" : {
-          "env":"dev",
+          "env":"prod",
           "dev" : {
             "basePath" :"http://localhost",
             "appPath"  :"http://localhost",
           },
           "prod" : {
-            "basePath" :"http://localhost",
-            "appPath"  :"http://localhost",
+            "basePath" :"http://ec2-52-23-158-141.compute-1.amazonaws.com",
+            "appPath"  :"http://ec2-52-23-158-141.compute-1.amazonaws.com",
           }
         },
 });

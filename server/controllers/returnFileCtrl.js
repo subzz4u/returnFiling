@@ -88,8 +88,12 @@ exports.getItr = function(req, res) {
 }
 exports.getfiscalYear = function(req, res) {
   var params = {
-    isDelete: false
+    isDelete: false,
+     client: req.query.client
   };
+  // var query = {
+  //   "client": req.body._id
+  // }
   models.returnFileModel.find(params).distinct('fiscalYear', function(err, data) {
     if (err) {
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
@@ -193,7 +197,7 @@ exports.getPaymentList = function(req, res) {
     filter.client = req.user._doc._id;
   }
   models.returnFileModel.find(params)
-    .select('itrId fiscalYear tranId tranAmt status tranStatus tranVerification')
+    .select('itrId fiscalYear client tranId tranAmt status tranStatus tranVerification')
     .where(filter)
     //.populate('client')
     .exec()

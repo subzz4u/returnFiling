@@ -42,6 +42,8 @@ var returnFileSchema = new mongoose.Schema({
     tranAmt : {type: Number,default:0},
     tranStatus : {type:String,default:"success"},
     tranVerification : {type: String,enum: constants.tranVerification, default:"pending"},
+    failedMessage : {type: String,default:null},
+    successMessage  : {type: String,default:null},
 
     // status
     status            : {type: String,enum: constants.returnFileStatus, default:"pending"},

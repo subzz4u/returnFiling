@@ -3,7 +3,7 @@ var constants = {
   statusCode:{
     400:" Bad Request",
   },
-  returnFileStatus:["pending","processing","closed"],
+  returnFileStatus:["pending","processing","closed","failed"],
   tranVerification:["pending","closed"],
   messages:{
     errors:{

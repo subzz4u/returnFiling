@@ -92,7 +92,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
-  .state('return-file-details', {
+  .state('previous-return-file-details', {
     templateUrl: 'view/previous_return_file_details.html',
     url: '/previous-return-file-details',
     controller:'Return_Controller',

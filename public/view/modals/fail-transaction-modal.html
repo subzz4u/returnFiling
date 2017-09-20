@@ -1,0 +1,21 @@
+<div class="modal-info">
+  	<div class="modal-header">
+    	<h3 class="modal-title">Fail Transaction</h3>
+	</div>
+	<div class="modal-body">
+	<h4> Are you sure, you  want to fail the Transaction ?</h4><hr>
+		
+		    <form name="failTransaction">
+				<div class="form-groupss" ng-class="{'has-error':failTransaction.fail_reason.$touched && failTransaction.fail_reason.$invalid}">
+				  	<label for="lname" class="col-sm-10 control-label">Please Enter The reason Of Failure:*</label>
+				  	<textarea placeholder="Reason of failure" name="fail_reason"  class="form-control" ng-model="user.failedMessage" required></textarea>
+					<span class="help-block" ng-show="failTransaction.fail_reason.$error.required && failTransaction.fail_reason.$touched">Please provide a valid reason</span>
+				</div>	
+			</form>
+		
+	</div>
+	<div class="modal-footer">
+	    <button class="btn btn-primary" type="button" ng-click="fail()">Submit</button>
+	    <button class="btn btn-warning pull-left" type="button" ng-click="cancel()">Cancel</button>
+	</div>
+</div>
