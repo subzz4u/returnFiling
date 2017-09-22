@@ -43,7 +43,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   }
   $scope.checkPending = function(status){
     $scope.is_pending = false;
-    if(status == 'closed' || status == 'processing'){
+    if(status == 'closed' || status == 'processing' || status == 'failed'){
        $scope.is_pending = true;
     }
     return  $scope.is_pending;

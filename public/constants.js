@@ -9,7 +9,7 @@ app.constant("Constants", {
         "getIsRemember" : function() {return this.storagePrefix + "isRemember";},
         "hashKey" : "goAppAccount",
         "envData" : {
-          "env":"prod",
+          "env":"dev",
           "dev" : {
             "basePath" :"http://localhost",
             "appPath"  :"http://localhost",
