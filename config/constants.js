@@ -127,13 +127,21 @@ var constants = {
       "getCafirm"                : "Success in fetch Ca Firm",
     },
   },
+  // gmailSMTPCredentials : {
+  //     "service"           : "gmail",
+  //     "host"              : "smtp.gmail.com",
+  //     "username"          : "goappsolutions",
+  //     "mailUsername"          : "GOApps",
+  //     "password"          : "Asdf!2341987",
+  //     "verificationMail"  : "client10@yopmail.com"
+  // },
   gmailSMTPCredentials : {
-      "service"           : "gmail",
-      "host"              : "smtp.gmail.com",
-      "username"          : "goappsolutions",
+      "service"           : "ses",
+      "host"              : "email-smtp.us-east-1.amazonaws.com",
+      "username"          : "AKIAJQ645MHEM3FQ25UA",
       "mailUsername"          : "GOApps",
-      "password"          : "Asdf!2341987",
-      "verificationMail"  : "goappsolutions@gmail.com"
+      "password"          : "AlwqDZB59eCXQvpSZ44gsuVkTCfo3s/5yLL7I+6CnO9d",
+      "verificationMail"  : "client10@yopmail.com"
   },
   mailFormat : {
       "forgotPassword" : {

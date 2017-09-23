@@ -94,7 +94,7 @@ exports.addUser = function(req, res) {
             return response.sendResponse(res, 500, "error", constants.messages.errors.saveUser, err);
           } else {
             LOG.info("User saved !!!!");
-            return response.sendResponse(res, 200, "success", constants.messages.success.saveUser);
+             response.sendResponse(res, 200, "success", constants.messages.success.saveUser);
             // sending email verification
             var data = {
               type: "signUp",

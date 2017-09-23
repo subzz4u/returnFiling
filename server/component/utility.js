@@ -1,4 +1,3 @@
-
 var constants = require('./../../config/constants');
 var response = require("./../component/response");
 var LOG = require('./../component/LOG');
@@ -9,13 +8,13 @@ var moment = require('moment');
 var config = require("config");
 var utility = {};
 utility.isEmpty = function(data) {
-  if(!data || data == "")
+  if (!data || data == "")
     return true;
   else {
     return false;
   }
 }
-utility.sendVerificationMail = function(userObj,callback) {
+utility.sendVerificationMail = function(userObj, callback) {
   var transporter = nodemailer.createTransport("SMTP", {
     service: "Gmail",
     auth: {
@@ -29,28 +28,49 @@ utility.sendVerificationMail = function(userObj,callback) {
     //     user: 'rajendra',
     //     pass: 'infy@123'
     // }
-});
-// udpate data as per the user input
+  });
+  // transporter = nodemailer.createTransport({
+  //   SES: new aws.SES({
+  //     apiVersion: '2010-12-01'
+  //   })
+  // });
+  transporter = nodemailer.createTransport("SES", {
+    AWSAccessKeyID: "AKIAIYBJ5Z45D2OFLVRQ",
+    AWSSecretKey: "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",
+    SeviceUrl: "http://ec2-52-23-158-141.compute-1.amazonaws.com"
+  });
+  transporter = nodemailer.createTransport("SMTP", {
+    host: "email-smtp.us-east-1.amazonaws.com",
+    secureConnection: true,
+    port: 465,
+    auth: {
+      user: "AKIAJQ645MHEM3FQ25UA",
+      pass: "AlwqDZB59eCXQvpSZ44gsuVkTCfo3s/5yLL7I+6CnO9d"
+    }
+  });
+  // udpate data as per the user input
   var mailOptions = {
-    from: constants.gmailSMTPCredentials.mailUsername+"<"+constants.gmailSMTPCredentials.verificationMail+">",
+    from: constants.gmailSMTPCredentials.mailUsername + "<" + constants.gmailSMTPCredentials.verificationMail + ">",
     // to: userObj.email,
+    transport: transporter,
     to: userObj.email,
     subject: constants.mailFormat[userObj.type].subject,
     text: constants.mailFormat[userObj.type].content
-          .replace("{{name}}",userObj.name)
-          .replace("{{link}}",constants.mailFormat[userObj.type].link)
+      .replace("{{name}}", userObj.name)
+      .replace("{{link}}", constants.mailFormat[userObj.type].link)
   }
   LOG.info(JSON.stringify(mailOptions));
   // verify connection configuration
-  transporter.sendMail(mailOptions,function(err,res) {
-    if(err){
-        console.log("Message sent: Error" + err.message);
-        callback(err,null)
-    }else{
-        console.log("Message sent: " + res);
-        callback(null,true)
+  nodemailer.sendMail(mailOptions, function(err, res) {
+    if (err) {
+      console.log("Message sent: Error" + err.message);
+      callback(err, null)
+    } else {
+      console.log("Message sent: " + res);
+      callback(null, true)
     }
   });
+  
 }
 /**
  * functionName :utility.stringify()
@@ -79,7 +99,7 @@ utility.getDateFormat = function(objData) {
   var formatDate = null;
   switch (objData.operation) {
     case 'add':
-      formatDate =  moment(new Date(objData.startDate)).add(objData.mode,objData.count).format()
+      formatDate = moment(new Date(objData.startDate)).add(objData.mode, objData.count).format()
       break;
     default:
       console.log("getDateFormat  not mentioned ");
@@ -96,12 +116,12 @@ utility.getDateFormat = function(objData) {
  * createdDate - 01-10-16
  * updated on - 01-10-16
  */
-utility.dateDiff = function(startDate,endDate) {
+utility.dateDiff = function(startDate, endDate) {
   startDate = moment(new Date(startDate));
-  endDate   = endDate ? moment(new Date(endDate)) : moment(new Date());
+  endDate = endDate ? moment(new Date(endDate)) : moment(new Date());
   var days = endDate.diff(startDate, 'days');
   days = days || 1;
-  console.log("days  ",days);
+  console.log("days  ", days);
   return days;
 }
 /**
@@ -114,33 +134,33 @@ utility.dateDiff = function(startDate,endDate) {
  * createdDate - 16-10-2016
  * updated on - 16-10-2016
  */
-utility.isDataExist = function(data,isZero) {
+utility.isDataExist = function(data, isZero) {
   var status = true;
-  if(data == undefined || data == null){
+  if (data == undefined || data == null) {
     status = false;
   }
-  if(isZero){
+  if (isZero) {
     status = data == 0 ? false : true;
   }
   return status;
 }
-utility.getDateFormat = function(date){
-  return ( date.getDate().toString()+date.getMonth().toString()+date.getFullYear().toString() );
+utility.getDateFormat = function(date) {
+  return (date.getDate().toString() + date.getMonth().toString() + date.getFullYear().toString());
 }
 
-utility.uploadImage = function(imageDetail,callback){
-  var imagePath = config.get(config.get('env')+".uploadPath")+"/"+Date.now()+"_"+imageDetail.fileName;
-  require('fs').writeFile(imagePath, imageDetail.base64, {encoding: 'base64'}, function(err,data) {
-			if(!err)
-			{
-          imagePath = imagePath.replace('./public',""); // to remove . at begining of path
-					callback(false,imagePath); // sending file path
-			}
-			else{
-				callback(err,false);
-			}
+utility.uploadImage = function(imageDetail, callback) {
+  var imagePath = config.get(config.get('env') + ".uploadPath") + "/" + Date.now() + "_" + imageDetail.fileName;
+  require('fs').writeFile(imagePath, imageDetail.base64, {
+    encoding: 'base64'
+  }, function(err, data) {
+    if (!err) {
+      imagePath = imagePath.replace('./public', ""); // to remove . at begining of path
+      callback(false, imagePath); // sending file path
+    } else {
+      callback(err, false);
+    }
 
-		});
+  });
 }
 /**
  * making dynamically validation for the fields passed in the request STARTS
@@ -150,21 +170,20 @@ utility.uploadImage = function(imageDetail,callback){
  * Make sure the the first , second,third must be present paramereres while calling this function
  * must be the req and the res object and rest are checked with the null validation
  */
-utility.validateNull = function(){
+utility.validateNull = function() {
   var args = arguments;
-  if(args.length < 3){
+  if (args.length < 3) {
     throw Error("Invalid paramereres supplied to  validation");
   }
   console.log(args.length);
-   for (var i in args)
-   {
-     if(i<=2)
+  for (var i in args) {
+    if (i <= 2)
       continue; // skip the req and res object
-     if (!args[0][args[2]][args[i]]){
-       return response.sendResponse(args[1], 402, "error", constants.messages.errors.validationError, args[i] +" can not be blank");
-     }
+    if (!args[0][args[2]][args[i]]) {
+      return response.sendResponse(args[1], 402, "error", constants.messages.errors.validationError, args[i] + " can not be blank");
+    }
 
-   }
+  }
 }
 
 
