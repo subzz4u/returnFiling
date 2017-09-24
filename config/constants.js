@@ -92,6 +92,8 @@ var constants = {
         "fiscalYearRequired"               :"fiscal Year is Required",
         // validaton
         "validationError"             : "Error in validaton",
+        // change password
+        "changePassword"         : "Error in change password",
       },
     success:{
       "verified":"verified",
@@ -125,6 +127,8 @@ var constants = {
       //***** Cafirm ***** //
       "saveCafirm"                : "Success in saving Ca Firm",
       "getCafirm"                : "Success in fetch Ca Firm",
+      // change password
+      "changePassword"         : "Success in change password",
     },
   },
   // gmailSMTPCredentials : {

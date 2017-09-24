@@ -16,6 +16,7 @@ var models = require('./../models/index');
 var waterfall = require('async-waterfall');
 // var async = require('async');
 var utility = require('./../component/utility');
+var passwordHash = require('password-hash-and-salt');
 /*
  * this will be executed if authentication passes
  */
@@ -242,4 +243,37 @@ exports.deleteUser = function(req, res) {
     else
       response.sendResponse(res, 200, "success", constants.messages.success.deleteRole);
   })
+}
+
+exports.changePassword = function(req,res){
+  component.utility.validateNull(req,res,"body","oldPassword","newPassword");
+  userModel.findOne({ $or: [{"email":req.user._doc.email},{'mobile':req.user._doc.mobile}]}).populate('role').exec(function (err, user) {
+    if (err) { return done(err); }
+    if (!user) { return done(null, false); }
+    passwordHash(req.body.oldPassword).verifyAgainst(user.password,function(error, verified) {
+      console.log("after verification ",error,user);
+      if (error) {
+        // db error
+        response.sendResponse(res, 500, "error", constants.messages.errors.changePassword, err);
+       }
+      else if (!verified) {
+        // password not matched
+         response.sendResponse(res, 401, "error", constants.messages.errors.changePassword);
+      }
+      else {
+        // update new password
+        password(req.body.newPassword).hash(function(error, hash) {
+          userModel.findByIdAndUpdate(user._id, { $set: { password: hash }}, { new: true }, function (err, user) {
+            if (err){
+              response.sendResponse(res, 500, "error", constants.messages.errors.changePassword, err);
+            }
+            else{
+              response.sendResponse(res, 200, "success", constants.messages.success.changePassword);
+            }
+          });
+
+        })
+      }
+    })
+  });
 }
