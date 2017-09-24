@@ -5152,3 +5152,6 @@ table.text-center th {
 .docImg{
   width: 100%;
 }
+.t-align-c{
+  text-align: center;
+}

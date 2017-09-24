@@ -124,7 +124,27 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
-  
+ .state('emailConfig', {
+    templateUrl: 'view/emailConfig.html',
+    url: '/emailConfig',
+    controller:'EmailConfig_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+  .state('template', {
+    templateUrl: 'view/template.html',
+    url: '/template/:_id',
+    params:{
+      _id:null,
+      data:null
+    },
+    controller:'EmailConfig_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
     $http.get('/user/loggedin')

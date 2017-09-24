@@ -46,6 +46,11 @@
           <i class="fa fa-dashboard"></i> <span>Payment Confirmation</span>
         </a>
       </li>
+      <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details'}" ng-show="checkAdmin()">
+        <a href="" ui-sref="emailConfig">
+          <i class="fa fa-dashboard"></i> <span>Email configuration</span>
+        </a>
+      </li>
     </ul>
   </section>
 </aside>

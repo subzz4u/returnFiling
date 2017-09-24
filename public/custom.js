@@ -126,7 +126,27 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
-  
+ .state('emailConfig', {
+    templateUrl: 'view/emailConfig.html',
+    url: '/emailConfig',
+    controller:'EmailConfig_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+  .state('template', {
+    templateUrl: 'view/template.html',
+    url: '/template/:_id',
+    params:{
+      _id:null,
+      data:null
+    },
+    controller:'EmailConfig_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
     $http.get('/user/loggedin')
@@ -431,6 +451,36 @@ app.filter('capitalize', function() {
   }
   return userModel;
 })
+;app.controller("EmailConfig_Controller",["$scope", "$timeout", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope,$timeout,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
+  var templates = [
+
+    {
+      _id:1,
+      header:"template1",
+      content:"content 1"
+    },
+    {
+      _id:2,
+      header:"template2",
+      content:"content 2"
+    },
+    {
+      _id:3,
+      header:"template3",
+      content:"content 3"
+    },
+  ]
+  $scope.templateList = new NgTableParams;
+  $scope.templateList.settings({
+    dataset: templates
+  })
+
+  $scope.getTemplateDetails = function(){
+     $scope.template = $stateParams.data;
+     $("#txtEditor").Editor();  
+  }
+
+}]);
 ;app.controller("Login_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", "UserModel", "Util", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout,UserModel,Util){
   $scope.user = {};
   $scope.user.username = ($localStorage.user) ? $localStorage.user.uname : "";
