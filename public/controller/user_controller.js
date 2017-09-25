@@ -129,6 +129,21 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   })
  }
   }
+  /*******************************************************/
+  /*********FUNCTION IS USED TO GET USER LIST*************/
+  /*******************************************************/
+  $scope.getAllUsers = function(){
+    ApiCall.getUser(function(response){
+      console.log(response);
+      $scope.users.nos = response.data.length;
+      $scope.userList = response.data;
+      $scope.userData = new NgTableParams;
+      $scope.userData.settings({
+        dataset: $scope.userList
+      })
+      },function(error){
+      })
+  }
   // /******************************************************************************/
   // /*********FUNCTION IS USED TO GET USER DETAILS during update by admin **********/
   // /******************************************************************************/

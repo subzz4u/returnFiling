@@ -4,7 +4,7 @@ var constants = require('./../../config/constants');
 var validator = require('validator');
 var Schema = mongoose.Schema;
 var returnFileSchema = new mongoose.Schema({
-    client              : {type: Schema.Types.ObjectId, ref: 'user',required: true},
+    client         : {type: Schema.Types.ObjectId, ref: 'user',required: true},
     itrId          : {type: String, unique : true,required: constants.messages.errors.itrIdUnique},
     // income details
     conEmpInc       :{type:Number,default:null},

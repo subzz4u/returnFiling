@@ -35,7 +35,7 @@ var userSchema = new mongoose.Schema({
     accNo               : {type: String},
     ifsc                : {type: String},
     // status
-    status            : {type: String},
+    status            : {type: String,default:"active"},
     isDelete          : {type: Boolean, default:false},
 
 

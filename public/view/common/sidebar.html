@@ -6,7 +6,7 @@
       </div>
       <div class="pull-left info">
           <p>{{userDetails.firstname+" "+userDetails.lastname}}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          <a href="" ui-sref="user-profile" ><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
     <ul class="sidebar-menu">
@@ -18,12 +18,12 @@
 		  </li>
        <li class="treeview" ng-class="{'active':stateName == 'profile-update' || stateName == 'user-profile'}">
         <a href="" ui-sref="user-profile">
-          <i class="fa fa-dashboard"></i> <span>Profile</span>
+          <i class="fa fa-user"></i> <span>Profile</span>
         </a>
       </li>
       <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details'}" ng-show="checkAdmin()">
         <a href="" ui-sref="user-list">
-          <i class="fa fa-dashboard"></i> <span>User Management</span>
+          <i class="fa fa-cogs"></i> <span>User Management</span>
         </a>
       </li>
       <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file'}" ng-hide="checkAdmin()" >
@@ -38,12 +38,12 @@
         </li>
       <li class="treeview" ng-class="{'active':stateName == 'return-file-list' || stateName == 'returnFile-details'}" ng-show="checkAdmin()">
         <a href="" ui-sref="return-file-list">
-          <i class="fa fa-dashboard"></i> <span>Return Files</span>
+          <i class="fa fa-files-o"></i> <span>Return Files</span>
         </a>
       </li>
       <li class="treeview" ng-class="{'active':stateName == 'payment'}">
         <a href="" ui-sref="payment">
-          <i class="fa fa-dashboard"></i> <span>Payment Confirmation</span>
+          <i class="fa fa-money"></i> <span>Payment Confirmation</span>
         </a>
       </li>
       <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details'}" ng-show="checkAdmin()">

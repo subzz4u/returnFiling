@@ -296,6 +296,17 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     });
 
   }
+  $scope.getUserDetails = function(clients_id){
+    var obj ={
+       "_id" : clients_id
+    } 
+    ApiCall.getUser(obj, function(response){
+      console.log(response);
+      $scope.userDetails = response.data;
+    },function(error){
+      console.log("error");
+    });
+  }
   $scope.incomeCalculation = function(){
     $scope.user.total = 0;
     if($scope.user.conEmpInc)
@@ -334,3 +345,6 @@ app.controller('FailTransacModalCtrl',function($scope, $state, $uibModalInstance
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
+
+   
+  

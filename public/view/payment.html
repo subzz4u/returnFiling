@@ -61,7 +61,7 @@
 				                <tr   ng-repeat="row in $data">
 				                    <td data-title="'Sl No'">{{ $index + 1}}</td>
 				                    <td data-title="' ITR Id'">{{row.itrId}}</td>
-				                    <td data-title="'Client Name'" ng-init="getUser(row.client)">{{userDetails.firstname}} {{userDetails.middlename}} {{userDetails.lastname}}</td>
+				                    <td data-title="'Client Name'" ng-init="getUserDetails(row.client)">{{userDetails.firstname}} {{userDetails.middlename}} {{userDetails.lastname}}</td>
 				                    <td data-title="' Transaction Id'">{{row.tranId}}</td>
 				                    <td data-title="' Transaction Amount'" >{{row.tranAmt}}</td>
 				                    

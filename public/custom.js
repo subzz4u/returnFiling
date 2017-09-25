@@ -901,6 +901,17 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     });
 
   }
+  $scope.getUserDetails = function(clients_id){
+    var obj ={
+       "_id" : clients_id
+    } 
+    ApiCall.getUser(obj, function(response){
+      console.log(response);
+      $scope.userDetails = response.data;
+    },function(error){
+      console.log("error");
+    });
+  }
   $scope.incomeCalculation = function(){
     $scope.user.total = 0;
     if($scope.user.conEmpInc)
@@ -933,7 +944,9 @@ app.controller('FailTransacModalCtrl',["$scope", "$state", "$uibModalInstance", 
     $uibModalInstance.dismiss('cancel');
   };
 }]);
-;app.controller("User_Controller",["$scope", "$timeout", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope,$timeout,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
+
+   
+  ;app.controller("User_Controller",["$scope", "$timeout", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope,$timeout,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
   $scope.user = {};
   $scope.tempAdhar = {};
   $scope.tempPAN = {};
@@ -1045,6 +1058,18 @@ app.controller('FailTransacModalCtrl',["$scope", "$state", "$uibModalInstance", 
     },function(error){
   })
  }
+  }
+  $scope.getAllUsers = function(){
+    ApiCall.getUser(function(response){
+      console.log(response);
+      $scope.users.nos = response.data.length;
+      $scope.userList = response.data;
+      $scope.userData = new NgTableParams;
+      $scope.userData.settings({
+        dataset: $scope.userList
+      })
+      },function(error){
+      })
   }
 
 }]);

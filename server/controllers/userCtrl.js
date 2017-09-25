@@ -148,7 +148,7 @@ exports.getUser = function(req, res) {
           'type': 'client'
         }
       })
-      .select('username email role')
+      .select('username email role mobile firstname lastname middlename status ')
       .then(function(users) {
         users = users.filter(function(user) {
           if (user.role)
