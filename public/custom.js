@@ -134,6 +134,39 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
+ .state('change-password', {
+    templateUrl: 'view/change_password.html',
+    url: '/change-password',
+    controller:'User_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+ .state('forgot-password', {
+    templateUrl: 'view/forgot_password.html',
+    url: '/forgot-password',
+    controller:'User_Controller',
+    resolve: {
+      loggedout: checkLoggedin
+    }
+  })
+ .state('work-assignment', {
+    templateUrl: 'view/work_assignment.html',
+    url: '/work-assignment',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+
+ .state('work-assigned', {
+    templateUrl: 'view/works-assigned.html',
+    url: '/work-assigned',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   .state('template', {
     templateUrl: 'view/template.html',
     url: '/template/:_id',
@@ -1073,7 +1106,17 @@ app.controller('FailTransacModalCtrl',["$scope", "$state", "$uibModalInstance", 
   }
 
 }]);
-;app.directive('fileModell', ['$parse', function ($parse) {
+;app.controller("Work_Assignment_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
+	$scope.user = {};
+	$scope.paymentConfirm = function(){
+		ApiCall.postTransaction($scope.user , function(response){
+			console.log("posted");
+
+		},function(error){
+
+		});
+	}
+}]);;app.directive('fileModell', ['$parse', function ($parse) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {

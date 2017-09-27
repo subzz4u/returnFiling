@@ -46,11 +46,40 @@
           <i class="fa fa-money"></i> <span>Payment Confirmation</span>
         </a>
       </li>
-      <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details'}" ng-show="checkAdmin()">
+      <li class="treeview" ng-class="{'active':stateName == 'emailConfig'}" ng-show="checkAdmin()">
         <a href="" ui-sref="emailConfig">
           <i class="fa fa-dashboard"></i> <span>Email configuration</span>
         </a>
       </li>
+      
+       <li class="treeview" ng-class="{'active':stateName == 'work-assignment'}" ng-show="checkAdmin()" >
+          <a href="">
+            <i class="fa fa-files-o"></i>
+            <span>Job Assignment</span>
+          </a>
+          <ul class="treeview-menu">
+            <li ng-class="{'active':stateName == 'work-assignment'}">
+              <a href="" ui-sref="work-assignment"><i class="fa fa-circle-o"></i>New Work Assignment</a>
+            </li>
+            <li ng-class="{'active':stateName == 'work-assigned'}">
+              <a href="" ui-sref="work-assigned"><i class="fa fa-circle-o"></i>Works Assigned</a>
+            </li>
+            
+          </ul>
+        </li>
+      
+       <li class="treeview" ng-class="{'active':stateName == 'change-password'}" ng-hide="checkAdmin()" >
+          <a href="">
+            <i class="fa fa-files-o"></i>
+            <span>User Settings</span>
+          </a>
+          <ul class="treeview-menu">
+            <li ng-class="{'active':stateName == 'change-password'}">
+              <a href="" ui-sref="change-password"><i class="fa fa-circle-o"></i>Change Password</a>
+            </li>
+            
+          </ul>
+        </li>
     </ul>
   </section>
 </aside>

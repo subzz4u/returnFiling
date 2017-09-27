@@ -132,6 +132,39 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
+ .state('change-password', {
+    templateUrl: 'view/change_password.html',
+    url: '/change-password',
+    controller:'User_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+ .state('forgot-password', {
+    templateUrl: 'view/forgot_password.html',
+    url: '/forgot-password',
+    controller:'User_Controller',
+    resolve: {
+      loggedout: checkLoggedin
+    }
+  })
+ .state('work-assignment', {
+    templateUrl: 'view/work_assignment.html',
+    url: '/work-assignment',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+
+ .state('work-assigned', {
+    templateUrl: 'view/works-assigned.html',
+    url: '/work-assigned',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   .state('template', {
     templateUrl: 'view/template.html',
     url: '/template/:_id',

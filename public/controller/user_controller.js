@@ -21,6 +21,22 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
     })
   }
   /*******************************************************/
+  /*********FUNCTION IS USED TO CHECK Old PASSOWORD***********/
+  /*******************************************************/
+  // $scope.checkOldPassword = function(oldPassword) {
+  //   var loggedIn_user = UserModel.getUser();
+  //   console.log(loggedIn_user.password);
+  //   if(oldPassword != loggedIn_user.password){
+  //     $scope.oldPasswordMisMatch = true;
+  //     console.log("not equal");
+  //   }
+  //   if(oldPassword == loggedIn_user.password){
+  //     $scope.oldPasswordMisMatch = false;
+  //     console.log("equal");
+  //   }
+   
+  // }
+  /*******************************************************/
   /*********FUNCTION IS USED TO CHECK PASSOWORD***********/
   /*******************************************************/
   $scope.checkPassword = function(password, confirmPassword) {
