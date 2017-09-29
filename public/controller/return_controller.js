@@ -1,5 +1,6 @@
 app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$stateParams,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel,$uibModal){
   $scope.user = {};
+  $scope.user.isReferalPrompt = false;
   $scope.active_tab1 = 'income';
   $scope.list  = {};
   $scope.itrIdList = {};
@@ -53,21 +54,36 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*******************************************************/
   $scope.returnFile = function(){
     $scope.user.client = UserModel.getUser()._id;
-    ApiCall.postReturnFile($scope.user , function(response){
-    Util.alertMessage('success',"Data Saved Successfully");
-    var loggedIn_user = UserModel.getUser();
-     $state.go('user-profile',{'user_id':loggedIn_user._id});
-    },function(error){
-      Util.alertMessage('danger',error.data.message);
-    })
+    if(!$scope.user.isReferalPrompt) {
+      $scope.modalInstance = $uibModal.open({
+        animation : true,
+        templateUrl : 'view/modals/reference_info_modal.html',
+        controller : 'ReferalInfoModalController',
+        size: 'md',
+        resolve:{
+          userData : function(){
+            return $scope.user
+          }
+        }
+      })
+    }
+    else {
+      ApiCall.postReturnFile($scope.user , function(response){
+      Util.alertMessage('success',"Data Saved Successfully");
+      var loggedIn_user = UserModel.getUser();
+       $state.go('user-profile',{'user_id':loggedIn_user._id});
+      },function(error){
+        Util.alertMessage('danger',error.data.message);
+      })
+    }
   }
   /*******************************************************/
   /*******FUNCTION IS USED TO GET RETURN FILE LIST********/
   /*******************************************************/
-  
- 
+
+
   $scope.returnFileList = function(){
-    
+
     var obj = {
       status:$stateParams.status,
     }
@@ -89,7 +105,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     console.log(loggedin_user);
     var obj = {
       'client' :  $stateParams.client_id,
-    } 
+    }
     if($state.current.name == "previous-return-file-details" && loggedin_user.role.type == "client"){
       console.log("client login and previous return file details");
       obj.client = loggedin_user._id;
@@ -231,7 +247,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       fiscalYear : $stateParams.fiscalYear,
       _id : $stateParams.returnFile_id
     }
-    
+
     ApiCall.getReturnFile(obj, function(response){
       $scope.returnDetails = response.data[0];
       console.log($scope.returnDetails);
@@ -280,7 +296,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
     });
-  
+
   }
   $scope.getPayment = function(){
 
@@ -299,7 +315,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.getUserDetails = function(clients_id){
     var obj ={
        "_id" : clients_id
-    } 
+    }
     ApiCall.getUser(obj, function(response){
       console.log(response);
       $scope.userDetails = response.data;
@@ -345,6 +361,14 @@ app.controller('FailTransacModalCtrl',function($scope, $state, $uibModalInstance
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-
-   
-  
+app.controller('ReferalInfoModalController',function($scope, $uibModalInstance,userData){
+  userData.isReferalPrompt = true;
+  $scope.ok = function () {
+    userData.referralEmail = $scope.referralEmail;
+    userData.referralMobile = $scope.referralMobile;
+    $uibModalInstance.close();
+  };
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});

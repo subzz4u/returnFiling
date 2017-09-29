@@ -5156,3 +5156,11 @@ table.text-center th {
 .t-align-c{
   text-align: center;
 }
+
+
+/*overdding modal styling starts*/
+.modal-content input[type=text] {
+  color:#000 !important;
+}
+
+/*overdding modal styling ends*/

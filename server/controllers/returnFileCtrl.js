@@ -20,11 +20,25 @@ exports.addReturnFile = function(req, res) {
       // produce itrId key
       req.body.itrId = client.email + "_" + req.body.fiscalYear;
       // saving return files
-      new models.returnFileModel(req.body).save(function(err) {
+      new models.returnFileModel(req.body).save(function(err,returnFile) {
         if (err)
           response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
         else {
-
+          // saving reference details
+          if(req.body.referalEmail || req.body.referalMobile) {
+            var obj = {
+              returnFile : returnFile,
+              referralEmail : req.body.referalEmail,
+              referralMobile : req.body.referalMobile
+            }
+            console.log("saving referral details  ",obj);
+            new models.referralModel(obj).save(function(err,referral) {
+              if (err)
+                console.log("error in referral save " , err);
+              else
+              console.log("referral saved for the returnfile " , returnFile._id)
+            })
+          }
           response.sendResponse(res, 200, "success", constants.messages.success.saveData);
         }
       })
@@ -77,6 +91,21 @@ exports.getItr = function(req, res) {
   //   return response.sendResponse(res, 401, "error", constants.messages.errors.invalidUser);
   // }
   models.returnFileModel.find(params).select('itrId fiscalYear')
+    //.populate('client')
+    .exec()
+    .then(function(data) {
+      return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
+    })
+    .catch(function(err) {
+      return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
+    })
+}
+exports.getReferral = function(req, res) {
+  var params = {
+    isDelete: false
+  };
+
+  models.referralModel.find(params)
     //.populate('client')
     .exec()
     .then(function(data) {

@@ -90,6 +90,7 @@ var constants = {
         //*** it return **//
         "itrIdUnique"               :"ITR id should be unique",
         "fiscalYearRequired"               :"fiscal Year is Required",
+        "referralSave"              : "Error in saving referral details",
         // validaton
         "validationError"             : "Error in validaton",
         // change password
@@ -127,6 +128,9 @@ var constants = {
       //***** Cafirm ***** //
       "saveCafirm"                : "Success in saving Ca Firm",
       "getCafirm"                : "Success in fetch Ca Firm",
+
+      // IT return
+      "referralSave"              : "Success in saving referral details",
       // change password
       "changePassword"         : "Success in change password",
     },

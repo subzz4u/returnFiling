@@ -12,6 +12,9 @@ router.get('/', passport.authenticate('token', {session:false}),function(req, re
 router.get('/itr', passport.authenticate('token', {session:false}),function(req, res, next) {
   controllers.returnFileCtrl.getItr(req, res);
 });
+router.get('/referral', function(req, res, next) {
+  controllers.returnFileCtrl.getReferral(req, res);
+});
 router.get('/fiscalYear', passport.authenticate('token', {session:false}),function(req, res, next) {
   controllers.returnFileCtrl.getfiscalYear(req, res);
 });
