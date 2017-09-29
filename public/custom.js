@@ -376,6 +376,10 @@ app.filter('capitalize', function() {
       url:"/returnFile/count",
       method: "GET"
     },
+    getReferral : {
+      url:"/returnFile/referral",
+      method: "GET"
+    },
     getReturnList : {
       url:"/returnFile",
       method: "GET"
@@ -416,7 +420,7 @@ app.filter('capitalize', function() {
 }])
 .factory('ApiCall', ["$http", "$resource", "API", "EnvService", "ApiGenerator", function($http, $resource, API, EnvService,ApiGenerator) {
   return $resource('/',null, {
-    getRole: ApiGenerator.getApi('getRole'),      
+    getRole: ApiGenerator.getApi('getRole'),
     userLogin : ApiGenerator.getApi('userLogin'),
     getUser: ApiGenerator.getApi('getUser'),
     postUser: ApiGenerator.getApi('postUser'),
@@ -431,6 +435,7 @@ app.filter('capitalize', function() {
     postTransaction: ApiGenerator.getApi('postTransaction'),
     updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
     getPaymentList: ApiGenerator.getApi('getPaymentList'),
+    getReferral: ApiGenerator.getApi('getReferral'),
   })
 }])
 
@@ -439,7 +444,7 @@ app.filter('capitalize', function() {
       getApi: function(api) {
         var obj = {};
         obj = angular.copy(API[api]);
-        obj.url = EnvService.getBasePath() + obj.url; 
+        obj.url = EnvService.getBasePath() + obj.url;
         return obj;
       }
     }
@@ -551,6 +556,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.userList = {};
   $scope.count = {};
   $scope.users = {};
+  $scope.dashboard = {};
   $scope.signOut = function(){
     delete $localStorage.token;
     $rootScope.is_loggedin = false;
@@ -564,6 +570,15 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
       $scope.userData.settings({
         dataset: $scope.userList
       })
+      },function(error){
+      })
+  }
+  $scope.getReferralCount = function() {
+    var obj = {
+      count:true
+    }
+    ApiCall.getReferral(obj,function(response){
+      $scope.dashboard.referralCount = response.data;
       },function(error){
       })
   }

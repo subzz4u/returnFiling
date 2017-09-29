@@ -5,6 +5,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.userList = {};
   $scope.count = {};
   $scope.users = {};
+  $scope.dashboard = {};
   /*******************************************************/
   /*********FUNCTION IS USED TO SIGN OUT PROFILE**********/
   /*******************************************************/
@@ -25,6 +26,15 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
       $scope.userData.settings({
         dataset: $scope.userList
       })
+      },function(error){
+      })
+  }
+  $scope.getReferralCount = function() {
+    var obj = {
+      count:true
+    }
+    ApiCall.getReferral(obj,function(response){
+      $scope.dashboard.referralCount = response.data;
       },function(error){
       })
   }

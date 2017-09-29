@@ -81,6 +81,10 @@ angular.module('WebService', [])
       url:"/returnFile/count",
       method: "GET"
     },
+    getReferral : {
+      url:"/returnFile/referral",
+      method: "GET"
+    },
     getReturnList : {
       url:"/returnFile",
       method: "GET"
@@ -121,7 +125,7 @@ angular.module('WebService', [])
 })
 .factory('ApiCall', function($http, $resource, API, EnvService,ApiGenerator) {
   return $resource('/',null, {
-    getRole: ApiGenerator.getApi('getRole'),      
+    getRole: ApiGenerator.getApi('getRole'),
     userLogin : ApiGenerator.getApi('userLogin'),
     getUser: ApiGenerator.getApi('getUser'),
     postUser: ApiGenerator.getApi('postUser'),
@@ -136,6 +140,7 @@ angular.module('WebService', [])
     postTransaction: ApiGenerator.getApi('postTransaction'),
     updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
     getPaymentList: ApiGenerator.getApi('getPaymentList'),
+    getReferral: ApiGenerator.getApi('getReferral'),
   })
 })
 
@@ -144,7 +149,7 @@ angular.module('WebService', [])
       getApi: function(api) {
         var obj = {};
         obj = angular.copy(API[api]);
-        obj.url = EnvService.getBasePath() + obj.url; 
+        obj.url = EnvService.getBasePath() + obj.url;
         return obj;
       }
     }

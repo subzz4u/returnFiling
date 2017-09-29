@@ -21,11 +21,29 @@
             </a>
           </div>
     </div>
+
+    <div class="col-md-5 col-sm-6 col-xs-12">
+        <div class="small-box bg-green"  ng-init="getReferralCount()">
+            <div class="inner">
+              <h3>{{dashboard.referralCount}}</h3>
+
+              <p>Referral Count</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-file"></i>
+            </div>
+            <a href="" ui-sref="referral-list" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+    </div>
+
+
     <div class="col-md-5 col-sm-6 col-xs-12" ng-if="returnFilesCounts[0].count">
           <div class="small-box bg-yellow" >
             <div class="inner">
               <h3>{{returnFilesCounts[0].count}}</h3>
-              
+
               <p> Return Files {{returnFilesCounts[0]._id.status}}</p>
             </div>
             <div class="icon">
