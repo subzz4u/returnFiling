@@ -293,7 +293,7 @@ app.filter('capitalize', function() {
         "getIsRemember" : function() {return this.storagePrefix + "isRemember";},
         "hashKey" : "goAppAccount",
         "envData" : {
-          "env":"dev",
+          "env":"prod",
           "dev" : {
             "basePath" :"http://localhost",
             "appPath"  :"http://localhost",
