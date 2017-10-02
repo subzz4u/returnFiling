@@ -5,6 +5,7 @@ var roleRoutes = require('./roleRoutes');
 var userRoutes = require('./userRoutes');
 var returnFileRoutes = require('./returnFileRoutes');
 var templateRoutes = require('./templateRoutes');
+var categoryRoutes = require('./categoryRoutes');
 // var srAuditorRoutes = require('./srAuditorRoutes');
 
 /* GET home page. */
@@ -16,6 +17,7 @@ router.use('/role', roleRoutes);
 router.use('/user', userRoutes);
 router.use('/returnFile', returnFileRoutes);
 router.use('/template', templateRoutes);
+router.use('/category', categoryRoutes);
 // router.use('/srAuditor',srAuditorRoutes);
 
 module.exports = router;

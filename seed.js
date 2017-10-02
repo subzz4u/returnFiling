@@ -56,6 +56,129 @@ var users = {
     "mobile":"9999999999"
   },
 }
+/************************* Category schema ********************/
+var categories = [
+	{
+		category : "Accounting",
+		assignment : [
+			"Accounts Setup",
+			"Bank Reconciliation",
+			"Depreciation Accounting",
+			"Finalization of Accounts",
+			"Inter branch reconciliation",
+			"Ledger Scrutiny"
+		],
+	},
+	{
+		category : "Audit",
+		assignment : [
+			"Fixed Asset Audit",
+			"Internal Audit",
+			"Sales tax Audit",
+			"Stock Audit",
+			"Statutory Audit",
+			"GST Audit"
+		],
+	},
+	{
+		category : "Banking",
+		assignment : [
+			"Overseas Money Remittance",
+			"Bank Reconciliation",
+			"Depreciation Accounting",
+			"Finalization of Accounts",
+			"Inter branch reconciliation",
+			"Ledger Scrutiny"
+		],
+	},
+	{
+		category : "Business Consulting",
+		assignment : [
+			"Business Consulting",
+			"General Consulting",
+			"Review and Discussion",
+
+		],
+	},
+	{
+		category : "Business Development",
+		assignment : [
+			"Client Meeting",
+			"Organizational Activity",
+			"Research",
+			"Scouting",
+			"Tele-calling",
+			"Tele-calling"
+		],
+	},
+	{
+		category : "GST",
+		assignment : [
+			"GST Accounting",
+			"GST Registration",
+			"GST Return Filling",
+			"Tran-1",
+
+		],
+	},
+	{
+		category : "HR & Payroll",
+		assignment : [
+			"HR Consulting",
+			"DBR-Daily Business Report",
+			"MIS Issue Resolution",
+			"MIS Setup",
+			"Report Preparation"
+
+		],
+	},
+	{
+		category : "Statutory Activity",
+		assignment : [
+			"New Company Registration",
+			"ROC",
+			"Statutory Compliance",
+			"Partnership Registration",
+			"LLP/HUF/Trust & Society Registration",
+
+		],
+	},
+	{
+		category : "Statutory Return",
+		assignment : [
+			"E Filing - I Tax",
+			"E Filing - ROC",
+			"E Filing - TDS"
+
+		],
+	},
+	{
+		category : "Tally Xlerator",
+		assignment : [
+			"Assessment",
+			"CP Meeting",
+			"New Customer Meeting",
+			"Tally Consulting",
+			"Training - External",
+			"Hiring/Training/Induction",
+
+
+		],
+	},
+	{
+		category : "Taxation",
+		assignment : [
+			"Appeal",
+			"Income Tax Audit",
+			"Income Tax matter handling",
+			"Income Tax Scrutiny",
+			"IT Hearing",
+			"Tax consulting"
+
+		],
+	}
+
+]
 waterfall([
   function(callback) {
     LOG.info("*************  saving Role information ****************");
@@ -149,7 +272,6 @@ waterfall([
           })
         })
         .then(function(doc) {
-          LOG.info("*************** END ************");
           callback(null, false);
         })
         .catch(function(error) {
@@ -157,6 +279,25 @@ waterfall([
         })
 
 
+    }
+  },
+  function(arg1, callback) { // this will be use for category save
+    if (arg1) // error return
+      callback(null, arg1);
+    else {
+      models.categoryModel.remove()
+        .then(function(doc) {
+          LOG.info("deleted prev data");
+          return models.categoryModel.insertMany(categories);
+        })
+        .then(function(categories) {
+          LOG.info("category seeded ! ");
+          callback(null, false);
+        })
+        .catch(function(err) {
+          LOG.error("Error occured in saving category", err);
+          callback(null, err);
+        })
     }
   }
 ], function(err, result) {
