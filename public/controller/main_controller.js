@@ -33,9 +33,12 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     var obj = {
       count:true
     }
+    console.log("coming"+ " " +obj);
     ApiCall.getReferral(obj,function(response){
+      console.log("response");
       $scope.dashboard.referralCount = response.data;
       },function(error){
+        console.log(error);
       })
   }
   /*******************************************************/

@@ -1,19 +1,19 @@
 app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$stateParams,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel,$uibModal){
   $scope.user = {};
+
   $scope.user.isReferalPrompt = false;
   $scope.active_tab1 = 'income';
   $scope.list  = {};
   $scope.itrIdList = {};
   $scope.yearList = {};
-  $scope.active_tab = 'year';
   $scope.user.fiscalYear = '';
   $scope.muna = {};
+  
+  $scope.active_tab = 'year';
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
   }
-  $scope.tabChangeDetails = function(tab){
-    $scope.active_tab1 = tab;
-  }
+ 
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
     var loggedIn_user = UserModel.getUser();
