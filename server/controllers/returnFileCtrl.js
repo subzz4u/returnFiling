@@ -25,11 +25,11 @@ exports.addReturnFile = function(req, res) {
           response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
         else {
           // saving reference details
-          if(req.body.referalEmail || req.body.referalMobile) {
+          if(req.body.referralEmail || req.body.referralMobile) {
             var obj = {
               returnFile : returnFile,
-              referralEmail : req.body.referalEmail,
-              referralMobile : req.body.referalMobile
+              referralEmail : req.body.referralEmail,
+              referralMobile : req.body.referralMobile
             }
             console.log("saving referral details  ",obj);
             new models.referralModel(obj).save(function(err,referral) {
