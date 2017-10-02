@@ -164,5 +164,5 @@ waterfall([
     LOG.error(err);
   } else
     console.log("Seeding completed !!!!");
-    LOG.info("\n\n\n********************************* Please terminate session By CTRL + C *************************");
+    LOG.info("********************************* Please terminate session By CTRL + C *************************");
 });

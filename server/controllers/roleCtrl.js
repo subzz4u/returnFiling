@@ -18,11 +18,13 @@ exports.addRole = function(req,res){
   })
 }
 exports.getRole = function(req,res){
+
   var params = {
-    isDelete:false
+    isDelete:false,
+    type:{$in:["aa","consultant","bm"]}
   };
   if(req.query._id){
-    params['_id'] = req.query._id
+    params['_id'] = req.query._id;
   }
   models.roleModel.find(params,function(err,data){
     response.sendResponse(res,200,"success",constants.messages.success.fetchRoles,data);
