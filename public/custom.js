@@ -1,4 +1,4 @@
-var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils']);
+var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils','textAngular']);
 app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($stateProvider, $urlRouterProvider,$httpProvider) {
   checkLoggedin.$inject = ["$q", "$timeout", "$rootScope", "$http", "$state", "$localStorage"];
   checkLoggedout.$inject = ["$q", "$timeout", "$rootScope", "$state", "$http", "$localStorage", "UserModel"];
@@ -179,6 +179,14 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
+  .state('addTemplate', {
+    templateUrl: 'view/template.html',
+    url: '/template',
+    controller:'EmailConfig_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
 
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
@@ -232,6 +240,9 @@ app.factory('Util', ['$rootScope',  '$timeout' , function( $rootScope, $timeout)
   var Util = {};
   $rootScope.alerts =[];
   Util.alertMessage = function(msgType, message){
+    if(!message){
+      message = msgType;
+    }
     var alert = { type:msgType , msg: message };
     $rootScope.alerts.push( alert );
     $timeout(function(){
@@ -416,6 +427,30 @@ app.filter('capitalize', function() {
       url:"/returnFile/transaction/payment",
       method: "GET"
     },
+    postTemplate: {
+      url: "/template",
+      method: "POST",
+      "headers": {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+    },
+    putTemplate: {
+      url: "/template",
+      method: "PUT",
+      "headers": {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+    },
+    getTemplate: {
+      url: "/template",
+      method: "GET",
+      "headers": {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+    },
   }
 }])
 .factory('ApiCall', ["$http", "$resource", "API", "EnvService", "ApiGenerator", function($http, $resource, API, EnvService,ApiGenerator) {
@@ -436,6 +471,9 @@ app.filter('capitalize', function() {
     updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
     getPaymentList: ApiGenerator.getApi('getPaymentList'),
     getReferral: ApiGenerator.getApi('getReferral'),
+    getTemplate: ApiGenerator.getApi('getTemplate'),
+    postTemplate: ApiGenerator.getApi('postTemplate'),
+    putTemplate: ApiGenerator.getApi('putTemplate'),
   })
 }])
 
@@ -490,32 +528,58 @@ app.filter('capitalize', function() {
   return userModel;
 })
 ;app.controller("EmailConfig_Controller",["$scope", "$timeout", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope,$timeout,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
-  var templates = [
 
-    {
-      _id:1,
-      header:"template1",
-      content:"content 1"
-    },
-    {
-      _id:2,
-      header:"template2",
-      content:"content 2"
-    },
-    {
-      _id:3,
-      header:"template3",
-      content:"content 3"
-    },
-  ]
-  $scope.templateList = new NgTableParams;
-  $scope.templateList.settings({
-    dataset: templates
-  })
+  $scope.initTemplate = function() {
+    $scope.template = {};
+    $scope.disabled = false;
+    if($stateParams._id){
+        $scope.getTemplates($stateParams._id);
+        $scope.template.isReadOnly = true;
+    }
+    else {
+      $scope.orightml="";
+      $scope.htmlcontent = $scope.orightml;
+      $scope.template.isReadOnly = false;
+    }
+  }
+  $scope.getTemplates = function(_id){
+    var obj = {};
+    if(_id){
+      obj._id = _id;
+    }
+    ApiCall.getTemplate(obj,function(response) {
+      if(_id){
+        $scope.template = response.data[0];
+      }
+      else{
+        $scope.templateList = new NgTableParams;
+        $scope.templateList.settings({
+          dataset: response.data
+        })
+      }
+    }, function(error) {
+      console.log("Error in fetching templates ",error);
+    })
+  }
 
-  $scope.getTemplateDetails = function(){
-     $scope.template = $stateParams.data;
-     $("#txtEditor").Editor();  
+  $scope.updateTemplate = function(){
+     console.log($scope.htmlcontent);
+     if($stateParams._id) {
+       ApiCall.putTemplate($scope.template,function(response) {
+         Util.alertMessage('success',response.message);
+         $state.go("emailConfig");
+       }, function(error) {
+         Util.alertMessage('error',response.message);
+       })
+     }
+     else {
+       ApiCall.postTemplate($scope.template,function(response) {
+         Util.alertMessage('success',response.message);
+         $state.go("emailConfig");
+       }, function(error) {
+         Util.alertMessage('error',response.message);
+       })
+     }
   }
 
 }]);

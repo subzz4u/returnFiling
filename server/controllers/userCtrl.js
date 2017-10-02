@@ -133,13 +133,17 @@ exports.getUser = function(req, res) {
   }
   console.log("req.query._id   " + req.query._id);
   if (req.query._id) {
+    var filter = {};
     params['_id'] = req.query._id;
-    userModel.findOne(params, function(err, user) {
-      if (err)
-        return response.sendResponse(res, 200, "error", constants.messages.errors.getUser, error);
-      else
+    if(req.query.viewType == "list"){
+      filter = 'firstName lastName email';
+    }
+    userModel.findOne(params,function(err,user) {
         return response.sendResponse(res, 200, "success", constants.messages.success.getUser, user);
     })
+    // .catch(function(error) {
+    //   return response.sendResponse(res, 200, "error", constants.messages.errors.getUser, error);
+    // })
   } else {
     userModel.find(params)
       .populate({

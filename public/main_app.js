@@ -1,4 +1,4 @@
-var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils']);
+var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils','textAngular']);
 app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   $httpProvider.interceptors.push(function ($q, $location, $window,$localStorage) {
     return {
@@ -177,6 +177,14 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
+  .state('addTemplate', {
+    templateUrl: 'view/template.html',
+    url: '/template',
+    controller:'EmailConfig_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
 
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
@@ -230,6 +238,9 @@ app.factory('Util', ['$rootScope',  '$timeout' , function( $rootScope, $timeout)
   var Util = {};
   $rootScope.alerts =[];
   Util.alertMessage = function(msgType, message){
+    if(!message){
+      message = msgType;
+    }
     var alert = { type:msgType , msg: message };
     $rootScope.alerts.push( alert );
     $timeout(function(){

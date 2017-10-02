@@ -7,13 +7,17 @@ var constants = {
   tranVerification:["pending","closed"],
   messages:{
     errors:{
+      //global
+      "saveData"   :"save Data Error",
+      "getData"   :"Get Data Error",
+      "updateData"   :"Update Data Error",
+      "deleteData"   :"Delete Data Error",
       // unique keys
       "emailExist":"Email is already Exist",
       "mobileExist":"Mobile is already Exist",
       "verified"                    :"Error in token verification",
       "auth"                        :"Authentication Error",
       "getUser"                     :"Error in fething user details",
-      "getData"                     :"get Data Error",
       "saveData"                    :"save Data Error",
       "noUser"                      :"No user found",
       "noOperation"                 :"no Operation found",
@@ -97,10 +101,14 @@ var constants = {
         "changePassword"         : "Error in change password",
       },
     success:{
+      //global
+      "saveData"   :"save Data Success",
+      "getData"   :"Get Data Success",
+      "updateData"   :"Update Data Success",
+      "deleteData"   :"Delete Data Success",
       "verified":"verified",
       "getData"   :"get Data Success",
       "getUser"                     :"Success in fething user details",
-      "saveData"   :"save Data Success",
       "saveUser"                 : "Success in saving user",
       "undefined"                :   "undefined value",
       "undefinedRole"            :   "undefined role",

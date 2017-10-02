@@ -121,6 +121,30 @@ angular.module('WebService', [])
       url:"/returnFile/transaction/payment",
       method: "GET"
     },
+    postTemplate: {
+      url: "/template",
+      method: "POST",
+      "headers": {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+    },
+    putTemplate: {
+      url: "/template",
+      method: "PUT",
+      "headers": {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+    },
+    getTemplate: {
+      url: "/template",
+      method: "GET",
+      "headers": {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+    },
   }
 })
 .factory('ApiCall', function($http, $resource, API, EnvService,ApiGenerator) {
@@ -141,6 +165,9 @@ angular.module('WebService', [])
     updateReturnFile: ApiGenerator.getApi('updateReturnFile'),
     getPaymentList: ApiGenerator.getApi('getPaymentList'),
     getReferral: ApiGenerator.getApi('getReferral'),
+    getTemplate: ApiGenerator.getApi('getTemplate'),
+    postTemplate: ApiGenerator.getApi('postTemplate'),
+    putTemplate: ApiGenerator.getApi('putTemplate'),
   })
 })
 
