@@ -42,7 +42,7 @@
 							        <button type="submit" ng-disabled="income.fiscal_year.$invalid" ng-click="tabChange('income')" class="btn btn-info pull-right">Next</button>
         				 		</div>
         				 	</div>
-       					</div> 
+       					</div>
 		          		<div class="tab-pane" id="income" ng-class="{'active':active_tab == 'income'}">
 							<div class="box box-info ">
 					      		<div class="box-header with-border">
@@ -55,7 +55,7 @@
 									        		<div class="form-group" ng-class="{'has-error':income.income111.$touched && income.income111.$invalid}">
 										          		<label for="uname" class="control-label">Contractual Employement  Income:*</label>
 														<input type="text" floats-only name="income111" ng-model="user.conEmpInc" ng-change="incomeCalculation()" required class="form-control" placeholder="Contractual Employement  Income">
-														<span class="help-block" ng-show="income.income111.$error.required && income.income111.$touched">Employment Income is required</span>		
+														<span class="help-block" ng-show="income.income111.$error.required && income.income111.$touched">Employment Income is required</span>
 								          			</div>
 										          	<div class="form-group">
 										          		<label for="uname" class="control-label">Income from Business / Profession:</label>
@@ -74,12 +74,12 @@
 										    			<div class="box-body">
 										    				<div class="form-group col-sm-10">
 												          		<label for="uname" class="control-label">Rental Income:</label>
-																<input type="text" floats-only name="rental_income" ng-model="user.rentalInc" ng-change="incomeCalculation()" class="form-control" placeholder="Rental Income">		
-										          			</div>  
+																<input type="text" floats-only name="rental_income" ng-model="user.rentalInc" ng-change="incomeCalculation()" class="form-control" placeholder="Rental Income">
+										          			</div>
 										          			<div class="form-group col-sm-10">
 												          		<label for="uname" class="control-label">Interest on House Loan:</label>
-																<input type="text" floats-only name="house_interest_income" ng-model="user.houseLoanInterestInc" ng-change="incomeCalculation()" class="form-control" placeholder="Interest on House Loan">		
-							          						</div>  
+																<input type="text" floats-only name="house_interest_income" ng-model="user.houseLoanInterestInc" ng-change="incomeCalculation()" class="form-control" placeholder="Interest on House Loan">
+							          						</div>
 										    			</div>
 													</div>
 												</div>
@@ -91,18 +91,18 @@
 									    				<div class="box-body">
 													    	<div class="form-group col-sm-10">
 												          		<label for="uname" class="control-label">Interest (Fixed Deposit):</label>
-																<input type="text" floats-only name="rental_income" ng-model="user.fixDepositInc" ng-change="incomeCalculation()" class="form-control" placeholder="Interest (Fixed Deposit)">		
-										          			</div>  
+																<input type="text" floats-only name="rental_income" ng-model="user.fixDepositInc" ng-change="incomeCalculation()" class="form-control" placeholder="Interest (Fixed Deposit)">
+										          			</div>
 										          			<div class="form-group col-sm-10">
 												          		<label for="uname" class="control-label">Interest (Savings A/c):</label>
-																<input type="text" floats-only name="savings_interest" ng-model="user.savingAcInc" ng-change="incomeCalculation()" class="form-control" placeholder="Interest (Savings A/c)">		
-										          			</div>  
+																<input type="text" floats-only name="savings_interest" ng-model="user.savingAcInc" ng-change="incomeCalculation()" class="form-control" placeholder="Interest (Savings A/c)">
+										          			</div>
 										          			<div class="form-group col-sm-10">
 												          		<label for="uname" class="control-label">Any other income:</label>
-																<input type="text" floats-only name="house_interest_income" ng-model="user.otherInc" ng-change="incomeCalculation()" class="form-control" placeholder="Any other income">		
-										          			</div>  
+																<input type="text" floats-only name="house_interest_income" ng-model="user.otherInc" ng-change="incomeCalculation()" class="form-control" placeholder="Any other income">
+										          			</div>
 									    				</div>
-													</div>										
+													</div>
 												</div>
 											</div>
 										</div>
@@ -111,7 +111,7 @@
 												<div class="form-group">
 													<label for="lname" class="col-sm-3 control-label">Total:</label>
 													<div class="col-sm-3">
-														<input type="text" ng-model="user.total" class="form-control" readonly>	
+														<input type="text" ng-model="user.total" class="form-control" readonly>
 													</div>
 												</div>
 											</div>
@@ -125,7 +125,7 @@
 		        			</div>
 	        				<div class="tab-pane" id="deduction" ng-class="{'active':active_tab == 'deduction'}">
 			    				<div class="row">
-						        	<div class="col-xs-12">		
+						        	<div class="col-xs-12">
 							       	 	<div class="box box-info">
 											<div class="box-header with-border">
 												        <h3 class="box-title">Section 80 C</h3>
@@ -134,7 +134,7 @@
 												<div class="row">
 													<div class="col-xs-12 col-sm-6 col-md-4">
 						                              	 <label for="uname" class="control-label">Life Insurance Premium:</label>
-														 <input type="text" floats-only name="life_insurance" ng-model="user.lip80C" class="form-control" placeholder="Life Insurance Premium">		 
+														 <input type="text" floats-only name="life_insurance" ng-model="user.lip80C" class="form-control" placeholder="Life Insurance Premium">
 													</div>
 													<div class="col-xs-12 col-sm-6 col-md-4">
 						                                <label for="uname" class="control-label">PPF:</label>
@@ -142,13 +142,13 @@
 													</div>
 													<div class="col-xs-12 col-sm-6 col-md-4">
 										          		<label for="uname" class="control-label">PF:</label>
-														<input type="text" floats-only name="pf" ng-model="user.pf80C" class="form-control" placeholder="PF">				
+														<input type="text" floats-only name="pf" ng-model="user.pf80C" class="form-control" placeholder="PF">
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-xs-12 col-sm-6 col-md-4">
 						                              	<label for="uname" class="control-label">Children’s Tuition Fees:</label>
-														<input type="text" floats-only name="child_tution" ng-model="user.tutionFees80C" class="form-control" placeholder="Children’s Tuition Fees">		 
+														<input type="text" floats-only name="child_tution" ng-model="user.tutionFees80C" class="form-control" placeholder="Children’s Tuition Fees">
 													</div>
 													<div class="col-xs-12 col-sm-6 col-md-4">
 						                                <label for="uname" class="control-label">Mutual Fund:</label>
@@ -156,21 +156,21 @@
 													</div>
 													<div class="col-xs-12 col-sm-6 col-md-4">
 										          		<label for="uname" class="control-label">Senior Citizens Scheme :</label>
-														<input type="text" floats-only name="scss" ng-model="user.senCitizec80C" class="form-control" placeholder="Senior Citizens Savings Scheme ">				
+														<input type="text" floats-only name="scss" ng-model="user.senCitizec80C" class="form-control" placeholder="Senior Citizens Savings Scheme ">
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-xs-12 col-sm-6 col-md-4">
 						                              	<label for="uname" class="control-label">Fixed Deposit (5 Yrs):</label>
-														<input type="text" floats-only name="fixed_deposit" ng-model="user.fd80C" class="form-control" placeholder="Fixed Deposit (5 Yrs)">		 
+														<input type="text" floats-only name="fixed_deposit" ng-model="user.fd80C" class="form-control" placeholder="Fixed Deposit (5 Yrs)">
 													</div>
 													<div class="col-xs-12 col-sm-6 col-md-4">
 						                                <label for="uname" class="control-label">National Pension System:</label>
-														<input type="text" floats-only name="nps" ng-model="user.nps80C" class="form-control" placeholder="National Pension System (NPS)">		
+														<input type="text" floats-only name="nps" ng-model="user.nps80C" class="form-control" placeholder="National Pension System (NPS)">
 													</div>
-													<div class="col-xs-12 col-sm-6 col-md-4">						          			
+													<div class="col-xs-12 col-sm-6 col-md-4">
 										          		<label for="uname" class="control-label">National Savings Certificate:</label>
-														<input type="text" floats-only name="nsc" ng-model="user.nsc80C" class="form-control" placeholder="National Savings Certificate (NSC)">			
+														<input type="text" floats-only name="nsc" ng-model="user.nsc80C" class="form-control" placeholder="National Savings Certificate (NSC)">
 													</div>
 												</div>
 												<div class="row">
@@ -191,7 +191,7 @@
 													<p>TOTAL:</p>
 												</div> -->
 											</div>
-										</div>						
+										</div>
 									</div>
 									<div class="col-xs-6">
 										<div class="box box-info">
@@ -236,8 +236,8 @@
 									</div>
 									<div class="col-xs-12">
 									    <button type="submit" class="btn btn-default"  ng-click="tabChange('income')">Back</button>
-									    <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button>
-							    	</div>	
+									    <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">{{user.isReferalPrompt ? "Submit" : "Next"}}</button>
+							    	</div>
 	          					</div><!--row-->
 	       		 			</div><!--tab Pane-->
       				</div><!--tab content-->
