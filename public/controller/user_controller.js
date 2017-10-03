@@ -11,13 +11,16 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   /*******************************************************/
   /*********FUNCTION IS USED TO GET ROLE LIST*************/
   /*******************************************************/
-  $scope.getRoll = function() {
+  $scope.getRoll = function(isSignup) {
     ApiCall.getRole(function(response){
-      angular.forEach(response.data,function(item){
-        if(item.type == "client"){
-          $scope.user.role = item._id;
-        }
-      })
+      $scope.roles = response.data;
+      if(isSignup){ // in case of signUp , set role as client
+        angular.forEach(response.data,function(item){
+          if(item.type == "client"){
+            $scope.user.role = item._id;
+          }
+        })
+      }
     })
   }
   /*******************************************************/
@@ -34,7 +37,7 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   //     $scope.oldPasswordMisMatch = false;
   //     console.log("equal");
   //   }
-   
+
   // }
   /*******************************************************/
   /*********FUNCTION IS USED TO CHECK PASSOWORD***********/
@@ -68,7 +71,7 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
       if(error.data.statusCode == 500){
         if(error.data.data.errors.email){
           Util.alertMessage('danger',error.data.data.errors.email.message);
-        } 
+        }
         else if( error.data.data.errors.mobile){
           Util.alertMessage('danger',error.data.data.errors.mobile.message);
         }
@@ -137,7 +140,7 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
       var obj = {
         "_id" : $scope.user._id
       }
-   
+
     ApiCall.getUser(obj, function(response){
       console.log(response);
       $scope.userDetails = response.data;

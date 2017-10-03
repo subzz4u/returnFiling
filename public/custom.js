@@ -293,7 +293,7 @@ app.filter('capitalize', function() {
         "getIsRemember" : function() {return this.storagePrefix + "isRemember";},
         "hashKey" : "goAppAccount",
         "envData" : {
-          "env":"prod",
+          "env":"dev",
           "dev" : {
             "basePath" :"http://localhost",
             "appPath"  :"http://localhost",
@@ -1096,13 +1096,16 @@ app.controller('ReferalInfoModalController',["$scope", "$uibModalInstance", "use
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
   }
-  $scope.getRoll = function() {
+  $scope.getRoll = function(isSignup) {
     ApiCall.getRole(function(response){
-      angular.forEach(response.data,function(item){
-        if(item.type == "client"){
-          $scope.user.role = item._id;
-        }
-      })
+      $scope.roles = response.data;
+      if(isSignup){ // in case of signUp , set role as client
+        angular.forEach(response.data,function(item){
+          if(item.type == "client"){
+            $scope.user.role = item._id;
+          }
+        })
+      }
     })
   }
   $scope.checkPassword = function(password, confirmPassword) {
@@ -1131,7 +1134,7 @@ app.controller('ReferalInfoModalController',["$scope", "$uibModalInstance", "use
       if(error.data.statusCode == 500){
         if(error.data.data.errors.email){
           Util.alertMessage('danger',error.data.data.errors.email.message);
-        } 
+        }
         else if( error.data.data.errors.mobile){
           Util.alertMessage('danger',error.data.data.errors.mobile.message);
         }
@@ -1191,7 +1194,7 @@ app.controller('ReferalInfoModalController',["$scope", "$uibModalInstance", "use
       var obj = {
         "_id" : $scope.user._id
       }
-   
+
     ApiCall.getUser(obj, function(response){
       console.log(response);
       $scope.userDetails = response.data;

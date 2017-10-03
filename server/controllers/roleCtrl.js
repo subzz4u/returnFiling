@@ -21,7 +21,7 @@ exports.getRole = function(req,res){
 
   var params = {
     isDelete:false,
-    type:{$in:["aa","consultant","bm"]}
+    //type:{$in:["aa","consultant","bm"]}
   };
   if(req.query._id){
     params['_id'] = req.query._id;
