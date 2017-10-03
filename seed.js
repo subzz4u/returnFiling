@@ -57,7 +57,7 @@ var users = {
   },
 }
 /************************* Category schema ********************/
-var categories = [
+var jobs = [
 	{
 		category : "Accounting",
 		assignment : [
@@ -285,13 +285,13 @@ waterfall([
     if (arg1) // error return
       callback(null, arg1);
     else {
-      models.categoryModel.remove()
+      models.jobModel.remove()
         .then(function(doc) {
           LOG.info("deleted prev data");
-          return models.categoryModel.insertMany(categories);
+          return models.jobModel.insertMany(jobs);
         })
-        .then(function(categories) {
-          LOG.info("category seeded ! ");
+        .then(function(jobs) {
+          LOG.info("jobs seeded ! ");
           callback(null, false);
         })
         .catch(function(err) {

@@ -3,16 +3,16 @@ var path = require('path');
 var router = express.Router();
 var controllers = require("./../controllers/index");
 router.post('/',function(req, res, next) {
-  controllers.categoryCtrl.addRole(req, res);
+  controllers.jobCtrl.addJob(req, res);
 });
 router.get('/', function(req, res, next) {
-  controllers.categoryCtrl.getRole(req, res);
+  controllers.jobCtrl.getJobs(req, res);
 });
 router.put('/', function(req, res, next) {
-  controllers.categoryCtrl.udpateRole(req, res);
+  controllers.jobCtrl.udpateJob(req, res);
 });
 router.delete('/:id', function(req, res, next) {
-  controllers.categoryCtrl.deleteRole(req, res);
+  controllers.jobCtrl.deleteJob(req, res);
 });
 
 module.exports = router;

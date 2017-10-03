@@ -3,4 +3,4 @@ exports.userModel = require("./userModel");
 exports.returnFileModel = require("./returnFileModel");
 exports.referralModel = require("./referralModel");
 exports.templateModel = require("./templateModel");
-exports.categoryModel = require("./categoryModel");
+exports.jobModel = require("./jobModel");

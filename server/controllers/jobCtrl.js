@@ -9,7 +9,7 @@ var models = require("./../models/index");
 var constants = require("./../../config/constants");
 
 exports.addRole = function(req,res){
-  new models.roleModel(req.body).save(function (err) {
+  new models.jobModel(req.body).save(function (err) {
     if(err)
       response.sendResponse(res,500,"error",constants.messages.errors.saveRole,err);
       else {
@@ -17,17 +17,16 @@ exports.addRole = function(req,res){
       }
   })
 }
-exports.getRole = function(req,res){
+exports.getJobs = function(req,res){
 
   var params = {
     isDelete:false,
-    type:{$in:["aa","consultant","bm"]}
   };
   if(req.query._id){
     params['_id'] = req.query._id;
   }
-  models.roleModel.find(params,function(err,data){
-    response.sendResponse(res,200,"success",constants.messages.success.fetchRoles,data);
+  models.jobModel.find(params,function(err,data){
+    response.sendResponse(res,200,"success",constants.messages.success.getData,data);
   })
 }
 exports.udpateRole = function(req,res){
@@ -36,7 +35,7 @@ exports.udpateRole = function(req,res){
   }
   delete req.body['_id'];
   var options = {new:true};
-  models.roleModel.findOneAndUpdate(query, req.body,options).exec()
+  models.jobModel.findOneAndUpdate(query, req.body,options).exec()
   .then(function(data) {
     response.sendResponse(res,200,"success",constants.messages.success.udpateRole,data);
   })
@@ -49,7 +48,7 @@ exports.deleteRole = function(req,res){
     "_id":req.params.id
   }
   delete req.body['_id'];
-  models.roleModel.findOneAndUpdate(query,{"isDelete":true},{"new" :true},function(err,data) {
+  models.jobModel.findOneAndUpdate(query,{"isDelete":true},{"new" :true},function(err,data) {
     if(err)
       response.sendResponse(res,500,"error",constants.messages.errors.deleteRole,err);
     else
