@@ -70,7 +70,7 @@ utility.sendVerificationMail = function(userObj, callback) {
       callback(null, true)
     }
   });
-  
+
 }
 /**
  * functionName :utility.stringify()
@@ -181,6 +181,7 @@ utility.validateNull = function() {
       continue; // skip the req and res object
     if (!args[0][args[2]][args[i]]) {
       return response.sendResponse(args[1], 402, "error", constants.messages.errors.validationError, args[i] + " can not be blank");
+      
     }
 
   }

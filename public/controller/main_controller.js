@@ -12,6 +12,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.signOut = function(){
     delete $localStorage.token;
     $rootScope.is_loggedin = false;
+    UserModel.unsetUser();
     $state.go('login');
   }
 

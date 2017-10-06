@@ -10,5 +10,5 @@ var jobSchema = new mongoose.Schema({
     isDelete          : {type: Boolean, default:false},
 });
 jobSchema.plugin(uniqueValidator, {message: "category already exists"});
-var jobModel = mongoose.model('category', jobSchema);
+var jobModel = mongoose.model('jobs', jobSchema);
 module.exports = jobModel;

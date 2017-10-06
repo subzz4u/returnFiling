@@ -6,6 +6,7 @@ var userRoutes = require('./userRoutes');
 var returnFileRoutes = require('./returnFileRoutes');
 var templateRoutes = require('./templateRoutes');
 var jobRoutes = require('./jobRoutes');
+var jobAssignmentRoutes = require('./jobAssignmentRoutes');
 // var srAuditorRoutes = require('./srAuditorRoutes');
 
 /* GET home page. */
@@ -18,6 +19,7 @@ router.use('/user', userRoutes);
 router.use('/returnFile', returnFileRoutes);
 router.use('/template', templateRoutes);
 router.use('/job', jobRoutes);
+router.use('/jobAssignment', jobAssignmentRoutes);
 // router.use('/srAuditor',srAuditorRoutes);
 
 module.exports = router;
