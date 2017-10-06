@@ -4,6 +4,7 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   $scope.tempPAN = {};
   $scope.active_tab = 'details';
   $scope.userDetails = {};
+  $scope.roles  = [];
 
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
@@ -13,14 +14,24 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   /*******************************************************/
   $scope.getRoll = function(isSignup) {
     ApiCall.getRole(function(response){
-      $scope.roles = response.data;
       if(isSignup){ // in case of signUp , set role as client
         angular.forEach(response.data,function(item){
           if(item.type == "client"){
             $scope.user.role = item._id;
           }
-        })
+        });
       }
+      else{
+        angular.forEach(response.data, function(item){
+          if(item.type == "client" || item.type == "superAdmin"  ){
+          }
+          else{
+             $scope.roles.push(item);
+          }
+        });
+      
+      }
+
     })
   }
   /*******************************************************/
@@ -57,8 +68,6 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
     $rootScope.showPreloader = true;
     ApiCall.postUser($scope.user, function(response){
       $rootScope.showPreloader = false;
-      console.log(response);
-      console.log("its response");
       if(response.statusCode == 200){
         Util.alertMessage('success',"You have successfully register please check your mail");
         $state.go('login');
@@ -67,7 +76,6 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
         Util.alertMessage('danger',"Something went wrong please try again");
       }
     },function(error){
-      console.log(error);
       if(error.data.statusCode == 500){
         if(error.data.data.errors.email){
           Util.alertMessage('danger',error.data.data.errors.email.message);
@@ -77,8 +85,6 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
         }
          $rootScope.showPreloader = false;
       }
-     // Util.alertMessage('danger',error.data.data.errors.username.message);
-     //  $rootScope.showPreloader = false;
     })
   }
 
@@ -110,7 +116,6 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
       $state.go('user-profile',{'user_id':loggedIn_user._id});
     },function(error){
       $rootScope.showPreloader = false;
-      console.log("updateUser  "+error);
     })
   }
   /*******************************************************/

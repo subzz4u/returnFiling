@@ -6,6 +6,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.count = {};
   $scope.users = {};
   $scope.dashboard = {};
+  $scope.referList = {};
   /*******************************************************/
   /*********FUNCTION IS USED TO SIGN OUT PROFILE**********/
   /*******************************************************/
@@ -21,6 +22,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   $scope.getAllUsers = function(){
     ApiCall.getUser(function(response){
+      console.log(response);
       $scope.users.nos = response.data.length;
       $scope.userList = response.data;
       $scope.userData = new NgTableParams;
@@ -74,6 +76,21 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
    })
   }
   /*******************************************************/
+  /******FUNCTION IS USED TO Givr Referral list*******/
+  /*******************************************************/
+  $scope.referralList = function(){
+   ApiCall.getReferralList(function(response){
+    $scope.referList = response.data;
+    $scope.listData = new NgTableParams;
+    $scope.listData.settings({
+      dataset:$scope.referList
+    })
+   },function(error){
+     console.log("error");
+   });
+  }
+  
+  /*******************************************************/
   /*********FUNCTION IS USED TO DELETE USER***************/
   /*******************************************************/
   $scope.userDelete = function(){
@@ -112,6 +129,11 @@ app.controller('daleteUserModalCtrl',function($scope, $uibModalInstance,userDele
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
+    // $scope.task = {};
+    // $scope.ClosingDateLimit  = function(){
+    //   $scope.startDates = $scope.task.startDate;
+    //   console.log($scope.startDates);
+    // }
         $scope.today = function() {
             $scope.dt = new Date();
         };
@@ -128,7 +150,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
          };*/
 
         $scope.toggleMin = function() {
-            $scope.minDate = null; //$scope.minDate = null || new Date();
+            $scope.minDate = $scope.task.startDate; //$scope.minDate = null || new Date();
             $scope.maxDate = new Date();
             $scope.dateMin = null || new Date();
         };

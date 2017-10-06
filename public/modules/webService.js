@@ -85,6 +85,10 @@ angular.module('WebService', [])
       url:"/returnFile/referral",
       method: "GET"
     },
+    getReferralList : {
+      url:"/returnFile/referral",
+      method: "GET"
+    },
     getReturnList : {
       url:"/returnFile",
       method: "GET"
@@ -145,6 +149,22 @@ angular.module('WebService', [])
           'Accept': 'application/json'
       },
     },
+    jobcategoryList:{
+      url:"/job",
+      method: "GET"
+    },
+    postAssignment: {
+      url: "/jobAssignment",
+      method: "POST",
+      "headers": {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+    },
+    getCatList:{
+      url:"/job",
+      method: "GET"
+    },
   }
 })
 .factory('ApiCall', function($http, $resource, API, EnvService,ApiGenerator) {
@@ -168,6 +188,10 @@ angular.module('WebService', [])
     getTemplate: ApiGenerator.getApi('getTemplate'),
     postTemplate: ApiGenerator.getApi('postTemplate'),
     putTemplate: ApiGenerator.getApi('putTemplate'),
+    getReferralList : ApiGenerator.getApi('getReferralList'),
+    jobcategoryList :  ApiGenerator.getApi('jobcategoryList'),
+    postAssignment:  ApiGenerator.getApi('postAssignment'),
+    getCatList:  ApiGenerator.getApi('getCatList'),
   })
 })
 

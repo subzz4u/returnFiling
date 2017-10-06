@@ -76,6 +76,14 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
+  .state('new-user', {
+    templateUrl: 'view/new_user.html',
+    url: '/new-user',
+    controller:'User_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   .state('return-file', {
     templateUrl: 'view/return_file.html',
     url: '/return-file',
@@ -181,6 +189,14 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
     templateUrl: 'view/template.html',
     url: '/template',
     controller:'EmailConfig_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+  .state('referral-list', {
+    templateUrl: 'view/referralList.html',
+    url: '/referral-list',
+    controller:'Main_Controller',
     resolve: {
       loggedout: checkLoggedout
     }

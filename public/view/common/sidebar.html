@@ -21,7 +21,7 @@
           <i class="fa fa-user"></i> <span>Profile</span>
         </a>
       </li>
-      <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details'}" ng-show="checkAdmin()">
+      <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}" ng-show="checkAdmin()">
         <a href="" ui-sref="user-list">
           <i class="fa fa-cogs"></i> <span>User Management</span>
         </a>
@@ -59,10 +59,10 @@
           </a>
           <ul class="treeview-menu">
             <li ng-class="{'active':stateName == 'work-assignment'}">
-              <a href="" ui-sref="work-assignment"><i class="fa fa-circle-o"></i>New Work Assignment</a>
+              <a href="" ui-sref="work-assignment"><i class="fa fa-circle-o"></i>New job Assignment</a>
             </li>
             <li ng-class="{'active':stateName == 'work-assigned'}">
-              <a href="" ui-sref="work-assigned"><i class="fa fa-circle-o"></i>Works Assigned</a>
+              <a href="" ui-sref="work-assigned"><i class="fa fa-circle-o"></i>Jobs Assigned</a>
             </li>
             
           </ul>

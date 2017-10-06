@@ -148,8 +148,8 @@ exports.getUser = function(req, res) {
     userModel.find(params)
       .populate({
         path: 'role',
-        match: {
-          'type': 'client'
+        not: { 
+          'type': 'superAdmin'
         }
       })
       .select('username email role mobile firstname lastname middlename status ')
