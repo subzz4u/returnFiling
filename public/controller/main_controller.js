@@ -89,7 +89,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
      console.log("error");
    });
   }
-  
+
   /*******************************************************/
   /*********FUNCTION IS USED TO DELETE USER***************/
   /*******************************************************/
@@ -150,7 +150,8 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
          };*/
 
         $scope.toggleMin = function() {
-            $scope.minDate = $scope.task.startDate; //$scope.minDate = null || new Date();
+            // $scope.minDate = $scope.task.startDate;
+            $scope.minDate = new Date();
             $scope.maxDate = new Date();
             $scope.dateMin = null || new Date();
         };

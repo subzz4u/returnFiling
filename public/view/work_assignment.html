@@ -18,54 +18,54 @@
 			        			<div class="row">
 			        				<div class="col-xs-6" ng-init="getJobCategoryList()">
 					        			<div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.task_category.$touched && workAssign.task_category.$invalid}">
-											<label for="uname" class="control-label">Category</label>						
+											<label for="uname" class="control-label">Category</label>
 											<select class="form-control" name="task_category" ng-model="task.category" ng-change="getAssignmentList()" required>
 							          			<option value=""><i class="fa fa-sort-desc">select Job category</i></option>
 							          			<option ng-value="categories._id" ng-repeat="categories in categoryList">{{categories.category}}</option>
 							          		</select>
-											<span class="help-block" ng-show="workAssign.task_category.$error.required && workAssign.task_category.$touched">Please select Job category</span>						
+											<span class="help-block" ng-show="workAssign.task_category.$error.required && workAssign.task_category.$touched">Please select Job category</span>
 										</div>
 			        				</div>
 			        				<div class="col-xs-6" >
 			        					<div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.task_name.$touched && workAssign.task_name.$invalid}">
-											<label for="uname" class="control-label">Assignment</label>						
+											<label for="uname" class="control-label">Assignment</label>
 											<select class="form-control" name="task_name" ng-model="task.assignment" required>
 							          			<option value=""><i class="fa fa-sort-desc">Select Assignment</i></option>
 							          			<option ng-value="assignments" ng-repeat="assignments in assignmentList">{{assignments}}</option>
 							          		</select>
-											<span class="help-block" ng-show="workAssign.task_name.$error.required && workAssign.task_name.$touched">Please Select One Assignment </span>						
+											<span class="help-block" ng-show="workAssign.task_name.$error.required && workAssign.task_name.$touched">Please Select One Assignment </span>
 										</div>
 			        				</div>
 			        			</div>
 							    <div class="row">
 			        				<div class="col-xs-6" ng-init="getRoles()">
 					        			<div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.task_role.$touched && workAssign.task_role.$invalid}">
-											<label for="uname" class="control-label">Role</label>						
+											<label for="uname" class="control-label">Role</label>
 											<select class="form-control" name="task_role" ng-model="task.role" ng-change="getUserOfSelectedrole()" required>
 							          			<option value=""><i class="fa fa-sort-desc">Select Assignment role</i></option>
 							          			<option ng-value="role._id" ng-repeat="role in roles">{{role.type}}</option>
 							          		</select>
-											<span class="help-block" ng-show="workAssign.task_role.$error.required && workAssign.task_role.$touched">Please Select a Role</span>						
+											<span class="help-block" ng-show="workAssign.task_role.$error.required && workAssign.task_role.$touched">Please Select a Role</span>
 										</div>
 			        				</div>
 			        				<div class="col-xs-6">
 			        					<div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.task_assigned_to.$touched && workAssign.task_assigned_to.$invalid}">
-											<label for="uname" class="control-label">Assigned To:</label>						
+											<label for="uname" class="control-label">Assigned To:</label>
 											<select class="form-control" name="task_assigned_to" ng-model="task.user" required>
 							          			<option value=""><i class="fa fa-sort-desc">Assigned Employee Name</i></option>
 							          			<option ng-value="users._id" ng-repeat="users in userList">{{users.email}}</option>
 							          		</select>
-											<span class="help-block" ng-show="workAssign.task_assigned_to.$error.required && workAssign.task_assigned_to.$touched">Please Enter an Employee Name </span>						
+											<span class="help-block" ng-show="workAssign.task_assigned_to.$error.required && workAssign.task_assigned_to.$touched">Please Enter an Employee Name </span>
 										</div>
 			        				</div>
-			        			</div>		    
+			        			</div>
 						    	<div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.task_desc.$touched && workAssign.task_desc.$invalid}">
 									<label for="uname" class="control-label">Task Description:</label>
 									<textarea placeholder="Task Description" name="task_desc"  class="form-control" ng-model="task.description" required></textarea>
-									
-									<span class="help-block" ng-show="workAssign.task_desc.$error.required && workAssign.task_desc.$touched">Please enter a valid description</span>				
+
+									<span class="help-block" ng-show="workAssign.task_desc.$error.required && workAssign.task_desc.$touched">Please enter a valid description</span>
 								</div>
-								
+
 								<div class="row">
 									<div class="col-xs-12 col-md-12">
 										<div class="col-xs-6 col-md-6">
@@ -73,20 +73,20 @@
 												<label for="lname" class="control-label">Task Create Date:</label>
 													<input type="text" class="form-control" name="task_create" placeholder="01 Jan, 2017" ng-change="ClosingDateLimit()" ng-model="task.startDate" datepicker-popup="dd MMM, yyyy" datepicker-options="dateOptions"  is-open="opened"  max-date="dt" date-disabled="disabled(date, mode)" ng-click="open1($event)" close-text="Close" ng-required="false"/>
 													<span class="help-block" ng-show="workAssign.task_create.$error.required && workAssign.task_create.$touched">Creation Date is required</span>
-													<span class="help-block" ng-show="workAssign.task_create.touched">Creation Date is required</span>												
+													<span class="help-block" ng-show="workAssign.task_create.touched">Creation Date is required</span>
 											</div>
 										</div>
 										<div class="col-xs-6 col-md-6" ng-init="ClosingDateLimit()">
 											<div class="form-group has-feedback" ng-controller="DatePickerCtrl">
-												<label for="lname" class="control-label">Task Close Date:</label>
-													<input type="text" class="form-control" name="task_close" placeholder="01 Jan, 2017" ng-model="task.closeDate" datepicker-popup="dd MMM, yyyy" datepicker-options="dateOptions"  is-open="opened"  max-date="dt" min-date="startDates" date-disabled="disabled(date, mode)" ng-click="open1($event)" close-text="Close" ng-required="false"/>
-													<span class="help-block" ng-show="workAssign.task_close.$error.required && workAssign.task_close.$touched">Closing Date is required</span>
+												<label for="lname" class="control-label">Task End Date:</label>
+													<input type="text" class="form-control" name="task_close" placeholder="01 Jan, 2017" ng-model="task.endDate" datepicker-popup="dd MMM, yyyy" datepicker-options="dateOptions"  is-open="opened"  max-date="dt" min-date="startDates" date-disabled="disabled(date, mode)" ng-click="open1($event)" close-text="Close" ng-required="false"/>
+													<span class="help-block" ng-show="workAssign.task_close.$error.required && workAssign.task_close.$touched">End Date is required</span>
 											</div>
 										</div>
 									</div>
-								</div>		
+								</div>
 							</div>
-				   		</div> 
+				   		</div>
 					</div>
 				   	<div class="box-footer">
 					 	<button type="submit" class="btn btn-default"  ui-sref="dashboard">Back</button>

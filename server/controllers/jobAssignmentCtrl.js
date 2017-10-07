@@ -11,7 +11,7 @@ var component = require("./../component/index");
 
 exports.addJobAssignment = function(req,res){
   // add validation
-  var result = component.utility.validateNull(req,res,'body',"category","assignment","description","role","user","startDate","endDate","closeDate");
+  var result = component.utility.validateNull(req,res,'body',"category","assignment","description","role","user","startDate","endDate");
   if(result)
   {
     return ; // error response already sent
