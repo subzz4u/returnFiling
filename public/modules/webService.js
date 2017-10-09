@@ -4,6 +4,10 @@ angular.module('WebService', [])
     getRole: {
       "url": "/role/",
       "method": "GET",
+      "headers": {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
     },
     postRole: {
       url: "/role",
@@ -161,9 +165,17 @@ angular.module('WebService', [])
           'Accept': 'application/json'
       },
     },
-    getCatList:{
-      url:"/job",
+    getjobAssignments:{
+      url:"/jobAssignment",
       method: "GET"
+    },
+    updateJobAssignment: {
+        url: "/jobAssignment/",
+        method: "PUT",
+        "headers": {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
     },
   }
 })
@@ -191,7 +203,8 @@ angular.module('WebService', [])
     getReferralList : ApiGenerator.getApi('getReferralList'),
     jobcategoryList :  ApiGenerator.getApi('jobcategoryList'),
     postAssignment:  ApiGenerator.getApi('postAssignment'),
-    getCatList:  ApiGenerator.getApi('getCatList'),
+    getjobAssignments:  ApiGenerator.getApi('getjobAssignments'),
+    updateJobAssignment:  ApiGenerator.getApi('updateJobAssignment'),
   })
 })
 

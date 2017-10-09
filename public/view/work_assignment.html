@@ -21,7 +21,7 @@
 											<label for="uname" class="control-label">Category</label>
 											<select class="form-control" name="task_category" ng-model="task.category" ng-change="getAssignmentList()" required>
 							          			<option value=""><i class="fa fa-sort-desc">select Job category</i></option>
-							          			<option ng-value="categories._id" ng-repeat="categories in categoryList">{{categories.category}}</option>
+							          			<option ng-value="categories.category" ng-repeat="categories in categoryList">{{categories.category}}</option>
 							          		</select>
 											<span class="help-block" ng-show="workAssign.task_category.$error.required && workAssign.task_category.$touched">Please select Job category</span>
 										</div>

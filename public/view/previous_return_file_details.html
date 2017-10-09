@@ -17,7 +17,7 @@
 				</form>
 			</div>
 		</div>
-		<div class="col-xs-4 col-md-4 ">
+		<div class="col-xs-4 col-md-3">
 			<div class="col-xs-12 col-md-8 p-b-10" ng-if="returnDetails.status">
 				<label class="control-label pull-left">Return File Status</label>
 				<input type="text" ng-model="returnDetails.status" class="form-control" readonly>
@@ -40,6 +40,7 @@
 	        		<ul class="nav nav-tabs">
 			        	<li ng-class="{'active':active_tab1 == 'income'}" ><a ng-click="tabChangeDetails('income')" href="" data-toggle="tab"><b>Income Details</b></a></li>
 			          	<li ng-class="{'active':active_tab1 == 'deduction'}"><a href="" ng-click="tabChangeDetails('deduction')" data-toggle="tab"><b>Deduction Under Chapter VIA</b></a></li>
+			          	<li ng-class="{'active':active_tab1 == 'return_details'}" ><a ng-click="tabChangeDetails('return_details')" href="" data-toggle="tab"><b>Return Details</b></a></li>
 			        </ul>
         			<div class="tab-content">
 		          		<div class="tab-pane" id="income" ng-class="{'active':active_tab1 == 'income'}">
@@ -233,6 +234,26 @@
 									        <button type="submit" class="btn btn-default">Back</button>
 									        <!-- <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button> -->
 							    	</div>	
+	          					</div><!--row-->
+	       		 			</div><!--tab Pane-->
+	       		 			<div class="tab-pane" id="return_details" ng-class="{'active':active_tab1 == 'return_details'}">
+			    				<div class="row">
+			    					<div class="col-xs-12 col-md-12">
+										<div class="box box-info">
+											<div class="col-xs-6">											
+											   	<div class="box-body">
+											   		<label for="uname" class="control-label">Return Amount:</label>
+													<input type="text" name="return_amount" ng-model="returnDetails.returnAmount" class="form-control" readonly>
+											   	</div>
+											</div>
+											<div class="col-xs-6">											
+											   	<div class="box-body">
+											   		<label for="uname" class="control-label">Return Date:</label>
+													<input type="text" name="return_date" ng-model="returnDetails.returnDate" class="form-control" readonly>
+											   	</div>
+											</div>
+										</div>
+									</div>
 	          					</div><!--row-->
 	       		 			</div><!--tab Pane-->
       				</div><!--tab content-->

@@ -9,8 +9,8 @@ var jobAssignmentSchema = new mongoose.Schema({
     role       : {type: Schema.Types.ObjectId, ref: 'role',required: true},
     user          : {type: Schema.Types.ObjectId, ref: 'user',required: true},
     startDate          : {type: Date, default: new Date()},
-    endDate          : {type: Boolean},
-    closeDate          : {type: Boolean},
+    endDate            :{type: Date, default:null},
+    closeDate          : {type: Date, default:null},
 
     status            : {type: String,default:"pending"},
     isDelete          : {type: Boolean, default:false},

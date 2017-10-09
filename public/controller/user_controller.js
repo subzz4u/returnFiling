@@ -2,10 +2,12 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   $scope.user = {};
   $scope.tempAdhar = {};
   $scope.tempPAN = {};
-  $scope.active_tab = 'details';
   $scope.userDetails = {};
   $scope.roles  = [];
+  $scope.userList  = [];
+  $scope.clientUserList = {};
 
+  $scope.active_tab = 'details';
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
   }
@@ -157,10 +159,22 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   /*********FUNCTION IS USED TO GET USER LIST*************/
   /*******************************************************/
   $scope.getAllUsers = function(){
+    $scope.isClient = $stateParams.client_role;
     ApiCall.getUser(function(response){
-      console.log(response);
-      $scope.users.nos = response.data.length;
-      $scope.userList = response.data;
+    if($scope.isClient){
+       angular.forEach(response.data, function(item){
+            if(item.role.type == "client"){
+                $scope.userList.push(item);
+               }
+          });
+    }
+    else if(!$scope.isClient){
+      angular.forEach(response.data, function(item){
+            if(item.role.type != "client"){
+                $scope.userList.push(item);
+               }
+          });
+    }
       $scope.userData = new NgTableParams;
       $scope.userData.settings({
         dataset: $scope.userList
@@ -168,24 +182,6 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
       },function(error){
       })
   }
-  // /******************************************************************************/
-  // /*********FUNCTION IS USED TO GET USER DETAILS during update by admin **********/
-  // /******************************************************************************/
-  // $scope.getUserUpdates = function(){
-  //    $scope.user = UserModel.getUser();
-  //   // var loggedIn_user = UserModel.getUser();
-  //   // if(!loggedIn_user){
-  //   //   return;
-  //   // }
-  //   // $stateParams.user_id = loggedIn_user._id;
-  //   var obj = {
-  //     "_id": $stateParams.user_id || UserModel.getUser()._id
-  //   }
-  //   ApiCall.getUser(obj, function(response){
-  //     $scope.user = response.data;
-  //   },function(error){
-
-  //   })
-  // }
+ 
 
 });

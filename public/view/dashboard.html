@@ -7,16 +7,31 @@
 <section class="content">
   <div class="row"  ng-init="getReturnCount()">
     <div class="col-md-5 col-sm-6 col-xs-12">
-        <div class="small-box bg-green"  ng-init="getAllUsers()">
+        <div class="small-box bg-green"  ng-init="getInternalUsers()">
             <div class="inner">
-              <h3>{{users.nos}}</h3>
+              <h3>{{internalCount}}</h3>
 
-              <p>Users Registered</p>
+              <p>Internal Users Registered</p>
             </div>
             <div class="icon">
               <i class="fa fa-file"></i>
             </div>
-            <a href="" ui-sref="user-list" class="small-box-footer">
+            <a href="" ui-sref="user-list({'client_role':false})" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+    </div>
+    <div class="col-md-5 col-sm-6 col-xs-12">
+        <div class="small-box bg-green"  ng-init="getClientUsers()">
+            <div class="inner">
+              <h3>{{clientCount}}</h3>
+
+              <p>Client Users Registered</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-file"></i>
+            </div>
+            <a href="" ui-sref="user-list({'client_role':true})" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>

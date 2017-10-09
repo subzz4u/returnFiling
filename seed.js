@@ -9,7 +9,7 @@ var roles = [{
     "desc": "super Admin",
   },
   {
-    "type": "aa",
+    "type": "Audit $ Accounts",
     "desc": "Audit & Accounts",
   },
   {
@@ -17,7 +17,7 @@ var roles = [{
     "desc": "Consultant",
   },
   {
-    "type": "bm",
+    "type": "Business Manager",
     "desc": "Business Manager",
   },
   {
@@ -177,6 +177,13 @@ var jobs = [
 
 		],
 	}
+  {
+    category : "Return File",
+    assignment : [
+      
+
+    ],
+  }
 
 ]
 waterfall([

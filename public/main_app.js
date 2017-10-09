@@ -72,10 +72,15 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
     templateUrl: 'view/user_list.html',
     url: '/user-list',
     controller:'User_Controller',
+    params:{
+      client_role:null,
+    
+    },
     resolve: {
       loggedout: checkLoggedout
     }
   })
+  
   .state('new-user', {
     templateUrl: 'view/new_user.html',
     url: '/new-user',
@@ -173,6 +178,18 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
+ .state('work-details', {
+    templateUrl: 'view/work_details.html',
+    url: '/work-details',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    },
+     params:{
+      job_id:null,
+    
+    },
+  })
   .state('template', {
     templateUrl: 'view/template.html',
     url: '/template/:_id',
@@ -201,7 +218,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
-
+  
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
     $http.get('/user/loggedin')

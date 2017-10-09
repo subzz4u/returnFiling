@@ -36,22 +36,28 @@ exports.getJobAssignments = function(req,res){
   if(req.query._id){
     params['_id'] = req.query._id;
   }
+  if(req.query.category){
+    params['category'] = req.query.category;
+  }
+  if(req.query.user){
+    params['user'] = req.query.user;
+  }
   models.jobAssignmentModel.find(params,function(err,data){
     response.sendResponse(res,200,"success",constants.messages.success.getData,data);
   })
 }
-exports.udpateRole = function(req,res){
+exports.udpateJobAssignment = function(req,res){
   var query = {
     "_id":req.body._id
   }
   delete req.body['_id'];
   var options = {new:true};
-  models.jobModel.findOneAndUpdate(query, req.body,options).exec()
+  models.jobAssignmentModel.findOneAndUpdate(query, req.body,options).exec()
   .then(function(data) {
-    response.sendResponse(res,200,"success",constants.messages.success.udpateRole,data);
+    response.sendResponse(res,200,"success",constants.messages.success.saveJob,data);
   })
   .catch(function(err) {
-    response.sendResponse(500,"error",constants.messages.error.udpateRole,err);
+    response.sendResponse(500,"error",constants.messages.errors.saveJob,err);
   })
 }
 exports.deleteRole = function(req,res){

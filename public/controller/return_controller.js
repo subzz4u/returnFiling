@@ -13,7 +13,10 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
   }
- 
+  $scope.active_tab1 = 'income';
+  $scope.tabChangeDetails = function(tab){
+    $scope.active_tab1 = tab;
+  }
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
     var loggedIn_user = UserModel.getUser();
@@ -90,7 +93,6 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
    console.log(obj);
     ApiCall.getReturnList(obj, function(response){
-      console.log(response);
       $scope.list = response.data;
       $scope.returnList = new NgTableParams;
       $scope.returnList.settings({
@@ -110,11 +112,8 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       console.log("client login and previous return file details");
       obj.client = loggedin_user._id;
     }
-    console.log(obj);
     ApiCall.getFiscalYear(obj, function(response){
-
-      $scope.yearList = response.data;
-      console.log($scope.yearList);
+    $scope.yearList = response.data;
      // Util.alertMessage('success',"Fiscal year  Successfully");
     },function(error){
 
@@ -125,7 +124,6 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*******************************************************/
   $scope.getItrId = function(){
     ApiCall.getItr(function(response){
-      console.log(response);
       $scope.itrIdList  = response.data;
     },function(error){
 
@@ -135,18 +133,45 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*********FUNCTION IS USED TO CHANGE STATUS OF THE RETURN FILE***********/
   /*******************************************************/
   $scope.changeReturnFileStatus = function(return_id){
-    $scope.user._id = return_id;
+    $scope.user_id = return_id;
     $scope.user.status = "closed";
     if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
       delete $scope.user['fiscalYear'];
     }
+
+   $scope.modalInstance = $uibModal.open({
+      animation : true,
+      templateUrl : 'view/modals/return-file-closing-modal.html',
+      controller : 'ReturnFileClosingModalCtrl',
+      size: 'md',
+      resolve:{
+          userReturnData : function(){
+            return $scope.userReturnData
+          }
+        }
+      
+   })
+
+  
+    // ApiCall.updateReturnFile($scope.user , function(response){
+    // Util.alertMessage('success',"Status Changed Successfully");
+    // var loggedIn_user = UserModel.getUser();
+    //  $state.go('return-file-list');
+    // },function(error){
+    //   Util.alertMessage("Failed");
+    // })
+  }
+  $scope.userReturnData = function(user){
+    $scope.user = user;
+    $scope.user._id = $scope.user_id;
+    $scope.user.status = "closed";
     ApiCall.updateReturnFile($scope.user , function(response){
-    Util.alertMessage('success',"Status Changed Successfully");
-    var loggedIn_user = UserModel.getUser();
-     $state.go('return-file-list');
-    },function(error){
-      Util.alertMessage("Failed");
+     console.log(response);
+      $state.go('return-file-list');
+      },function(error){
+    console.log(error);
     })
+
   }
   $scope.changeStatusProcessing = function(return_id){
     $scope.user._id = return_id;
@@ -188,12 +213,11 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       $scope.user = user;
       $scope.user._id = $scope.failedReturnFileId;
       $scope.user.status = "failed";
-      console.log($scope.user);
       ApiCall.updateReturnFile($scope.user , function(response){
         Util.alertMessage('success',"Transaction Failed");
          $state.go('payment');
         },function(error){
-          Util.alertMessage("Failed");
+          Util.alertMessage('danger',"Failed");
       })
     }
 
@@ -361,14 +385,54 @@ app.controller('FailTransacModalCtrl',function($scope, $state, $uibModalInstance
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
-app.controller('ReferalInfoModalController',function($scope, $uibModalInstance,userData){
+app.controller('ReferalInfoModalController',function($scope, $uibModalInstance,userData,$uibModal,Util){
   userData.isReferalPrompt = true;
   $scope.ok = function () {
     userData.referralEmail = $scope.referralEmail;
     userData.referralMobile = $scope.referralMobile;
     $uibModalInstance.close();
+    // Util.alertMessage('success',"Referral Information Saved Successfully");
+    $scope.modalInstance = $uibModal.open({
+        animation : true,
+        templateUrl : 'view/modals/reference_confirm_modal.html',
+        controller : 'ReferalConfirmModalController',
+        size: 'md',
+      })
   };
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
+});
+
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+app.controller('ReferalConfirmModalController',function($scope, $uibModalInstance){
+  $scope.cancel = function () {
+    $uibModalInstance.close('cancel');
+  };
+});
+
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+/*****************************************************************************************************************/
+app.controller('ReturnFileClosingModalCtrl',function($scope, $uibModalInstance,ApiCall,userReturnData){
+  $scope.user = {};
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+   $scope.close = function(){
+    userReturnData($scope.user);
+    $uibModalInstance.close('cancel');
+   };
+    
+ 
 });

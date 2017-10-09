@@ -8,6 +8,7 @@ var constants = {
   messages:{
     errors:{
       //global
+      "saveJob"   : "save Job Failure",
       "saveData"   :"save Data Error",
       "getData"   :"Get Data Error",
       "updateData"   :"Update Data Error",
@@ -102,6 +103,7 @@ var constants = {
       },
     success:{
       //global
+      "saveJob"   : "save Job Success",
       "saveData"   :"save Data Success",
       "getData"   :"Get Data Success",
       "updateData"   :"Update Data Success",

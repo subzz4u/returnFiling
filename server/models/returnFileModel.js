@@ -45,6 +45,10 @@ var returnFileSchema = new mongoose.Schema({
     failedMessage : {type: String,default:null},
     successMessage  : {type: String,default:null},
 
+     //
+     returnAmount : {type:Number,default:null},
+     returnDate : {type:Date,default:null},
+     fileDate       : {type: Date, default: new Date()},
     // status
     status            : {type: String,enum: constants.returnFileStatus, default:"pending"},
     lastUpdate        :{type:Date , default: new Date()},

@@ -58,7 +58,7 @@
 							<div class="form-group has-feedback" >
 								<label for="pass" class="col-sm-3 control-label">Aadhar:</label>
 								<div class="col-sm-9">
-									<input class="upload l-h-70 pull-left" name="imagee" type="file" file-model fileread="tempAdhar.image" filename="tempAdhar.imageName" required/>
+									<input class="upload l-h-70 pull-left" name="imagee" type="file" file-model fileread="tempAdhar.image" filename="tempAdhar.imageName"/>
 									<img height="70" src="{{user.adhar}}">
 								</div>
 							</div>
@@ -90,7 +90,7 @@
 							<div class="form-group has-feedback" >
 								<label for="pass" class="col-sm-3 control-label">PAN Card:</label>
 								<div class="col-sm-9">
-									<input class="upload l-h-70 pull-left" name="imagee" type="file" file-model fileread="tempPAN.image" filename="tempPAN.imageName" required/>
+									<input class="upload l-h-70 pull-left" name="imagee" type="file" file-model fileread="tempPAN.image" filename="tempPAN.imageName"/>
 									<img height="70" src="{{user.pan}}">
 								</div>
 							</div>
@@ -106,12 +106,12 @@
 	                            <div class="box-body">
 			                        <div class="row">
 			                        	<div class="col-xs-12 col-sm-6 col-md-2" ng-class="{'has-error':update.flat_door_block.$touched && update.flat_door_block.$invalid}">
-                                            <input type="text" class="form-control" placeholder="Flat/Door/Plot No " name="flat_door_block" ng-model="user.plotNo"  ng-pattern="/^[a-zA-Z0-9]{3,20}$/">
+                                            <input type="text" class="form-control" placeholder="Flat/Door/Plot No " name="flat_door_block" ng-model="user.plotNo" >
 											<span class="help-block" ng-show="update.flat_door_block.$error.required && update.flat_door_block.$touched">This Field Can not be empty</span>
 											<span class="help-block" ng-show="update.flat_door_block.$error.pattern && update.flat_door_block.$touched">Enter a valid Plot No.(Only Alphabets and Numerics allowed)</span>
                                         </div>
                                         <div class="col-xs-12 col-sm-6 col-md-2" ng-class="{'has-error':update.road_street.$touched && update.road_street.$invalid}">
-                                            <input type="text" class="form-control" placeholder="Road/Lane/Building" name="road_street" ng-model="user.lane"  ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="Road/Lane/Building" name="road_street" ng-model="user.lane" >
 											<span class="help-block" ng-show="update.road_street.$error.required && update.road_street.$touched">Please Enter this field</span>
 											<span class="help-block" ng-show="update.road_street.$error.pattern && update.road_street.$touched">Enter a valid Lane(Only Alphabets allowed)</span>
                                         </div>
@@ -121,7 +121,7 @@
 											<span class="help-block" ng-show="update.At.$error.pattern && update.At.$touched">Enter a valid At(Only Alphabets allowed)</span>
                                         </div>
                                          <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.Po.$touched && update.Po.$invalid}">
-                                            <input type="text" class="form-control" placeholder="PO" name="Po" ng-model="user.po"  ng-pattern="/^(\D)+$/">
+                                            <input type="text" class="form-control" placeholder="PO" name="Po" ng-model="user.po"  >
 											<span class="help-block" ng-show="update.Po.$error.required && update.Po.$touched">Please Enter This field</span>
 											<span class="help-block" ng-show="update.Po.$error.pattern && update.Po.$touched">Enter a valid At(Only Alphabets allowed)</span>
                                         </div>
@@ -165,27 +165,27 @@
                                 </div>
                                 <div class="box-body">
 								    <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.bank_name.$touched && update.bank_name.$invalid}">
-                                        <input type="text" class="form-control" placeholder="Name of Bank " name="bank_name" ng-model="user.bank" required ng-pattern="/^(\D)+$/">
-										<span class="help-block" ng-show="update.bank_name.$error.required && update.bank_name.$touched">Bank name is required</span>
+                                        <input type="text" class="form-control" placeholder="Name of Bank " name="bank_name" ng-model="user.bank" ng-pattern="/^(\D)+$/">
+										<!-- <span class="help-block" ng-show="update.bank_name.$error.required && update.bank_name.$touched">Bank name is required</span> -->
 										<span class="help-block" ng-show="update.bank_name.$error.pattern && update.bank_name.$touched">Enter a valid bank name(Numeric not allowed)</span>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-md-3" ng-class="{'has-error':update.bank_branch.$touched && update.bank_branch.$invalid}">
-                                      	<input type="text" class="form-control" placeholder="Name of Branch " name="bank_branch" ng-model="user.branch" required ng-pattern="/^(\D)+$/">
-										<span class="help-block" ng-show="update.bank_branch.$error.required && update.bank_branch.$touched">Branch name is required</span>
+                                      	<input type="text" class="form-control" placeholder="Name of Branch " name="bank_branch" ng-model="user.branch" ng-pattern="/^(\D)+$/">
+										<!-- <span class="help-block" ng-show="update.bank_branch.$error.required && update.bank_branch.$touched">Branch name is required</span> -->
 										<span class="help-block" ng-show="update.bank_branch.$error.pattern && update.bank_branch.$touched">Enter a valid branch name(Numeric not allowed)</span>
 									</div>
 							        <div class="col-xs-12 col-sm-6 col-md-2" ng-class="{'has-error':update.comp_bank_acct.$touched && update.comp_bank_acct.$invalid}">
-										<input type="text" class="form-control" placeholder="Acccount type " name="comp_bank_acct" ng-model="user.accType" required ng-pattern="/^(\D)+$/">
-										<span class="help-block" ng-show="update.comp_bank_acct.$error.required && update.comp_bank_acct.$touched">Acccount type is required</span>
+										<input type="text" class="form-control" placeholder="Acccount type " name="comp_bank_acct" ng-model="user.accType"  ng-pattern="/^(\D)+$/">
+										<!-- <span class="help-block" ng-show="update.comp_bank_acct.$error.required && update.comp_bank_acct.$touched">Acccount type is required</span> -->
 										<span class="help-block" ng-show="update.comp_bank_acct.$error.pattern && update.comp_bank_acct.$touched">Enter a valid Account Type(Numeric not allowed)</span>
                                     </div>
 									<div class="col-xs-12 col-sm-6 col-md-2" ng-class="{'has-error':update.comp_bank_accNo.$touched && update.comp_bank_accNo.$invalid}">
-                                        <input type="text" numbers-only class="form-control" placeholder="Acccount No " name="comp_bank_accNo" ng-model="user.accNo" required >
-										<span class="help-block" ng-show="update.comp_bank_accNo.$error.required && update.comp_bank_accNo.$touched">Acccount no is required</span>
+                                        <input type="text" numbers-only class="form-control" placeholder="Acccount No " name="comp_bank_accNo" ng-model="user.accNo" >
+										<!-- <span class="help-block" ng-show="update.comp_bank_accNo.$error.required && update.comp_bank_accNo.$touched">Acccount no is required</span> -->
                                     </div>
 									<div class="col-xs-12 col-sm-6 col-md-2" ng-class="{'has-error':update.comp_bank_ifsc.$touched && update.comp_bank_ifsc.$invalid}">
-                                        <input type="text" class="form-control" placeholder="IFSC " name="comp_bank_ifsc" ng-model="user.ifsc" required ng-pattern="/^[A-Za-z0-9]/">
-                                        <span class="help-block" ng-show="update.comp_bank_ifsc.$error.required && update.comp_bank_ifsc.$touched">IFSC no is required</span>
+                                        <input type="text" class="form-control" placeholder="IFSC " name="comp_bank_ifsc" ng-model="user.ifsc" ng-pattern="/^[A-Za-z0-9]/">
+                                      <!--   <span class="help-block" ng-show="update.comp_bank_ifsc.$error.required && update.comp_bank_ifsc.$touched">IFSC no is required</span> -->
 										<span class="help-block" ng-show="update.comp_bank_ifsc.$error.pattern && update.comp_bank_ifsc.$touched">Enter a valid IFSC Code(Special Characters not allowed)</span>
                                     </div>
                                 </div>

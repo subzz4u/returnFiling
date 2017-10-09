@@ -3,8 +3,6 @@
 /*****************************************************************************************************************/
 app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal,$stateParams,Util,$timeout){
   $scope.userList = {};
-  $scope.count = {};
-  $scope.users = {};
   $scope.dashboard = {};
   $scope.referList = {};
   /*******************************************************/
@@ -20,15 +18,32 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   /*********FUNCTION IS USED TO GET USER LIST*************/
   /*******************************************************/
-  $scope.getAllUsers = function(){
+  $scope.getInternalUsers = function(){
+    $scope.internalCount = 0;
     ApiCall.getUser(function(response){
-      console.log(response);
-      $scope.users.nos = response.data.length;
-      $scope.userList = response.data;
-      $scope.userData = new NgTableParams;
-      $scope.userData.settings({
-        dataset: $scope.userList
+      angular.forEach(response.data, function(item){
+          if(item.role.type == "client"){
+             
+             }
+             else{
+                 $scope.internalCount++;
+             }
+          });
+    
+      },function(error){
       })
+  }
+   /*******************************************************/
+  /*********FUNCTION IS USED TO GET Client USER LIST*************/
+  /*******************************************************/
+  $scope.getClientUsers = function(){
+    $scope.clientCount = 0;
+    ApiCall.getUser( function(response){
+      angular.forEach(response.data, function(item){
+            if(item.role.type == "client"){
+                $scope.clientCount++;
+               }
+          });
       },function(error){
       })
   }
@@ -36,9 +51,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     var obj = {
       count:true
     }
-    console.log("coming"+ " " +obj);
     ApiCall.getReferral(obj,function(response){
-      console.log("response");
       $scope.dashboard.referralCount = response.data;
       },function(error){
         console.log(error);
@@ -57,6 +70,38 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
         $scope.superAdmin = false;
       }
       return  $scope.superAdmin;
+  }
+  /*******************************************************/
+  /*********FUNCTION IS USED TO CHECK CLIENT USER**********/
+  /*******************************************************/
+  $scope.checkClient = function(){
+    $scope.client = false;
+      var loggedIn_user = UserModel.getUser();
+      if(loggedIn_user.role.type == "client"){
+        $scope.client = false;
+      }
+      else{
+        $scope.client = true;
+      }
+      return  $scope.client;
+  }
+  /*******************************************************/
+  /*********FUNCTION IS USED TO CHECK INTERNAL USER**********/
+  /*******************************************************/
+  $scope.checkInternalUser = function(){
+    $scope.internalUser = false;
+      var loggedIn_user = UserModel.getUser();
+      if(loggedIn_user.role.type == "client"){  
+        $scope.internalUser = false;
+      }
+      else if(loggedIn_user.role.type == "superAdmin"){
+        console.log("yeah bro");
+        $scope.internalUser = false;
+      }
+      else{
+        $scope.internalUser = true;
+      }
+      return  $scope.internalUser;
   }
   /*******************************************************/
   /******FUNCTION IS USED TO OPEN DELETE USER MODAL*******/
@@ -108,7 +153,6 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.getReturnCount = function(){
     ApiCall.getcount(function(response){
      $scope.returnFilesCounts = response.data;
-     console.log(response);
     },function(error){
     })
   }

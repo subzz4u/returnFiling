@@ -21,11 +21,21 @@
           <i class="fa fa-user"></i> <span>Profile</span>
         </a>
       </li>
-      <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}" ng-show="checkAdmin()">
+     <!--  <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}" ng-show="checkAdmin()">
         <a href="" ui-sref="user-list">
           <i class="fa fa-cogs"></i> <span>User Management</span>
         </a>
-      </li>
+      </li> -->
+       <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}" ng-show="checkAdmin()" >
+          <a href="">
+            <i class="fa fa-cogs"></i>
+            <span>User Management</span>
+          </a>
+          <ul class="treeview-menu">
+            <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list({'client_role':false})"><i class="fa fa-circle-o"></i>Internal Users</a></li>
+            <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list({'client_role':true})"><i class="fa fa-circle-o"></i> Client Users</a></li>
+          </ul>
+        </li>
       <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file'}" ng-hide="checkAdmin()" >
           <a href="">
             <i class="fa fa-files-o"></i>
@@ -52,13 +62,13 @@
         </a>
       </li>
       
-       <li class="treeview" ng-class="{'active':stateName == 'work-assignment'}" ng-show="checkAdmin()" >
+       <li class="treeview" ng-class="{'active':stateName == 'work-assignment' || stateName == 'work-assigned'}" ng-show="checkClient()">
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>Job Assignment</span>
           </a>
           <ul class="treeview-menu">
-            <li ng-class="{'active':stateName == 'work-assignment'}">
+            <li ng-class="{'active':stateName == 'work-assignment'}" ng-show="checkAdmin()" >
               <a href="" ui-sref="work-assignment"><i class="fa fa-circle-o"></i>New job Assignment</a>
             </li>
             <li ng-class="{'active':stateName == 'work-assigned'}">
@@ -68,7 +78,7 @@
           </ul>
         </li>
       
-       <li class="treeview" ng-class="{'active':stateName == 'change-password'}" ng-hide="checkAdmin()" >
+       <li class="treeview" ng-class="{'active':stateName == 'change-password'}" >
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>User Settings</span>
