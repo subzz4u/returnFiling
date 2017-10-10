@@ -145,13 +145,23 @@ exports.getUser = function(req, res) {
     //   return response.sendResponse(res, 200, "error", constants.messages.errors.getUser, error);
     // })
   } else {
+    // listing service
+    var populateObj = {
+      path : "role"
+    };
+    // if(req.query.userType == "in") // external user - client
+    // {
+    //   populateObj["match"] =  { "type": { "$eq": 'client' } }
+    // }
+    if(!req.query.role && req.query.userType == "in") // internal user - except client
+    {
+      populateObj["match"] =  { "type": { "$ne": 'client' } }
+    }
+    else if(!req.query.role &&  (req.query.userType == "in" || !req.query.userType) ) {
+      populateObj["match"] =  { "type": { "$eq": 'client' } }
+    }
     userModel.find(params)
-      .populate({
-        path: 'role',
-        not: { 
-          'type': 'superAdmin'
-        }
-      })
+      .populate(populateObj)
       .select('username email role mobile firstname lastname middlename status ')
       .then(function(users) {
         users = users.filter(function(user) {

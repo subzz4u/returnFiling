@@ -18,7 +18,7 @@ exports.addReturnFile = function(req, res) {
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
     else {
       // produce itrId key
-      req.body.itrId = client.email + "_" + req.body.fiscalYear;
+      req.body.itrId = getItrId(client.mobile,req.body.fiscalYear,"_");//client.email + "_" + req.body.fiscalYear;
       // saving return files
       new models.returnFileModel(req.body).save(function(err,returnFile) {
         if (err)
@@ -44,6 +44,11 @@ exports.addReturnFile = function(req, res) {
       })
     }
   })
+
+}
+function getItrId(mobile,fiscalYear,separator) {
+	fiscalYear = fiscalYear.split("-");
+	return mobile+separator+fiscalYear[0].substr(2)+separator+fiscalYear[1].substr(2)
 
 }
 exports.getReturnFile = function(req, res) {
