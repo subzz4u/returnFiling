@@ -159,22 +159,11 @@ app.controller("User_Controller",function($scope,$timeout,$rootScope,$state,$loc
   /*********FUNCTION IS USED TO GET USER LIST*************/
   /*******************************************************/
   $scope.getAllUsers = function(){
-    $scope.isClient = $stateParams.client_role;
-    ApiCall.getUser(function(response){
-    if($scope.isClient){
-       angular.forEach(response.data, function(item){
-            if(item.role.type == "client"){
-                $scope.userList.push(item);
-               }
-          });
-    }
-    else if(!$scope.isClient){
-      angular.forEach(response.data, function(item){
-            if(item.role.type != "client"){
-                $scope.userList.push(item);
-               }
-          });
-    }
+   
+    var obj = {};
+    obj.userType = $stateParams.userType;
+    ApiCall.getUser(obj, function(response){
+    $scope.userList = response.data;
       $scope.userData = new NgTableParams;
       $scope.userData.settings({
         dataset: $scope.userList

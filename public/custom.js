@@ -72,11 +72,10 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
   })
   .state('user-list', {
     templateUrl: 'view/user_list.html',
-    url: '/user-list',
+    url: '/user-list/:userType',
     controller:'User_Controller',
     params:{
-      client_role:null,
-    
+      userType:null,
     },
     resolve: {
       loggedout: checkLoggedout
@@ -182,7 +181,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
   })
  .state('work-details', {
     templateUrl: 'view/work_details.html',
-    url: '/work-details',
+    url: '/work-details/:job_id',
     controller:'Work_Assignment_Controller',
     resolve: {
       loggedout: checkLoggedout
@@ -699,17 +698,13 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
     UserModel.unsetUser();
     $state.go('login');
   }
-  $scope.getInternalUsers = function(){
+  $scope.getInternalUsers = function(data){
     $scope.internalCount = 0;
-    ApiCall.getUser(function(response){
-      angular.forEach(response.data, function(item){
-          if(item.role.type == "client"){
-             
-             }
-             else{
-                 $scope.internalCount++;
-             }
-          });
+    var obj = {
+      'userType':data,
+    }
+    ApiCall.getUser(obj, function(response){
+     $scope.internalCount = response.data.length;
     
       },function(error){
       })
@@ -738,7 +733,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user.role.type == "superAdmin"){
+      if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
         $scope.superAdmin = true;
       }
       else{
@@ -749,7 +744,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.checkClient = function(){
     $scope.client = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user.role.type == "client"){
+      if(loggedIn_user && loggedIn_user.role.type == "client"){
         $scope.client = false;
       }
       else{
@@ -763,7 +758,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
       if(loggedIn_user.role.type == "client"){  
         $scope.internalUser = false;
       }
-      else if(loggedIn_user.role.type == "superAdmin"){
+      else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
         console.log("yeah bro");
         $scope.internalUser = false;
       }
@@ -879,7 +874,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   $scope.itrIdList = {};
   $scope.yearList = {};
   $scope.user.fiscalYear = '';
-  $scope.muna = {};
+   $scope.currentReturnFile = {};
   
   $scope.active_tab = 'year';
   $scope.tabChange = function(tab){
@@ -893,7 +888,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     $scope.superAdmin = false;
     var loggedIn_user = UserModel.getUser();
     console.log(loggedIn_user);
-    if(loggedIn_user.role.type == "superAdmin"){
+    if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
     $scope.superAdmin = true;
     }
     else{
@@ -974,7 +969,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     var obj = {
       'client' :  $stateParams.client_id,
     }
-    if($state.current.name == "previous-return-file-details" && loggedin_user.role.type == "client"){
+    if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type == "client"){
       console.log("client login and previous return file details");
       obj.client = loggedin_user._id;
     }
@@ -992,7 +987,8 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     })
   }
   $scope.changeReturnFileStatus = function(return_id){
-    $scope.user_id = return_id;
+    $scope.currentReturnFile = {};
+    $scope.currentReturnFile._id = return_id;
     $scope.user.status = "closed";
     if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
       delete $scope.user['fiscalYear'];
@@ -1011,11 +1007,11 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       
    })
   }
-  $scope.userReturnData = function(user){
-    $scope.user = user;
-    $scope.user._id = $scope.user_id;
-    $scope.user.status = "closed";
-    ApiCall.updateReturnFile($scope.user , function(response){
+  $scope.userReturnData = function(data){
+     $scope.currentReturnFile.returnAmount = data.returnAmount;
+     $scope.currentReturnFile.returnDate = data.returnDate;
+    $scope.currentReturnFile.status = "closed";
+    ApiCall.updateReturnFile($scope.currentReturnFile , function(response){
      console.log(response);
       $state.go('return-file-list');
       },function(error){
@@ -1033,7 +1029,6 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     }
     ApiCall.updateReturnFile($scope.user , function(response){
     Util.alertMessage('success',"Payment Verified Successfully");
-    var loggedIn_user = UserModel.getUser();
      $state.go('payment');
     },function(error){
       Util.alertMessage("Failed");
@@ -1053,7 +1048,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       }
     })
   }
-    $scope.sendFailMessage = function(user){
+    $scope.sendFailMessage = function(data){
       $scope.user = user;
       $scope.user._id = $scope.failedReturnFileId;
       $scope.user.status = "failed";
@@ -1069,7 +1064,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     var obj = {
       fiscalYear:$scope.user.fiscalYear,
     }
-    if (loggedin_user.role.type =="superAdmin")
+    if (loggedin_user && loggedin_user.role.type =="superAdmin")
     {
       obj.client = $stateParams.client_id;
     }
@@ -1169,13 +1164,13 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     });
 
   }
-  $scope.getUserDetails = function(clients_id){
+  $scope.getUserDetails = function(row){
     var obj ={
-       "_id" : clients_id
+       "_id" : row.client
     }
     ApiCall.getUser(obj, function(response){
       console.log(response);
-      $scope.userDetails = response.data;
+      row.userDetails = response.data;
     },function(error){
       console.log("error");
     });
@@ -1372,22 +1367,11 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
  }
   }
   $scope.getAllUsers = function(){
-    $scope.isClient = $stateParams.client_role;
-    ApiCall.getUser(function(response){
-    if($scope.isClient){
-       angular.forEach(response.data, function(item){
-            if(item.role.type == "client"){
-                $scope.userList.push(item);
-               }
-          });
-    }
-    else if(!$scope.isClient){
-      angular.forEach(response.data, function(item){
-            if(item.role.type != "client"){
-                $scope.userList.push(item);
-               }
-          });
-    }
+   
+    var obj = {};
+    obj.userType = $stateParams.userType;
+    ApiCall.getUser(obj, function(response){
+    $scope.userList = response.data;
       $scope.userData = new NgTableParams;
       $scope.userData.settings({
         dataset: $scope.userList
@@ -1466,7 +1450,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
  $scope.getAssignedJobs = function(){
  	var loggedIn_user = UserModel.getUser();
  	var obj = {};
- 	if(loggedIn_user.role.type !== "superAdmin"){
+ 	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin"){
  		 obj.user = loggedIn_user._id;
  	}
  	console.log(obj);
@@ -1481,19 +1465,13 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 
  	});
  }
-  $scope.getUserName = function(user_id){
-  	console.log("one");
+  $scope.getUserName = function(row){
   	var obj = {
-  		'_id' : user_id
+  		'_id' : row.user
   	}
-
-  	console.log(obj);
   	ApiCall.getUser(obj, function(response){
-      $scope.userDetails = response.data;
-      console.log($scope.userDetails);
-
-    },function(error){
-      console.log("error");
+      row.userDetails = response.data;
+	},function(error){
     });
   }
   $scope.getJobDetails= function(){
@@ -1506,7 +1484,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
  			'_id' : $scope.task.role
  		}
  		ApiCall.getRole(obj, function(response){
- 			$scope.task.role = response.data[0].type;
+ 			$scope.roleType = response.data[0].type;
  		},function(error){
 
  		});
@@ -1515,7 +1493,8 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
  		}
  		ApiCall.getUser(obz, function(response){
  			console.log(response);
-	     $scope.task.user = response.data.email;
+	     $scope.userFirstname = response.data.firstname;
+	     $scope.userLastname = response.data.lastname;
 	    },function(error){
 	  });	
  	},function(error){
@@ -1525,7 +1504,8 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
  }
  $scope.updateJobStatus = function(){
  	ApiCall.updateJobAssignment($scope.task, function(response){
- 		console.log(response);
+ 		Util.alertMessage('success',"Status Updated Successfully");
+ 		$state.go('work-assigned');
  	},function(error){
 
  	});

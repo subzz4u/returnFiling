@@ -18,17 +18,13 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   /*********FUNCTION IS USED TO GET USER LIST*************/
   /*******************************************************/
-  $scope.getInternalUsers = function(){
+  $scope.getInternalUsers = function(data){
     $scope.internalCount = 0;
-    ApiCall.getUser(function(response){
-      angular.forEach(response.data, function(item){
-          if(item.role.type == "client"){
-             
-             }
-             else{
-                 $scope.internalCount++;
-             }
-          });
+    var obj = {
+      'userType':data,
+    }
+    ApiCall.getUser(obj, function(response){
+     $scope.internalCount = response.data.length;
     
       },function(error){
       })
@@ -63,7 +59,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user.role.type == "superAdmin"){
+      if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
         $scope.superAdmin = true;
       }
       else{
@@ -77,7 +73,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.checkClient = function(){
     $scope.client = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user.role.type == "client"){
+      if(loggedIn_user && loggedIn_user.role.type == "client"){
         $scope.client = false;
       }
       else{
@@ -94,7 +90,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
       if(loggedIn_user.role.type == "client"){  
         $scope.internalUser = false;
       }
-      else if(loggedIn_user.role.type == "superAdmin"){
+      else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
         console.log("yeah bro");
         $scope.internalUser = false;
       }

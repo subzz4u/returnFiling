@@ -32,11 +32,11 @@
             <span>User Management</span>
           </a>
           <ul class="treeview-menu">
-            <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list({'client_role':false})"><i class="fa fa-circle-o"></i>Internal Users</a></li>
-            <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list({'client_role':true})"><i class="fa fa-circle-o"></i> Client Users</a></li>
+            <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list({'userType':'in'})"><i class="fa fa-circle-o"></i>Internal Users</a></li>
+            <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list"><i class="fa fa-circle-o"></i> Client Users</a></li>
           </ul>
         </li>
-      <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file'}" ng-hide="checkAdmin()" >
+      <li class="treeview" ng-class="{'active':stateName == 'return-file-details' || stateName == 'return-file' || stateName == 'previous-return-file-details'}" ng-hide="checkAdmin()" >
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>Return Files</span>

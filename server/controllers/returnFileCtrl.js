@@ -175,7 +175,7 @@ exports.udpateReturnFile = function(req, res) {
       return response.sendResponse(res, 200, "success", constants.messages.success.saveData, data);
     })
     .catch(function(err) {
-      return response.sendResponse(500, "error", constants.messages.error.saveData, err);
+      return response.sendResponse(500, "error", constants.messages.errors.saveData, err);
     })
 }
 exports.deleteReturnFile = function(req, res) {

@@ -66,7 +66,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
  $scope.getAssignedJobs = function(){
  	var loggedIn_user = UserModel.getUser();
  	var obj = {};
- 	if(loggedIn_user.role.type !== "superAdmin"){
+ 	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin"){
  		 obj.user = loggedIn_user._id;
  	}
  	console.log(obj);
@@ -81,19 +81,13 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 
  	});
  }
-  $scope.getUserName = function(user_id){
-  	console.log("one");
+  $scope.getUserName = function(row){
   	var obj = {
-  		'_id' : user_id
+  		'_id' : row.user
   	}
-
-  	console.log(obj);
   	ApiCall.getUser(obj, function(response){
-      $scope.userDetails = response.data;
-      console.log($scope.userDetails);
-
-    },function(error){
-      console.log("error");
+      row.userDetails = response.data;
+	},function(error){
     });
   }
   $scope.getJobDetails= function(){
@@ -106,7 +100,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
  			'_id' : $scope.task.role
  		}
  		ApiCall.getRole(obj, function(response){
- 			$scope.task.role = response.data[0].type;
+ 			$scope.roleType = response.data[0].type;
  		},function(error){
 
  		});
@@ -115,7 +109,8 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
  		}
  		ApiCall.getUser(obz, function(response){
  			console.log(response);
-	     $scope.task.user = response.data.email;
+	     $scope.userFirstname = response.data.firstname;
+	     $scope.userLastname = response.data.lastname;
 	    },function(error){
 	  });	
  	},function(error){
@@ -125,7 +120,8 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
  }
  $scope.updateJobStatus = function(){
  	ApiCall.updateJobAssignment($scope.task, function(response){
- 		console.log(response);
+ 		Util.alertMessage('success',"Status Updated Successfully");
+ 		$state.go('work-assigned');
  	},function(error){
 
  	});

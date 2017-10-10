@@ -7,7 +7,7 @@
 <section class="content">
   <div class="row"  ng-init="getReturnCount()">
     <div class="col-md-5 col-sm-6 col-xs-12">
-        <div class="small-box bg-green"  ng-init="getInternalUsers()">
+        <div class="small-box bg-green"  ng-init="getInternalUsers('in')">
             <div class="inner">
               <h3>{{internalCount}}</h3>
 
@@ -16,7 +16,7 @@
             <div class="icon">
               <i class="fa fa-file"></i>
             </div>
-            <a href="" ui-sref="user-list({'client_role':false})" class="small-box-footer">
+            <a href="" ui-sref="user-list({'userType':'in'})" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -31,7 +31,7 @@
             <div class="icon">
               <i class="fa fa-file"></i>
             </div>
-            <a href="" ui-sref="user-list({'client_role':true})" class="small-box-footer">
+            <a href="" ui-sref="user-list" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>

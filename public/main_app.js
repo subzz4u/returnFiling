@@ -70,11 +70,10 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   })
   .state('user-list', {
     templateUrl: 'view/user_list.html',
-    url: '/user-list',
+    url: '/user-list/:userType',
     controller:'User_Controller',
     params:{
-      client_role:null,
-    
+      userType:null,
     },
     resolve: {
       loggedout: checkLoggedout
@@ -180,7 +179,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   })
  .state('work-details', {
     templateUrl: 'view/work_details.html',
-    url: '/work-details',
+    url: '/work-details/:job_id',
     controller:'Work_Assignment_Controller',
     resolve: {
       loggedout: checkLoggedout

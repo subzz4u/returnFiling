@@ -57,7 +57,7 @@ exports.udpateJobAssignment = function(req,res){
     response.sendResponse(res,200,"success",constants.messages.success.saveJob,data);
   })
   .catch(function(err) {
-    response.sendResponse(500,"error",constants.messages.errors.saveJob,err);
+    response.sendResponse(res,500,"error",constants.messages.errors.saveJob,err);
   })
 }
 exports.deleteRole = function(req,res){

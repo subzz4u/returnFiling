@@ -15,7 +15,7 @@
                 <td data-title="'Sl No'">{{ $index + 1}}</td>
                <td data-title="'category'" sortable="'user_category'">{{row.category}}</td>
                 <td data-title="'Assignment'" sortable="'assignment'">{{row.assignment}}</td>
-                <td data-title="'User Name'" ng-init="getUserName(row.user)">{{userDetails.firstname}} {{userDetails.lastname}}</td>
+                <td data-title="'User Name'" ng-init="getUserName(row)">{{row.userDetails.firstname}} {{row.userDetails.lastname}}</td>
                  <td data-title="'Status'" sortable="'user_status'">{{row.status}}</td>
                 <td data-title="'Action'">
                   <div class="btn-group">
@@ -41,7 +41,7 @@
                 <td data-title="'Sl No'">{{ $index + 1}}</td>
                <td data-title="'category'" sortable="'user_category'">{{row.category}}</td>
                 <td data-title="'Assignment'" sortable="'assignment'">{{row.assignment}}</td>
-                <td data-title="'User Name'" ng-init="getUserName(row.user)">{{userDetails.firstname}} {{userDetails.lastname}}</td>
+                <td data-title="'User Name'" ng-init="getUserName(row)">{{row.userDetails.firstname}} {{row.userDetails.lastname}}</td>
                  <td data-title="'Status'" sortable="'user_status'">{{row.status}}</td>
                 <td data-title="'Action'">
                   <div class="btn-group">

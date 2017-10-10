@@ -7,7 +7,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.itrIdList = {};
   $scope.yearList = {};
   $scope.user.fiscalYear = '';
-  $scope.muna = {};
+   $scope.currentReturnFile = {};
   
   $scope.active_tab = 'year';
   $scope.tabChange = function(tab){
@@ -21,7 +21,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     $scope.superAdmin = false;
     var loggedIn_user = UserModel.getUser();
     console.log(loggedIn_user);
-    if(loggedIn_user.role.type == "superAdmin"){
+    if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
     $scope.superAdmin = true;
     }
     else{
@@ -108,7 +108,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     var obj = {
       'client' :  $stateParams.client_id,
     }
-    if($state.current.name == "previous-return-file-details" && loggedin_user.role.type == "client"){
+    if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type == "client"){
       console.log("client login and previous return file details");
       obj.client = loggedin_user._id;
     }
@@ -133,7 +133,8 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*********FUNCTION IS USED TO CHANGE STATUS OF THE RETURN FILE***********/
   /*******************************************************/
   $scope.changeReturnFileStatus = function(return_id){
-    $scope.user_id = return_id;
+    $scope.currentReturnFile = {};
+    $scope.currentReturnFile._id = return_id;
     $scope.user.status = "closed";
     if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
       delete $scope.user['fiscalYear'];
@@ -161,11 +162,13 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     //   Util.alertMessage("Failed");
     // })
   }
-  $scope.userReturnData = function(user){
-    $scope.user = user;
-    $scope.user._id = $scope.user_id;
-    $scope.user.status = "closed";
-    ApiCall.updateReturnFile($scope.user , function(response){
+  $scope.userReturnData = function(data){
+     $scope.currentReturnFile.returnAmount = data.returnAmount;
+     $scope.currentReturnFile.returnDate = data.returnDate;
+    // $scope.user = user;
+    // $scope.user._id = $scope.user_id;
+    $scope.currentReturnFile.status = "closed";
+    ApiCall.updateReturnFile($scope.currentReturnFile , function(response){
      console.log(response);
       $state.go('return-file-list');
       },function(error){
@@ -183,7 +186,6 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     }
     ApiCall.updateReturnFile($scope.user , function(response){
     Util.alertMessage('success',"Payment Verified Successfully");
-    var loggedIn_user = UserModel.getUser();
      $state.go('payment');
     },function(error){
       Util.alertMessage("Failed");
@@ -209,7 +211,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 /*******************************************************/
   /*********FUNCTION IS USED TO Fail a Transaction***********/
   /*******************************************************/
-    $scope.sendFailMessage = function(user){
+    $scope.sendFailMessage = function(data){
       $scope.user = user;
       $scope.user._id = $scope.failedReturnFileId;
       $scope.user.status = "failed";
@@ -230,7 +232,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     var obj = {
       fiscalYear:$scope.user.fiscalYear,
     }
-    if (loggedin_user.role.type =="superAdmin")
+    if (loggedin_user && loggedin_user.role.type =="superAdmin")
     {
       obj.client = $stateParams.client_id;
     }
@@ -336,13 +338,13 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     });
 
   }
-  $scope.getUserDetails = function(clients_id){
+  $scope.getUserDetails = function(row){
     var obj ={
-       "_id" : clients_id
+       "_id" : row.client
     }
     ApiCall.getUser(obj, function(response){
       console.log(response);
-      $scope.userDetails = response.data;
+      row.userDetails = response.data;
     },function(error){
       console.log("error");
     });
