@@ -21,5 +21,5 @@
     "logPath":"./logs/server.log",
     "uploadPath":"./public/upload"
   },
-  "env" : "dev"
+  "env" : "prod"
 }

@@ -1,6 +1,7 @@
 var constants = require('./../../config/constants');
 var response = require("./../component/response");
 var LOG = require('./../component/LOG');
+var models = require('./../models/index');
 
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -15,31 +16,35 @@ utility.isEmpty = function(data) {
   }
 }
 utility.sendVerificationMail = function(userObj, callback) {
-  var transporter = nodemailer.createTransport("SMTP", {
-    service: "Gmail",
-    auth: {
-      user: constants.gmailSMTPCredentials.username,
-      pass: constants.gmailSMTPCredentials.password
-    }
-    // host: 'smtp.goappssolutions.com',
-    // port: 587,
-    // secure: false, // upgrade later with STARTTLS
-    // auth: {
-    //     user: 'rajendra',
-    //     pass: 'infy@123'
-    // }
-  });
+  // var transporter = nodemailer.createTransport("SMTP", {
+  //   service: "Gmail",
+  //   auth: {
+  //     user: constants.gmailSMTPCredentials.username,
+  //     pass: constants.gmailSMTPCredentials.password
+  //   }
+  //   // host: 'smtp.goappssolutions.com',
+  //   // port: 587,
+  //   // secure: false, // upgrade later with STARTTLS
+  //   // auth: {
+  //   //     user: 'rajendra',
+  //   //     pass: 'infy@123'
+  //   // }
+  // });
   // transporter = nodemailer.createTransport({
   //   SES: new aws.SES({
   //     apiVersion: '2010-12-01'
   //   })
   // });
-  transporter = nodemailer.createTransport("SES", {
-    AWSAccessKeyID: "AKIAIYBJ5Z45D2OFLVRQ",
-    AWSSecretKey: "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",
-    SeviceUrl: "http://ec2-52-23-158-141.compute-1.amazonaws.com"
-  });
-  transporter = nodemailer.createTransport("SMTP", {
+
+
+  // var transporter = nodemailer.createTransport("SES", {
+  //   AWSAccessKeyID: "AKIAIYBJ5Z45D2OFLVRQ",
+  //   AWSSecretKey: "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",
+  //   SeviceUrl: "http://ec2-52-23-158-141.compute-1.amazonaws.com"
+  // });
+
+
+  var transporter = nodemailer.createTransport("SMTP", {
     host: "email-smtp.us-east-1.amazonaws.com",
     secureConnection: true,
     port: 465,
@@ -48,28 +53,40 @@ utility.sendVerificationMail = function(userObj, callback) {
       pass: "AlwqDZB59eCXQvpSZ44gsuVkTCfo3s/5yLL7I+6CnO9d"
     }
   });
-  // udpate data as per the user input
-  var mailOptions = {
-    from: constants.gmailSMTPCredentials.mailUsername + "<" + constants.gmailSMTPCredentials.verificationMail + ">",
-    // to: userObj.email,
-    transport: transporter,
-    to: userObj.email,
-    subject: constants.mailFormat[userObj.type].subject,
-    text: constants.mailFormat[userObj.type].content
-      .replace("{{name}}", userObj.name)
-      .replace("{{link}}", constants.mailFormat[userObj.type].link)
-  }
-  LOG.info(JSON.stringify(mailOptions));
-  // verify connection configuration
-  nodemailer.sendMail(mailOptions, function(err, res) {
-    if (err) {
-      console.log("Message sent: Error" + err.message);
-      callback(err, null)
-    } else {
-      console.log("Message sent: " + res);
-      callback(null, true)
+
+  // getting template details
+  models.templateModel.findOne({type:userObj.templateType}).exec()
+  .then(function(template) {
+    // udpate data as per the user input
+    var mailOptions = {
+      from: constants.gmailSMTPCredentials.mailUsername + "<" + constants.gmailSMTPCredentials.verificationMail + ">",
+      // to: userObj.email,
+      transport: transporter,
+      to: userObj.email,
+      subject: template.header,
+      text: template.htmlcontent
+        .replace(/{{name}}/g, userObj.name)
+        .replace(/{{email}}/g, userObj.email)
+        .replace(/{{password}}/g, userObj.password)
+        .replace(/{{mobile}}/g, userObj.mobile)
+        .replace(/{{company}}/g, userObj.company)
     }
-  });
+    LOG.info(JSON.stringify(mailOptions));
+    // verify connection configuration
+    nodemailer.sendMail(mailOptions, function(err, res) {
+      if (err) {
+        console.log("Message sent: Error" + err.message);
+        callback(err, null)
+      } else {
+        console.log("Message sent: " + res);
+        callback(null, true)
+      }
+    });
+  })
+  .catch(function(err) {
+    LOG.error("Error in sending mail ",err)
+  })
+
 
 }
 /**
@@ -181,7 +198,7 @@ utility.validateNull = function() {
       continue; // skip the req and res object
     if (!args[0][args[2]][args[i]]) {
       return response.sendResponse(args[1], 402, "error", constants.messages.errors.validationError, args[i] + " can not be blank");
-      
+
     }
 
   }

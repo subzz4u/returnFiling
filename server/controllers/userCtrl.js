@@ -81,6 +81,7 @@ exports.addUser = function(req, res) {
   ) {
     return response.sendResponse(res, 400, "error", constants.statusCode['400']);
   }
+  var rawPassword = req.body.password;
   models.roleModel.findById(req.body.role)
     .then(function(role) {
       console.log(role + ">>>>>");
@@ -98,9 +99,12 @@ exports.addUser = function(req, res) {
              response.sendResponse(res, 200, "success", constants.messages.success.saveUser);
             // sending email verification
             var data = {
-              type: "signUp",
+              templateType: "new_user",
               email: user.email,
-              name: user.username,
+              mobile: user.mobile,
+              name: user.firstName && user.lastName ? user.firstName + " "+ user.lastName : user.email.split("@")[0],
+              company: constants.companyDetails.name,
+              password : rawPassword
             }
             utility.sendVerificationMail(data, function(err, success) {
               if (err) {

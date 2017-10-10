@@ -5,6 +5,9 @@ var constants = {
   },
   returnFileStatus:["pending","processing","closed","failed"],
   tranVerification:["pending","closed"],
+  companyDetails:{
+    name :"GoApps"
+  },
   messages:{
     errors:{
       //global

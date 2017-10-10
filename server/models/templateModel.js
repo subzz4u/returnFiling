@@ -3,7 +3,8 @@ var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 var constants = require("./../../config/constants")
 var templateSchema = new mongoose.Schema({
-    header              : {type: String,unique:true},
+    type              : {type: String,unique:true},
+    header              : {type: String},
     htmlcontent              :{type: String},
     // caFirm:           {type: Schema.Types.ObjectId, ref: 'user',default:null},
     createdDate       : {type: Date, default: new Date()},
