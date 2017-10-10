@@ -41,7 +41,7 @@ exports.udpateRole = function(req,res){
     response.sendResponse(res,200,"success",constants.messages.success.udpateRole,data);
   })
   .catch(function(err) {
-    response.sendResponse(500,"error",constants.messages.error.udpateRole,err);
+    response.sendResponse(res, 500,"error",constants.messages.error.udpateRole,err);
   })
 }
 exports.deleteRole = function(req,res){

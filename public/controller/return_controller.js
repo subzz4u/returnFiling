@@ -1,6 +1,6 @@
 app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,$stateParams,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel,$uibModal){
   $scope.user = {};
-
+  $scope.failTransaction = {};
   $scope.user.isReferalPrompt = false;
   $scope.active_tab1 = 'income';
   $scope.list  = {};
@@ -123,7 +123,11 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*********FUNCTION IS USED TO GET ITR ID LIST***********/
   /*******************************************************/
   $scope.getItrId = function(){
-    ApiCall.getItr(function(response){
+    var loggedin_user = UserModel.getUser();
+    var obj = {
+      'client' : loggedin_user._id,
+    }
+    ApiCall.getItr(obj, function(response){
       $scope.itrIdList  = response.data;
     },function(error){
 
@@ -194,8 +198,8 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*******************************************************/
   /*********FUNCTION IS USED TO Open a Fail Transaction modal***********/
   /*******************************************************/
-  $scope.failTransaction = function(return_id){
-    $scope.failedReturnFileId = return_id;
+  $scope.failTransaction = function(return_data){
+    $scope.failedReturnFileId = return_data._id;
     $scope.modalInstance = $uibModal.open({
       animation : true,
       templateUrl : 'view/modals/fail-transaction-modal.html',
@@ -212,11 +216,11 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*********FUNCTION IS USED TO Fail a Transaction***********/
   /*******************************************************/
     $scope.sendFailMessage = function(data){
-      $scope.user = user;
-      $scope.user._id = $scope.failedReturnFileId;
-      $scope.user.status = "failed";
-      ApiCall.updateReturnFile($scope.user , function(response){
-        Util.alertMessage('success',"Transaction Failed");
+      $scope.returnFileToFail = data;
+      $scope.returnFileToFail._id = $scope.failedReturnFileId;
+      $scope.returnFileToFail.status = "failed";
+      ApiCall.updateReturnFile($scope.returnFileToFail , function(response){
+        Util.alertMessage('success',"Transaction Status Successfully Changed To 'Failed' ");
          $state.go('payment');
         },function(error){
           Util.alertMessage('danger',"Failed");
@@ -375,9 +379,10 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 /*****************************************************************************************************************/
 /*****************************************************************************************************************/
 app.controller('FailTransacModalCtrl',function($scope, $state, $uibModalInstance,sendFailMessage){
-  $scope.user = {};
+  $scope.failTransaction = {};
+
   $scope.fail = function () {
-    sendFailMessage($scope.user);
+    sendFailMessage($scope.failTransaction);
     $uibModalInstance.close();
   };
   $scope.cancel = function () {

@@ -92,6 +92,9 @@ exports.getItr = function(req, res) {
   {
     params['client'] = req.user._doc._id;
   }
+  if (req.query.client) {
+    params['client'] = req.query.client;
+  }
   // else {
   //   return response.sendResponse(res, 401, "error", constants.messages.errors.invalidUser);
   // }
@@ -165,7 +168,8 @@ exports.getReturnFileCounts = function(req, res) {
 exports.udpateReturnFile = function(req, res) {
   var query = {
     "_id": req.body._id
-  }
+  } 
+
   delete req.body['_id'];
   var options = {
     new: true
@@ -175,7 +179,7 @@ exports.udpateReturnFile = function(req, res) {
       return response.sendResponse(res, 200, "success", constants.messages.success.saveData, data);
     })
     .catch(function(err) {
-      return response.sendResponse(500, "error", constants.messages.errors.saveData, err);
+      return response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
     })
 }
 exports.deleteReturnFile = function(req, res) {

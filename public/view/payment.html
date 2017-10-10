@@ -69,7 +69,7 @@
 				                    <td data-title="'Payment Verification'">              
 				                    	<button type="button" class="btn btn-info col-md-6 col-xs-6"  ng-disabled="checkStatus(row.status,row.tranId,row.tranAmt)" ng-click="changeStatusProcessing(row._id)" >Received
                    					    </button>
-                   					    <button type="button" class="btn btn-info col-xs-6 col-md-6"  ng-disabled="checkPending(row.status)" ng-click="failTransaction(row._id)" >Failed
+                   					    <button type="button" class="btn btn-info col-xs-6 col-md-6"  ng-disabled="checkPending(row.status)" ng-click="failTransaction(row)" >Failed
                    					    </button>
 				                    </td>
 				                </tr>
