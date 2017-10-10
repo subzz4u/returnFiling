@@ -157,9 +157,13 @@ exports.getUser = function(req, res) {
     {
       populateObj["match"] =  { "type": { "$ne": 'client' } }
     }
-    else if(!req.query.role &&  (req.query.userType == "in" || !req.query.userType) ) {
+     else if(!req.query.role && req.query.userType == "clients") // client user
+    {
       populateObj["match"] =  { "type": { "$eq": 'client' } }
     }
+    // else if(!req.query.role &&  (req.query.userType == "in" || !req.query.userType) ) {
+    //   populateObj["match"] =  { "type": { "$eq": 'client' } }
+    // }
     userModel.find(params)
       .populate(populateObj)
       .select('username email role mobile firstname lastname middlename status ')
