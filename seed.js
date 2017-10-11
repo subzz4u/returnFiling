@@ -9,7 +9,7 @@ var roles = [{
     "desc": "super Admin",
   },
   {
-    "type": "Audit $ Accounts",
+    "type": "aa",
     "desc": "Audit & Accounts",
   },
   {
@@ -17,7 +17,7 @@ var roles = [{
     "desc": "Consultant",
   },
   {
-    "type": "Business Manager",
+    "type": "bm",
     "desc": "Business Manager",
   },
   {
@@ -176,12 +176,12 @@ var jobs = [
 			"Tax consulting"
 
 		],
-	}
+	},
   {
     category : "Return File",
     assignment : [
-      
-
+      "pending",
+      "processing"
     ],
   }
 
