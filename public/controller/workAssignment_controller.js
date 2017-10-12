@@ -8,6 +8,9 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 	$scope.jobAssignmentList = {};
 	$scope.jobDetails = {};
 	$scope.userDetails = {};
+	/*******************************************************/
+  /*********FUNCTION IS USED TO GIVE JOB CATEGORY LIST***********/
+  /*******************************************************/
 	$scope.getJobCategoryList = function(){
 		ApiCall.jobcategoryList(function(response){
 			$scope.categoryList = response.data;
@@ -16,6 +19,9 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 		});
 
 	}
+	/*******************************************************/
+  /*********FUNCTION IS USED TO GIVE aSSIGNMENT LIST UNDER SELECTED CATEGORY**********/
+  /*******************************************************/
 	$scope.getAssignmentList = function(){
 		var obj = {
 			'category': $scope.task.category,
@@ -33,7 +39,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 	$scope.showRetunFile = function() {
 		console.log('$scope.task.assignment' ,$scope.task.assignment);
 		console.log('$scope.task.category' ,$scope.task.category);
-		if($scope.task.assignment == "pending" && $scope.task.category == "Return File") {
+		if(($scope.task.assignment == "pending" || $scope.task.assignment == "processing" ) && $scope.task.category == "Return File") {
 			$scope.task.showReturnFile = true;
 		}
 		else {
@@ -50,6 +56,9 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
       console.error(error);
     })
 	}
+	/*******************************************************/
+  /*********FUNCTION IS USED TO GET THE ROLES OF INTERNAL USER***********/
+  /*******************************************************/
 	$scope.getRoles = function(){
 		ApiCall.getRole(function(response){
 			angular.forEach(response.data, function(item){
@@ -63,6 +72,9 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 			console.error(error);
 	});
   }
+  /*******************************************************/
+  /*********FUNCTION IS USED TO GIVE INTERNAL USERS OF SELECTED ROLE***********/
+  /*******************************************************/
   $scope.getUserOfSelectedrole = function(){
       var obj = {
         "role" : $scope.task.role
@@ -72,7 +84,29 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
     },function(error){
   });
  }
-
+ /*******************************************************/
+  /*********FUNCTION IS USED TO CHECK AN INTERNAL USER ***********/
+  /*******************************************************/
+$scope.checkInternalUser = function(){
+    $scope.internalUser = false;
+      var loggedIn_user = UserModel.getUser();
+      if(loggedIn_user && loggedIn_user.role.type == "client"){  
+      	console.log("client");
+        $scope.internalUser = false;
+      }
+      else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
+        console.log("yeah bro superAdmin");
+        $scope.internalUser = false;
+      }
+      else{
+      	console.log("internal  inside work controller");
+        $scope.internalUser = true;
+      }
+      return  $scope.internalUser;
+  }
+  /*******************************************************/
+  /*********FUNCTION IS USED TO Assign a job***********/
+  /*******************************************************/
  $scope.workAssignConfirm = function(){
  	$rootScope.showPreloader = true;
  	ApiCall.postAssignment($scope.task, function(response){
@@ -83,20 +117,42 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 
  	});
  }
+ /*******************************************************/
+  /*********FUNCTION IS USED TO GIVE ASSIGNED JOB LIST ***********/
+  /*******************************************************/
  $scope.getAssignedJobs = function(){
+  $scope.pendingJobs = [];
+  $scope.processJobs = [];
+  $scope.completedJobs = [];
  	var loggedIn_user = UserModel.getUser();
  	var obj = {};
  	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin"){
  		 obj.user = loggedIn_user._id;
  	}
- 	console.log(obj);
- 	ApiCall.getjobAssignments(obj, function(response){
- 		console.log(response);
+ 	ApiCall.getjobAssignments(obj, function(response){	
+    console.log(response);
  		$scope.jobAssignmentList = response.data;
  		$scope.jobData = new NgTableParams;
  		$scope.jobData.settings({
  			dataset:$scope.jobAssignmentList
  		})
+    $scope.pendingJobs = [];
+  $scope.processJobs = [];
+  $scope.completedJobs = [];
+   angular.forEach(response.data, function(item){
+            if(item.status == "pending"){
+              $scope.pendingJobs.push(item);
+               }
+              else if(item.status == "In_Progress"){
+                $scope.processJobs.push(item);
+              }
+              else if(item.status == "Completed"){
+                $scope.completedJobs.push(item);
+              }
+          });
+   console.log($scope.pendingJobs);
+    console.log($scope.processJobs);
+    console.log($scope.completedJobs);
  	},function(error){
 
  	});

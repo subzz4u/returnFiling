@@ -71,19 +71,17 @@
 								</div>
 								<div class="row">
 									<div class="col-xs-12 col-md-12">
-							     		
-									
-        				 					<label for="uname" class="control-label pull-left">Change Status:</label>
-								          		<div class="col-xs-5">
-								          		<select class="form-control" name="task_status" ng-model="task.status">
-								          			<option value="" disabled><i class="fa fa-sort-desc">{{task.status}}</i></option>
-								          			<option value="In_Progress">In Progress</option>
-								          			<option value="Completed">Completed</option>
-								          		</select>
-								          		</div>
-				          				
-										
-									</div>
+				 						<label for="uname" class="control-label pull-left">Change Status:</label>
+					          			<div class="col-xs-5">
+							          		<select class="form-control" name="task_status" ng-model="task.status">
+							          			<option value=""><i class="fa fa-sort-desc">Select a Status</i></option>
+							          			<option value="pending" ng-disabled="task.status == 'pending' || task.status == 'In_Progress' || task.status == 'Completed' ">Pending</option>
+							          			<option value="In_Progress" ng-disabled="task.status == 'In_Progress' || task.status == 'Completed'">In Progress</option>
+							          			<option value="Completed" ng-disabled="task.status == 'Completed'">Completed</option>
+							          			<option value="Closed" ng-disabled="checkInternalUser()">Close</option>
+											</select>
+							          	</div>
+				          			</div>
 								</div>
 							</div>
 						</div>

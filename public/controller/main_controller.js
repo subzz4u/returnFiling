@@ -5,6 +5,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.userList = {};
   $scope.dashboard = {};
   $scope.referList = {};
+   var loggedIn_user = UserModel.getUser();
   /*******************************************************/
   /*********FUNCTION IS USED TO SIGN OUT PROFILE**********/
   /*******************************************************/
@@ -29,6 +30,24 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
       },function(error){
       })
   }
+ /*******************************************************/
+  /*********FUNCTION IS USED TO GET USER Details*************/
+  /*******************************************************/
+  $scope.getUserDetails = function(){
+    var loggedIn_user = UserModel.getUser();
+    var obj = {};
+    if(loggedIn_user){
+        obj._id = loggedIn_user._id;
+      }
+      console.log(obj);
+        ApiCall.getUser(obj, function(response){
+          console.log(response);
+          $scope.userDetails = response.data;
+        },function(error){
+        });
+      }
+  
+  
    /*******************************************************/
   /*********FUNCTION IS USED TO GET Client USER LIST*************/
   /*******************************************************/
@@ -87,11 +106,10 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.checkInternalUser = function(){
     $scope.internalUser = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user.role.type == "client"){  
+      if(loggedIn_user && loggedIn_user.role.type == "client"){  
         $scope.internalUser = false;
       }
       else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
-        console.log("yeah bro");
         $scope.internalUser = false;
       }
       else{

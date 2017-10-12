@@ -126,6 +126,10 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
     templateUrl: 'view/admin-returnFile-details.html',
     url: '/admin-returnFile-details/:client_id',
     controller:'Return_Controller',
+     params:{
+      client_id:null,
+    
+    },
     resolve: {
       loggedout: checkLoggedout
     }
@@ -692,6 +696,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.userList = {};
   $scope.dashboard = {};
   $scope.referList = {};
+   var loggedIn_user = UserModel.getUser();
   $scope.signOut = function(){
     delete $localStorage.token;
     $rootScope.is_loggedin = false;
@@ -709,6 +714,19 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
       },function(error){
       })
   }
+  $scope.getUserDetails = function(){
+    var loggedIn_user = UserModel.getUser();
+    var obj = {};
+    if(loggedIn_user){
+        obj._id = loggedIn_user._id;
+      }
+      console.log(obj);
+        ApiCall.getUser(obj, function(response){
+          console.log(response);
+          $scope.userDetails = response.data;
+        },function(error){
+        });
+      }
   $scope.getClientUsers = function(){
     $scope.clientCount = 0;
     ApiCall.getUser( function(response){
@@ -755,11 +773,10 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.checkInternalUser = function(){
     $scope.internalUser = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user.role.type == "client"){  
+      if(loggedIn_user && loggedIn_user.role.type == "client"){  
         $scope.internalUser = false;
       }
       else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
-        console.log("yeah bro");
         $scope.internalUser = false;
       }
       else{
@@ -1100,41 +1117,6 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
     });
   }
-  $scope.returnFilesDetails = function(){
-    var loggedin_user = UserModel.getUser();
-    var obj = {
-      fiscalYear : $stateParams.fiscalYear,
-      _id : $stateParams.returnFile_id
-    }
-
-    ApiCall.getReturnFile(obj, function(response){
-      $scope.returnDetails = response.data[0];
-      console.log($scope.returnDetails);
-      if($scope.returnDetails){
-      $scope.returnDetails.total = 0;
-      if($scope.returnDetails.conEmpInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.conEmpInc);
-      if($scope.returnDetails.businessInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.businessInc);
-      if($scope.returnDetails.capitalGainInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.capitalGainInc);
-      if($scope.returnDetails.rentalInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.rentalInc);
-      if($scope.returnDetails.houseLoanInterestInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
-      if($scope.returnDetails.fixDepositInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.fixDepositInc);
-      if($scope.returnDetails.savingAcInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.savingAcInc);
-      if($scope.returnDetails.otherInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
-      if($scope.user.total)
-        $scope.returnDetails.total = $scope.user.total.toFixed(2);
-    }
-    },function(error){
-
-    });
-  }
 
 
   $scope.paymentConfirm = function(){
@@ -1421,7 +1403,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 	$scope.showRetunFile = function() {
 		console.log('$scope.task.assignment' ,$scope.task.assignment);
 		console.log('$scope.task.category' ,$scope.task.category);
-		if($scope.task.assignment == "pending" && $scope.task.category == "Return File") {
+		if(($scope.task.assignment == "pending" || $scope.task.assignment == "processing" ) && $scope.task.category == "Return File") {
 			$scope.task.showReturnFile = true;
 		}
 		else {
@@ -1460,7 +1442,23 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
     },function(error){
   });
  }
-
+$scope.checkInternalUser = function(){
+    $scope.internalUser = false;
+      var loggedIn_user = UserModel.getUser();
+      if(loggedIn_user && loggedIn_user.role.type == "client"){  
+      	console.log("client");
+        $scope.internalUser = false;
+      }
+      else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
+        console.log("yeah bro superAdmin");
+        $scope.internalUser = false;
+      }
+      else{
+      	console.log("internal  inside work controller");
+        $scope.internalUser = true;
+      }
+      return  $scope.internalUser;
+  }
  $scope.workAssignConfirm = function(){
  	$rootScope.showPreloader = true;
  	ApiCall.postAssignment($scope.task, function(response){
@@ -1472,19 +1470,38 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
  	});
  }
  $scope.getAssignedJobs = function(){
+  $scope.pendingJobs = [];
+  $scope.processJobs = [];
+  $scope.completedJobs = [];
  	var loggedIn_user = UserModel.getUser();
  	var obj = {};
  	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin"){
  		 obj.user = loggedIn_user._id;
  	}
- 	console.log(obj);
- 	ApiCall.getjobAssignments(obj, function(response){
- 		console.log(response);
+ 	ApiCall.getjobAssignments(obj, function(response){	
+    console.log(response);
  		$scope.jobAssignmentList = response.data;
  		$scope.jobData = new NgTableParams;
  		$scope.jobData.settings({
  			dataset:$scope.jobAssignmentList
  		})
+    $scope.pendingJobs = [];
+  $scope.processJobs = [];
+  $scope.completedJobs = [];
+   angular.forEach(response.data, function(item){
+            if(item.status == "pending"){
+              $scope.pendingJobs.push(item);
+               }
+              else if(item.status == "In_Progress"){
+                $scope.processJobs.push(item);
+              }
+              else if(item.status == "Completed"){
+                $scope.completedJobs.push(item);
+              }
+          });
+   console.log($scope.pendingJobs);
+    console.log($scope.processJobs);
+    console.log($scope.completedJobs);
  	},function(error){
 
  	});

@@ -4,7 +4,7 @@
     <small>Control panel</small>
   </h1>
 </section>
-<section class="content">
+<section class="content" ng-show="checkAdmin()">
   <div class="row"  ng-init="getReturnCount()">
     <div class="col-md-5 col-sm-6 col-xs-12">
         <div class="small-box bg-green"  ng-init="getInternalUsers('in')">
@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-md-5 col-sm-6 col-xs-12">
-        <div class="small-box bg-green"  ng-init="getReferralCount()">
+        <div class="small-box bg-green" ng-if="dashboard.referralCount" ng-init="getReferralCount()">
             <div class="inner">
               <h3>{{dashboard.referralCount}}</h3>
 
@@ -120,5 +120,67 @@
              </div>
 
     </div>
-    </div>
+    
  </section>
+ <section class="content" ng-show="checkInternalUser()" ng-controller="Work_Assignment_Controller">
+  <div class="row">
+    <div class="col-md-5 col-sm-6 col-xs-12" ng-init="getAssignedJobs()">
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{jobAssignmentList.length}}</h3>
+          <p>Jobs Assigned</p>
+        </div>
+        <div class="icon">
+          <i class="fa fa-file"></i>
+        </div>
+          <a href="" ui-sref="work-assigned" class="small-box-footer">
+              See More  <i class="fa fa-arrow-circle-right"></i>
+          </a>
+      </div>
+    </div>
+    <div class="col-md-5 col-sm-6 col-xs-12">
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{completedJobs.length}}</h3>
+           <p>Jobs Completed</p>
+        </div>
+        <div class="icon">
+          <i class="fa fa-file"></i>
+        </div>
+          <a href="" ui-sref="user-list({'userType':'clients'})" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+          </a>
+      </div>
+    </div>
+  </div>
+   <div class="row">
+    <div class="col-md-5 col-sm-6 col-xs-12" ng-init="getAssignedJobs()">
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{processJobs.length}}</h3>
+          <p>Jobs In Progress</p>
+        </div>
+        <div class="icon">
+          <i class="fa fa-file"></i>
+        </div>
+          <a href="" ui-sref="work-assigned" class="small-box-footer">
+              See More  <i class="fa fa-arrow-circle-right"></i>
+          </a>
+      </div>
+    </div>
+    <div class="col-md-5 col-sm-6 col-xs-12">
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{pendingJobs.length}}</h3>
+           <p>Jobs Pending</p>
+        </div>
+        <div class="icon">
+          <i class="fa fa-file"></i>
+        </div>
+          <a href="" ui-sref="user-list({'userType':'clients'})" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+          </a>
+      </div>
+    </div>
+  </div>
+</section>

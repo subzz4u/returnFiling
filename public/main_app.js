@@ -124,6 +124,10 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
     templateUrl: 'view/admin-returnFile-details.html',
     url: '/admin-returnFile-details/:client_id',
     controller:'Return_Controller',
+     params:{
+      client_id:null,
+    
+    },
     resolve: {
       loggedout: checkLoggedout
     }
