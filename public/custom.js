@@ -875,7 +875,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   $scope.yearList = {};
   $scope.user.fiscalYear = '';
    $scope.currentReturnFile = {};
-  
+
   $scope.active_tab = 'year';
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
@@ -960,7 +960,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
           dataset:$scope.list
       })
     },function(error){
-
+      console.error(error);
     })
   }
   $scope.showFiscalYear = function(){
@@ -1008,7 +1008,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
             return $scope.userReturnData
           }
         }
-      
+
    })
   }
   $scope.userReturnData = function(data){
@@ -1243,8 +1243,8 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
     userReturnData($scope.user);
     $uibModalInstance.close('cancel');
    };
-    
- 
+
+
 }]);
 ;app.controller("User_Controller",["$scope", "$timeout", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope,$timeout,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
   $scope.user = {};
@@ -1406,19 +1406,37 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 
 	}
 	$scope.getAssignmentList = function(){
-		
 		var obj = {
 			'category': $scope.task.category,
 		}
-		console.log(obj);
 		ApiCall.jobcategoryList(obj, function(response){
 			console.log(response);
 			$scope.assignmentList = response.data[0].assignment;
 			console.log($scope.assignmentList);
 		},function(error){
+			console.error(error);
+		});
 
-		});		
-
+	}
+	$scope.showRetunFile = function() {
+		console.log('$scope.task.assignment' ,$scope.task.assignment);
+		console.log('$scope.task.category' ,$scope.task.category);
+		if($scope.task.assignment == "pending" && $scope.task.category == "Return File") {
+			$scope.task.showReturnFile = true;
+		}
+		else {
+			$scope.task.showReturnFile = false;
+		}
+	}
+	$scope.getReturnFiles = function(){
+		var obj = {
+			status : $scope.task.assignment
+		}
+		ApiCall.getReturnList(obj, function(response){
+			$scope.task.returnFiles = response.data;
+    },function(error){
+      console.error(error);
+    })
 	}
 	$scope.getRoles = function(){
 		ApiCall.getRole(function(response){
@@ -1430,6 +1448,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
              	}
         	});
 		},function(error){
+			console.error(error);
 	});
   }
   $scope.getUserOfSelectedrole = function(){
@@ -1464,7 +1483,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
  		$scope.jobAssignmentList = response.data;
  		$scope.jobData = new NgTableParams;
  		$scope.jobData.settings({
- 			dataset:$scope.jobAssignmentList 
+ 			dataset:$scope.jobAssignmentList
  		})
  	},function(error){
 
@@ -1501,7 +1520,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 	     $scope.userFirstname = response.data.firstname;
 	     $scope.userLastname = response.data.lastname;
 	    },function(error){
-	  });	
+	  });
  	},function(error){
 
  	});
@@ -1515,7 +1534,8 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 
  	});
  }
-}]);;app.directive('fileModell', ['$parse', function ($parse) {
+}]);
+;app.directive('fileModell', ['$parse', function ($parse) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {

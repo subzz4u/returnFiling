@@ -14,15 +14,19 @@ exports.addReturnFile = function(req, res) {
   models.userModel.findOne({
     _id: req.body.client
   }, function(err, client) {
-    if (err)
+    if (err){
+      console.log("err 1");
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
+    }
     else {
       // produce itrId key
       req.body.itrId = getItrId(client.mobile,req.body.fiscalYear,"_");//client.email + "_" + req.body.fiscalYear;
       // saving return files
       new models.returnFileModel(req.body).save(function(err,returnFile) {
-        if (err)
+        if (err){
+          console.log("err 2" ,err);
           response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
+        }
         else {
           // saving reference details
           if(req.body.referralEmail || req.body.referralMobile) {
@@ -168,7 +172,7 @@ exports.getReturnFileCounts = function(req, res) {
 exports.udpateReturnFile = function(req, res) {
   var query = {
     "_id": req.body._id
-  } 
+  }
 
   delete req.body['_id'];
   var options = {

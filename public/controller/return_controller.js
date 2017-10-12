@@ -8,7 +8,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.yearList = {};
   $scope.user.fiscalYear = '';
    $scope.currentReturnFile = {};
-  
+
   $scope.active_tab = 'year';
   $scope.tabChange = function(tab){
     $scope.active_tab = tab;
@@ -99,7 +99,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
           dataset:$scope.list
       })
     },function(error){
-
+      console.error(error);
     })
   }
   $scope.showFiscalYear = function(){
@@ -154,10 +154,10 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
             return $scope.userReturnData
           }
         }
-      
+
    })
 
-  
+
     // ApiCall.updateReturnFile($scope.user , function(response){
     // Util.alertMessage('success',"Status Changed Successfully");
     // var loggedIn_user = UserModel.getUser();
@@ -440,6 +440,6 @@ app.controller('ReturnFileClosingModalCtrl',function($scope, $uibModalInstance,A
     userReturnData($scope.user);
     $uibModalInstance.close('cancel');
    };
-    
- 
+
+
 });

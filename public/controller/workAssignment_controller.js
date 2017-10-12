@@ -17,19 +17,38 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 
 	}
 	$scope.getAssignmentList = function(){
-		
 		var obj = {
 			'category': $scope.task.category,
 		}
-		console.log(obj);
+		// console.log(obj);
 		ApiCall.jobcategoryList(obj, function(response){
 			console.log(response);
 			$scope.assignmentList = response.data[0].assignment;
 			console.log($scope.assignmentList);
 		},function(error){
+			console.error(error);
+		});
 
-		});		
-
+	}
+	$scope.showRetunFile = function() {
+		console.log('$scope.task.assignment' ,$scope.task.assignment);
+		console.log('$scope.task.category' ,$scope.task.category);
+		if($scope.task.assignment == "pending" && $scope.task.category == "Return File") {
+			$scope.task.showReturnFile = true;
+		}
+		else {
+			$scope.task.showReturnFile = false;
+		}
+	}
+	$scope.getReturnFiles = function(){
+		var obj = {
+			status : $scope.task.assignment
+		}
+		ApiCall.getReturnList(obj, function(response){
+			$scope.task.returnFiles = response.data;
+    },function(error){
+      console.error(error);
+    })
 	}
 	$scope.getRoles = function(){
 		ApiCall.getRole(function(response){
@@ -41,6 +60,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
              	}
         	});
 		},function(error){
+			console.error(error);
 	});
   }
   $scope.getUserOfSelectedrole = function(){
@@ -75,7 +95,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
  		$scope.jobAssignmentList = response.data;
  		$scope.jobData = new NgTableParams;
  		$scope.jobData.settings({
- 			dataset:$scope.jobAssignmentList 
+ 			dataset:$scope.jobAssignmentList
  		})
  	},function(error){
 
@@ -112,7 +132,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 	     $scope.userFirstname = response.data.firstname;
 	     $scope.userLastname = response.data.lastname;
 	    },function(error){
-	  });	
+	  });
  	},function(error){
 
  	});
