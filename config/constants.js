@@ -16,6 +16,7 @@ var constants = {
       "getData"   :"Get Data Error",
       "updateData"   :"Update Data Error",
       "deleteData"   :"Delete Data Error",
+      "userUnAuthorised"   :"User not authorised",
       // unique keys
       "emailExist":"Email is already Exist",
       "mobileExist":"Mobile is already Exist",
