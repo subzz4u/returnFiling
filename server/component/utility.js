@@ -204,7 +204,16 @@ utility.validateNull = function() {
   }
 }
 
+utility.getAlphaNumeric = function(precision) {
+  precision = precision || constants.forgotPasswordPrec;
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+  for (var i = 0; i < precision ; i++){
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return "@"+text;
+}
 
 /**
  * making dynamically validation for the fields passed in the request ENDS

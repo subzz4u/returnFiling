@@ -1,4 +1,4 @@
-var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils','textAngular']);
+var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils','textAngular','Logger']);
 app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($stateProvider, $urlRouterProvider,$httpProvider) {
   checkLoggedin.$inject = ["$q", "$timeout", "$rootScope", "$http", "$state", "$localStorage"];
   checkLoggedout.$inject = ["$q", "$timeout", "$rootScope", "$state", "$http", "$localStorage", "UserModel"];
@@ -81,7 +81,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
-  
+
   .state('new-user', {
     templateUrl: 'view/new_user.html',
     url: '/new-user',
@@ -128,7 +128,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
     controller:'Return_Controller',
      params:{
       client_id:null,
-    
+
     },
     resolve: {
       loggedout: checkLoggedout
@@ -192,7 +192,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
     },
      params:{
       job_id:null,
-    
+
     },
   })
   .state('template', {
@@ -223,7 +223,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
-  
+
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
     $http.get('/user/loggedin')
@@ -340,6 +340,28 @@ app.filter('capitalize', function() {
           }
         },
 });
+;angular.module('Logger', [])
+  .factory('LOG', ["$rootScope", "$timeout", function($rootScope,$timeout) {
+    return {
+      debug: function(message) {
+        console.log(message);
+      },
+      info: function(message) {
+        var alert = { type:"success" , msg: message };
+        $rootScope.alerts.push( alert );
+        $timeout(function(){
+          $rootScope.alerts.splice($rootScope.alerts.indexOf(alert), 1);
+        }, 5000);
+      },
+      error: function(message) {
+        var alert = { type:"error" , msg: message };
+        $rootScope.alerts.push( alert );
+        $timeout(function(){
+          $rootScope.alerts.splice($rootScope.alerts.indexOf(alert), 1);
+        }, 5000);
+      },
+    }
+  }])
 ;angular.module('WebService', [])
 .factory('API', ["$http", "$resource", "EnvService", function($http, $resource, EnvService) {
   return {
@@ -519,6 +541,14 @@ app.filter('capitalize', function() {
             'Accept': 'application/json'
         },
     },
+    forgotPassword: {
+        url: "/user/forgotPassword",
+        method: "PUT",
+        "headers": {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    },
   }
 }])
 .factory('ApiCall', ["$http", "$resource", "API", "EnvService", "ApiGenerator", function($http, $resource, API, EnvService,ApiGenerator) {
@@ -547,6 +577,7 @@ app.filter('capitalize', function() {
     postAssignment:  ApiGenerator.getApi('postAssignment'),
     getjobAssignments:  ApiGenerator.getApi('getjobAssignments'),
     updateJobAssignment:  ApiGenerator.getApi('updateJobAssignment'),
+    forgotPassword:  ApiGenerator.getApi('forgotPassword'),
   })
 }])
 
@@ -1228,145 +1259,147 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 
 
 }]);
-;app.controller("User_Controller",["$scope", "$timeout", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope,$timeout,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,Util,$stateParams){
+;app.controller("User_Controller", ["$scope", "$timeout", "LOG", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope, $timeout, LOG, $rootScope, $state, $localStorage, NgTableParams, ApiCall, UserModel, Util, $stateParams) {
   $scope.user = {};
   $scope.tempAdhar = {};
   $scope.tempPAN = {};
   $scope.userDetails = {};
-  $scope.roles  = [];
-  $scope.userList  = [];
+  $scope.roles = [];
+  $scope.userList = [];
   $scope.clientUserList = {};
 
   $scope.active_tab = 'details';
-  $scope.tabChange = function(tab){
+  $scope.tabChange = function(tab) {
     $scope.active_tab = tab;
   }
   $scope.getRoll = function(isSignup) {
-    ApiCall.getRole(function(response){
-      if(isSignup){ // in case of signUp , set role as client
-        angular.forEach(response.data,function(item){
-          if(item.type == "client"){
+    ApiCall.getRole(function(response) {
+      if (isSignup) { // in case of signUp , set role as client
+        angular.forEach(response.data, function(item) {
+          if (item.type == "client") {
             $scope.user.role = item._id;
           }
         });
-      }
-      else{
-        angular.forEach(response.data, function(item){
-          if(item.type == "client" || item.type == "superAdmin"  ){
-          }
-          else{
-             $scope.roles.push(item);
+      } else {
+        angular.forEach(response.data, function(item) {
+          if (item.type == "client" || item.type == "superAdmin") {} else {
+            $scope.roles.push(item);
           }
         });
-      
+
       }
 
     })
   }
   $scope.checkPassword = function(password, confirmPassword) {
-    if(password != confirmPassword){
+    if (password != confirmPassword) {
       $scope.showPasswordMisMatch = true;
     }
-    if(password == confirmPassword){
+    if (password == confirmPassword) {
       $scope.showPasswordMisMatch = false;
     }
   }
-  $scope.registerUser = function(){
+  $scope.registerUser = function() {
     $rootScope.showPreloader = true;
-    ApiCall.postUser($scope.user, function(response){
+    ApiCall.postUser($scope.user, function(response) {
       $rootScope.showPreloader = false;
-      if(response.statusCode == 200){
-        Util.alertMessage('success',"You have successfully register please check your mail");
+      if (response.statusCode == 200) {
+        Util.alertMessage('success', "You have successfully register please check your mail");
         $state.go('login');
+      } else {
+        Util.alertMessage('danger', "Something went wrong please try again");
       }
-      else{
-        Util.alertMessage('danger',"Something went wrong please try again");
-      }
-    },function(error){
-      if(error.data.statusCode == 500){
-        if(error.data.data.errors.email){
-          Util.alertMessage('danger',error.data.data.errors.email.message);
+    }, function(error) {
+      if (error.data.statusCode == 500) {
+        if (error.data.data.errors.email) {
+          Util.alertMessage('danger', error.data.data.errors.email.message);
+        } else if (error.data.data.errors.mobile) {
+          Util.alertMessage('danger', error.data.data.errors.mobile.message);
         }
-        else if( error.data.data.errors.mobile){
-          Util.alertMessage('danger',error.data.data.errors.mobile.message);
-        }
-         $rootScope.showPreloader = false;
+        $rootScope.showPreloader = false;
       }
     })
   }
-  $scope.profileUpdate = function(){
-    if($scope.tempAdhar.imageName){
+  $scope.profileUpdate = function() {
+    if ($scope.tempAdhar.imageName) {
       $scope.user.adharDetails = {
-        fileName : $scope.tempAdhar.imageName,
-        base64 : $scope.tempAdhar.image.split(";base64,")[1]
+        fileName: $scope.tempAdhar.imageName,
+        base64: $scope.tempAdhar.image.split(";base64,")[1]
       }
     }
-    if($scope.tempPAN.imageName){
+    if ($scope.tempPAN.imageName) {
       $scope.user.panDetails = {
-        fileName : $scope.tempPAN.imageName,
-        base64 : $scope.tempPAN.image.split(";base64,")[1]
+        fileName: $scope.tempPAN.imageName,
+        base64: $scope.tempPAN.image.split(";base64,")[1]
       }
     }
     $scope.user._id = UserModel.getUser()._id;
     $rootScope.showPreloader = true;
-    ApiCall.updateUser($scope.user , function(response){
+    ApiCall.updateUser($scope.user, function(response) {
       $rootScope.showPreloader = false;
       UserModel.setUser(response.data.user);
       $localStorage.token = response.data.token;
       var loggedIn_user = UserModel.getUser();
 
-      Util.alertMessage('success',"Data Updated Successfully");
-      $state.go('user-profile',{'user_id':loggedIn_user._id});
-    },function(error){
+      Util.alertMessage('success', "Data Updated Successfully");
+      $state.go('user-profile', {
+        'user_id': loggedIn_user._id
+      });
+    }, function(error) {
       $rootScope.showPreloader = false;
     })
   }
-  $scope.getUserDetails = function(clients_id){
+  $scope.getUserDetails = function(clients_id) {
     $scope.client_id = clients_id;
     $timeout(function() {
       $scope.user = UserModel.getUser();
-      if($scope.user || $stateParams.user_id || $scope.client_id){
+      if ($scope.user || $stateParams.user_id || $scope.client_id) {
         var obj = {
           "_id": $stateParams.user_id || $scope.user._id || $scope.client_id
         }
-        ApiCall.getUser(obj, function(response){
+        ApiCall.getUser(obj, function(response) {
           console.log(response);
           $scope.userDetails = response.data;
-          $scope.userDetails.accNo = parseInt($scope.userDetails.accNo);
           $scope.userDetails.pin = parseInt($scope.userDetails.pin);
-        },function(error){
-        })
+        }, function(error) {})
       }
     });
   }
-  $scope.getUser = function(clients_id){
+  $scope.getUser = function(clients_id) {
     $scope.user._id = clients_id;
-    if($scope.user._id){
+    if ($scope.user._id) {
       var obj = {
-        "_id" : $scope.user._id
+        "_id": $scope.user._id
       }
 
-    ApiCall.getUser(obj, function(response){
-      console.log(response);
-      $scope.userDetails = response.data;
-    },function(error){
-  })
- }
+      ApiCall.getUser(obj, function(response) {
+        console.log(response);
+        $scope.userDetails = response.data;
+      }, function(error) {})
+    }
   }
-  $scope.getAllUsers = function(){
-   
+  $scope.getAllUsers = function() {
+
     var obj = {};
     obj.userType = $stateParams.userType;
-    ApiCall.getUser(obj, function(response){
-    $scope.userList = response.data;
+    ApiCall.getUser(obj, function(response) {
+      $scope.userList = response.data;
       $scope.userData = new NgTableParams;
       $scope.userData.settings({
         dataset: $scope.userList
       })
-      },function(error){
-      })
+    }, function(error) {})
   }
- 
+  $scope.onForgotPassword = function(email) {
+    var obj = {
+      email: email
+    }
+    ApiCall.forgotPassword(obj, function(response) {
+      LOG.info(response.message);
+    }, function(error) {
+      LOG.error(response.message);
+    })
+  }
 
 }]);
 ;app.controller("Work_Assignment_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "UserModel", "$timeout", "ApiCall", "Util", "$stateParams", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,UserModel, $timeout,ApiCall,Util,$stateParams){

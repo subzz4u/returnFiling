@@ -19,6 +19,9 @@ router.put('/', function(req, res, next) {
 router.put('/changePassword', passport.authenticate('token', {session:false}), function(req, res, next) {
   controllers.userCtrl.changePassword(req, res);
 });
+router.put('/forgotPassword', function(req, res, next) {
+  controllers.userCtrl.forgotPassword(req, res);
+});
 router.delete('/:id', function(req, res, next) {
   controllers.userCtrl.deleteUser(req, res);
 });

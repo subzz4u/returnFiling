@@ -299,3 +299,73 @@ exports.changePassword = function(req,res){
     })
   });
 }
+
+exports.forgotPassword = function(req,res) {
+  if(!req.body.email){
+    return response.sendResponse(res, 400, "error", constants.statusCode['400']);
+  }
+  else{
+    models.userModel.find({email:req.body.email}).exec()
+    .then(function(user) {
+      console.log(user);
+      if(!user.length){
+        // no data found.
+        return response.sendResponse(res, 402, "warning", constants.messages.errors.emailNotFound);
+      }
+      else{
+        // get the random PASSOWORD
+        var alphaNumeric = utility.getAlphaNumeric();
+        password(alphaNumeric).hash(function(error, hash) {
+          if(error){
+            return response.sendResponse(res, 500, "error", constants.messages.errors.saveData);
+          }
+          else{
+            // saving user password with random password
+            var query = {
+              email : req.body.email
+            }
+            var update = {
+              password : hash
+            }
+            var option = {
+              new:true
+            }
+            models.userModel.findOneAndUpdate(query,update,option,function(error,user){
+              if(error){
+                return response.sendResponse(res, 500, "error", constants.messages.errors.saveData);
+              }
+              else{
+
+                // sending email verification
+                var data = {
+                  templateType: "forgot_password",
+
+                  email: user.email,
+                  mobile: user.mobile,
+                  name: user.firstName && user.lastName ? user.firstName + " "+ user.lastName : user.email.split("@")[0],
+                  company: constants.companyDetails.name,
+                  password : alphaNumeric
+                }
+                console.log('data >>>>>>>>',data);
+                utility.sendVerificationMail(data, function(err, success) {
+                  if (err) {
+                    LOG.error("mail error send  error"+err);
+                    return response.sendResponse(res, 500, "error", constants.messages.errors.mailSend);
+                    // return response.sendResponse(res, 500, "error", constants.messages.errors.forgetPasswordFailed, err);
+                  } else {
+                    LOG.info("mail error send  success");
+                    return response.sendResponse(res, 200, "success", constants.messages.success.mailSend);
+                    // return response.sendResponse(res, 200, "success", constants.messages.success.verificationMailSent);
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
+    .catch(function(error) {
+      return response.sendResponse(res, 500, "error", constants.messages.errors.saveData,error);
+    })
+  }
+}

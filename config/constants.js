@@ -1,5 +1,6 @@
 var config = require('config');
 var constants = {
+  forgotPasswordPrec : 10,
   statusCode:{
     400:" Bad Request",
   },
@@ -17,8 +18,10 @@ var constants = {
       "updateData"   :"Update Data Error",
       "deleteData"   :"Delete Data Error",
       "userUnAuthorised"   :"User not authorised",
+
       // unique keys
       "emailExist":"Email is already Exist",
+      "emailNotFound":"Email Not Found",
       "mobileExist":"Mobile is already Exist",
       "verified"                    :"Error in token verification",
       "auth"                        :"Authentication Error",
@@ -104,6 +107,9 @@ var constants = {
         "validationError"             : "Error in validaton",
         // change password
         "changePassword"         : "Error in change password",
+
+        // mail
+        "mailSend"              : "Error sending mail"
       },
     success:{
       //global
@@ -147,6 +153,9 @@ var constants = {
       "referralSave"              : "Success in saving referral details",
       // change password
       "changePassword"         : "Success in change password",
+
+      // mail
+      "mailSend"              : "success in sending mail"
     },
   },
   // gmailSMTPCredentials : {

@@ -1,4 +1,4 @@
-var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils','textAngular']);
+var app = angular.module("return_file", ['ui.router', 'ui.bootstrap', 'ngResource', 'ngStorage', 'ngAnimate','datePicker','ngTable','angular-js-xlsx','WebService','ui.utils','textAngular','Logger']);
 app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   $httpProvider.interceptors.push(function ($q, $location, $window,$localStorage) {
     return {
@@ -79,7 +79,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
-  
+
   .state('new-user', {
     templateUrl: 'view/new_user.html',
     url: '/new-user',
@@ -126,7 +126,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
     controller:'Return_Controller',
      params:{
       client_id:null,
-    
+
     },
     resolve: {
       loggedout: checkLoggedout
@@ -190,7 +190,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
     },
      params:{
       job_id:null,
-    
+
     },
   })
   .state('template', {
@@ -221,7 +221,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
-  
+
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
     $http.get('/user/loggedin')
