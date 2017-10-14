@@ -8,8 +8,24 @@ var response = require("./../component/response");
 var component = require("./../component/index");
 var models = require("./../models/index");
 var constants = require("./../../config/constants");
-
+var utility = require('./../component/utility');
+var passwordHash = require('password-hash-and-salt');
 exports.addReturnFile = function(req, res) {
+
+      if(!req.body.formXvi)
+        callback(null);
+      else{
+        // upload base 64 file
+        utility.uploadImage(req.body.formXvi,function(err,imagePath){
+          if(err){
+            callback(err);
+          }
+          else{
+            req.body.formXvi = imagePath;
+            callback(null);
+          }
+        })
+      }
 
   models.userModel.findOne({
     _id: req.body.client

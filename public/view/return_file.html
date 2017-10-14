@@ -10,9 +10,12 @@
     		<div class="col-xs-10 col-md-offset-1">
      	 		<div class="nav-tabs-custom">
 	        		<ul class="nav nav-tabs">
+
 	        			<li ng-class="{'active':active_tab == 'year'}" ><a ng-click="tabChange('year')" href="" data-toggle="tab"><b>Financial Year</b></a></li>
-			        	<li ng-class="{'active':active_tab == 'income','disable-link':!user.fiscalYear}" ><a ng-click="tabChange('income')" href="" data-toggle="tab"><b>Income Details</b></a></li>
-			          	<li ng-class="{'active':active_tab == 'deduction','disable-link':!user.conEmpInc}"><a href="" ng-click="tabChange('deduction')" data-toggle="tab"><b>Deduction Under Chapter VIA</b></a></li>
+			        	<li ng-class="{'active':active_tab == 'income','disable-link':!user.fiscalYear}" ng-hide="formXvi"><a ng-click="tabChange('income')" href="" data-toggle="tab"><b>Income Details</b></a></li>
+			          	<li ng-class="{'active':active_tab == 'deduction','disable-link':!user.conEmpInc}" ng-hide="formXvi"><a href="" ng-click="tabChange('deduction')" data-toggle="tab"><b>Deduction Under Chapter VIA</b></a></li>
+
+			          	<li ng-class="{'active':active_tab == 'form_Xvi'}" ><a ng-click="tabChange('form_Xvi')" href="" data-toggle="tab" ng-show="formXvi"><b>Upload Form XVI</b></a></li>
 			        </ul>
         			<div class="tab-content">
         				<div class="tab-pane" id="year" ng-class="{'active':active_tab == 'year'}">
@@ -23,7 +26,7 @@
         				 		<div class="box-body">
         				 			<div class="row">
         				 				<div class="col-xs-10">
-        				 					<div class="" ng-class="{'has-error':income.fiscal_year.$touched && income.fiscal_year.$invalid}">
+        				 					<div class="form-group m-l-20" ng-class="{'has-error':income.fiscal_year.$touched && income.fiscal_year.$invalid}">
         				 					<label for="uname" class="control-label pull-left">Financial Year:</label>
 								          		<div class="col-xs-5">
 								          		<select class="form-control" name="fiscal_year" ng-model="user.fiscalYear" required>
@@ -34,12 +37,43 @@
 								          		</select>
 								          		</div>
 				          					</div>
+											<div class="checkbox">
+							                  <label>
+							                    <input type="checkbox" name="form_xvi" ng-model="formXvi"> I have Form 16
+							                  </label>
+							                </div>
         				 				</div>
         				 			</div>
         				 		</div>
         				 		<div class="box-footer">
         				 			<button type="submit" class="btn btn-default" ui-sref="user-profile">Back</button>
-							        <button type="submit" ng-disabled="income.fiscal_year.$invalid" ng-click="tabChange('income')" class="btn btn-info pull-right">Next</button>
+							        <button type="submit" ng-hide="formXvi" ng-disabled="income.fiscal_year.$invalid" ng-click="tabChange('income')" class="btn btn-info pull-right">Next</button>
+							         <button ng-show="formXvi" type="submit" ng-disabled="income.fiscal_year.$invalid" ng-click="tabChange('form_Xvi')" class="btn btn-info pull-right">Next</button>
+        				 		</div>
+        				 	</div>
+       					</div>
+
+       					<div class="tab-pane" id="form_Xvi" ng-class="{'active':active_tab == 'form_Xvi'}">
+        				 	<div class="box box-info">
+        				 		<div class="box-header with-border">
+        				 			<h3 class="box-title">Please Your Form XVI File</h3>
+        				 		</div>
+        				 		<div class="box-body">
+        				 			<div class="row">
+        				 				<div class="col-xs-10">
+           				 					<div class="form-group has-feedback" >
+												<label for="pass" class="col-sm-3 control-label">Form XVI:</label>
+												<div class="col-sm-9">
+													<input class="upload l-h-70 pull-left" name="form_xvi" type="file" file-model fileread="tempFormXvi.image" filename="tempFormXvi.imageName"/>
+													<img height="70" src="{{user.formXvi}}">
+												</div>
+											</div>
+        				 			</div>
+        				 				</div>
+        				 		</div>
+        				 		<div class="box-footer">
+        				 			<button type="submit" class="btn btn-default" ng-click="tabChange('year')" >Back</button>
+							        <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">{{user.isReferalPrompt ? "Submit" : "Next"}}</button>
         				 		</div>
         				 	</div>
        					</div>

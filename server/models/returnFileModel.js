@@ -45,6 +45,9 @@ var returnFileSchema = new mongoose.Schema({
     failedMessage : {type: String,default:null},
     successMessage  : {type: String,default:null},
 
+     //Form 16
+     formXvi :   {type: String},
+      isFormXvi          : {type: Boolean, default:false},
      //
      returnAmount : {type:Number,default:null},
      returnDate : {type:Date,default:null},
