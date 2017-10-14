@@ -45,13 +45,14 @@ var returnFileSchema = new mongoose.Schema({
     failedMessage : {type: String,default:null},
     successMessage  : {type: String,default:null},
 
-     //Form 16
-     formXvi :   {type: String},
-      isFormXvi          : {type: Boolean, default:false},
      //
      returnAmount : {type:Number,default:null},
      returnDate : {type:Date,default:null},
      fileDate       : {type: Date, default: new Date()},
+
+     // form 16
+     form16  : {type: String,default:null},
+
     // status
     status            : {type: String,enum: constants.returnFileStatus, default:"pending"},
     lastUpdate        :{type:Date , default: new Date()},

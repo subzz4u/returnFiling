@@ -8,24 +8,8 @@ var response = require("./../component/response");
 var component = require("./../component/index");
 var models = require("./../models/index");
 var constants = require("./../../config/constants");
-var utility = require('./../component/utility');
-var passwordHash = require('password-hash-and-salt');
-exports.addReturnFile = function(req, res) {
 
-      if(!req.body.formXvi)
-        callback(null);
-      else{
-        // upload base 64 file
-        utility.uploadImage(req.body.formXvi,function(err,imagePath){
-          if(err){
-            callback(err);
-          }
-          else{
-            req.body.formXvi = imagePath;
-            callback(null);
-          }
-        })
-      }
+exports.addReturnFile = function(req, res) {
 
   models.userModel.findOne({
     _id: req.body.client
@@ -35,32 +19,40 @@ exports.addReturnFile = function(req, res) {
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
     }
     else {
+      req.body.form16 = req.body.formXvi; // overriding formXvi, for now
       // produce itrId key
       req.body.itrId = getItrId(client.mobile,req.body.fiscalYear,"_");//client.email + "_" + req.body.fiscalYear;
       // saving return files
-      new models.returnFileModel(req.body).save(function(err,returnFile) {
-        if (err){
-          console.log("err 2" ,err);
-          response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
+      // checking for form16 file for upload
+      uploadForm16(req.body.form16,function(err,form16) {
+        if(err){
+          return response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
         }
-        else {
-          // saving reference details
-          if(req.body.referralEmail || req.body.referralMobile) {
-            var obj = {
-              returnFile : returnFile,
-              referralEmail : req.body.referralEmail,
-              referralMobile : req.body.referralMobile
-            }
-            console.log("saving referral details  ",obj);
-            new models.referralModel(obj).save(function(err,referral) {
-              if (err)
-                console.log("error in referral save " , err);
-              else
-              console.log("referral saved for the returnfile " , returnFile._id)
-            })
+        req.body.form16 = form16; // image path
+        new models.returnFileModel(req.body).save(function(err,returnFile) {
+          if (err){
+            console.log("err 2" ,err);
+            response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
           }
-          response.sendResponse(res, 200, "success", constants.messages.success.saveData);
-        }
+          else {
+            // saving reference details
+            if(req.body.referralEmail || req.body.referralMobile) {
+              var obj = {
+                returnFile : returnFile,
+                referralEmail : req.body.referralEmail,
+                referralMobile : req.body.referralMobile
+              }
+              console.log("saving referral details  ",obj);
+              new models.referralModel(obj).save(function(err,referral) {
+                if (err)
+                console.log("error in referral save " , err);
+                else
+                console.log("referral saved for the returnfile " , returnFile._id)
+              })
+            }
+            response.sendResponse(res, 200, "success", constants.messages.success.saveData);
+          }
+        })
       })
     }
   })
@@ -70,6 +62,23 @@ function getItrId(mobile,fiscalYear,separator) {
 	fiscalYear = fiscalYear.split("-");
 	return mobile+separator+fiscalYear[0].substr(2)+separator+fiscalYear[1].substr(2)
 
+}
+function uploadForm16(imageData,callback){
+  if(!imageData || !imageData.fileName || !imageData.base64){
+    callback(null,null);
+  }
+  else{
+    // upload base 64 file
+    component.utility.uploadImage(imageData,function(err,imagePath){
+      if(err){
+        callback(err,null);
+      }
+      else{
+
+        callback(null,imagePath);
+      }
+    })
+  }
 }
 exports.getReturnFile = function(req, res) {
   var params = {

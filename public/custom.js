@@ -968,6 +968,14 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     return  $scope.is_pending;
   }
   $scope.returnFile = function(){
+    if($scope.tempFormXvi.imageName){
+      $scope.user.formXvi = {
+        fileName : $scope.tempFormXvi.imageName,
+        base64 : $scope.tempFormXvi.image.split(";base64,")[1]
+      }
+       $scope.user.isFormXvi = true;
+    }
+
     $scope.user.client = UserModel.getUser()._id;
     if(!$scope.user.isReferalPrompt) {
       $scope.modalInstance = $uibModal.open({
@@ -1014,14 +1022,18 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   $scope.showFiscalYear = function(){
     var loggedin_user = UserModel.getUser();
     console.log(loggedin_user);
-    var obj = {
-      'client' :  $stateParams.client_id,
+    var obj = {};
+    if($state.current.name == "admin-returnFile-details" && loggedin_user && loggedin_user.role.type == "superAdmin"){
+      obj.client = $stateParams.client_id;
     }
-    if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type == "client"){
+    
+    if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
       console.log("client login and previous return file details");
       obj.client = loggedin_user._id;
     }
+    console.log(obj);
     ApiCall.getFiscalYear(obj, function(response){
+      console.log(response);
     $scope.yearList = response.data;
     },function(error){
 
@@ -1120,6 +1132,41 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     {
       obj.client = $stateParams.client_id;
     }
+    ApiCall.getReturnFile(obj, function(response){
+      $scope.returnDetails = response.data[0];
+      console.log($scope.returnDetails);
+      if($scope.returnDetails){
+      $scope.returnDetails.total = 0;
+      if($scope.returnDetails.conEmpInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.conEmpInc);
+      if($scope.returnDetails.businessInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.businessInc);
+      if($scope.returnDetails.capitalGainInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.capitalGainInc);
+      if($scope.returnDetails.rentalInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.rentalInc);
+      if($scope.returnDetails.houseLoanInterestInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
+      if($scope.returnDetails.fixDepositInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.fixDepositInc);
+      if($scope.returnDetails.savingAcInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.savingAcInc);
+      if($scope.returnDetails.otherInc)
+        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
+      if($scope.user.total)
+        $scope.returnDetails.total = $scope.user.total.toFixed(2);
+    }
+    },function(error){
+
+    });
+  }
+  $scope.returnFilesDetails = function(){
+    var loggedin_user = UserModel.getUser();
+    var obj = {
+      fiscalYear : $stateParams.fiscalYear,
+      _id : $stateParams.returnFile_id
+    }
+
     ApiCall.getReturnFile(obj, function(response){
       $scope.returnDetails = response.data[0];
       console.log($scope.returnDetails);
