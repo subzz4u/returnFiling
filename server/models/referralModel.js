@@ -5,6 +5,7 @@ var validator = require('validator');
 var Schema = mongoose.Schema;
 var returnFileSchema = new mongoose.Schema({
     returnFile         : {type: Schema.Types.ObjectId, ref: 'returnFile',required: true},
+    referredBy         : {type: Schema.Types.ObjectId, ref: 'user',default:null},
     referralEmail          : {type: String},
     referralMobile          : {type: String},
     // status

@@ -56,7 +56,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*********FUNCTION IS USED TO ADD RETURN FILE***********/
   /*******************************************************/
   $scope.returnFile = function(){
-    if($scope.tempFormXvi.imageName){
+    if($scope.tempFormXvi && $scope.tempFormXvi.imageName){
       $scope.user.formXvi = {
         fileName : $scope.tempFormXvi.imageName,
         base64 : $scope.tempFormXvi.image.split(";base64,")[1]
@@ -119,7 +119,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     }
 
       // 'client' :  $stateParams.client_id,
-    
+
     if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
       console.log("client login and previous return file details");
       obj.client = loggedin_user._id;

@@ -968,7 +968,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     return  $scope.is_pending;
   }
   $scope.returnFile = function(){
-    if($scope.tempFormXvi.imageName){
+    if($scope.tempFormXvi && $scope.tempFormXvi.imageName){
       $scope.user.formXvi = {
         fileName : $scope.tempFormXvi.imageName,
         base64 : $scope.tempFormXvi.image.split(";base64,")[1]
@@ -1026,7 +1026,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     if($state.current.name == "admin-returnFile-details" && loggedin_user && loggedin_user.role.type == "superAdmin"){
       obj.client = $stateParams.client_id;
     }
-    
+
     if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
       console.log("client login and previous return file details");
       obj.client = loggedin_user._id;
