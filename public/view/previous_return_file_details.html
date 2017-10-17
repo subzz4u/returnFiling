@@ -34,7 +34,7 @@
 			</div>
 		</div>
 	</div>
-		<div class="row">
+		<div class="row" ng-hide="returnDetails.form16">
 			<div class="col-xs-10 col-md-offset-1">
      	 		<div class="nav-tabs-custom">
 	        		<ul class="nav nav-tabs">
@@ -264,5 +264,24 @@
       				</div><!--tab content-->
     			</div><!--nav-tabs-custom-->
   			</div><!--col-xs-10-->
+	</div>
+	<div class="row" ng-show="returnDetails.form16">
+		 <div class="col-xs-12 col-md-10 col-md-offset-1">
+          <div class="box box-widget widget-user-2">
+            <div class="widget-user-header bg-green">
+              <div class="widget-user-image">
+
+              </div>
+              <!-- /.widget-user-image -->
+              <h4 class="widget-user-username">Return File details</h4>
+            </div>
+            <div class="box-footer no-padding">
+              <img class="docImg" src="{{returnDetails.form16}}" >
+            </div>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+
+
 	</div>
 </section>

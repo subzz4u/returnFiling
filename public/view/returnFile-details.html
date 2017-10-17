@@ -3,8 +3,27 @@
     WelCome Admin
   </h1>
 </section>
-<section class="content" ng-init="returnFilesDetails()">
+<section class="content" ng-init="returnFileDetails()">
 	<div class="row">
+		
+		<div class="col-xs-4 col-md-3 col-md-offset-1">
+			<div class="col-xs-12 col-md-8 p-b-10" ng-if="returnDetails.status">
+				<label class="control-label pull-left">Return File Status</label>
+				<input type="text" ng-model="returnDetails.status" class="form-control" readonly>
+			</div>
+		</div>
+		<div class="col-xs-4 col-md-3  col-md-offset-1">
+			<div class="col-xs-12 col-md-12 p-b-10" ng-show="returnDetails.status == 'failed' ">
+				<label class="control-label pull-left">Payment Status</label>
+				<input type="text" ng-model="returnDetails.failedMessage" class="form-control" readonly>
+			</div>
+			<div class="col-xs-12 col-md-12 p-b-10" ng-show="returnDetails.successMessage || returnDetails.successMessage != null ">
+				<label class="control-label pull-left">Payment Status</label>
+				<input type="text" ng-model="returnDetails.successMessage" class="form-control" readonly>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-hide="returnDetails.form16">
 		<div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-1">
 			<div class="row">
 				<div class="col-xs-12 col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">
@@ -214,6 +233,31 @@
 		</div>
 		</div><!--row-->
 		<div class="row">
+			<div class="col-xs-12">
+		        <button type="submit" class="btn btn-default"><a href="" class="option-btn" ui-sref="return-file-list">Back</a></button>
+		        <!-- <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button> -->
+    		</div>	
+		</div>
+	</div>
+	</div>
+	<div class="row" ng-show="returnDetails.form16">
+		 <div class="col-xs-12 col-md-10 col-md-offset-1">
+		 	<div class="row">
+          <div class="box box-widget widget-user-2">
+            <div class="widget-user-header bg-green">
+              <div class="widget-user-image">
+
+              </div>
+              <!-- /.widget-user-image -->
+              <h4 class="widget-user-username">Return File details</h4>
+            </div>
+            <div class="box-footer no-padding">
+              <img class="docImg" src="{{returnDetails.form16}}" >
+            </div>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+        <div class="row">
 			<div class="col-xs-12">
 		        <button type="submit" class="btn btn-default"><a href="" class="option-btn" ui-sref="return-file-list">Back</a></button>
 		        <!-- <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">Submit</button> -->

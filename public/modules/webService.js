@@ -90,7 +90,7 @@ angular.module('WebService', [])
       method: "GET"
     },
     getReferralList : {
-      url:"/returnFile/referral",
+      url:"/user/referral",
       method: "GET"
     },
     getReturnList : {

@@ -108,8 +108,11 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
   })
   .state('previous-return-file-details', {
     templateUrl: 'view/previous_return_file_details.html',
-    url: '/previous-return-file-details',
+    url: '/previous-return-file-details/:client_id',
     controller:'Return_Controller',
+    params:{
+      client_id:null,
+     },
     resolve: {
       loggedout: checkLoggedout
     }
@@ -122,22 +125,14 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
- .state('admin-returnFile-details', {
-    templateUrl: 'view/admin-returnFile-details.html',
-    url: '/admin-returnFile-details/:client_id',
-    controller:'Return_Controller',
-     params:{
-      client_id:null,
-
-    },
-    resolve: {
-      loggedout: checkLoggedout
-    }
-  })
+ 
  .state('returnFile-details', {
     templateUrl: 'view/returnFile-details.html',
-    url: '/returnFile-details/fiscalYear/:returnFile_id',
+    url: '/returnFile-details/:returnFile_id',
     controller:'Return_Controller',
+    params:{
+      returnFile_id : null,
+    },
     resolve: {
       loggedout: checkLoggedout
     }
@@ -218,11 +213,12 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
   .state('referral-list', {
     templateUrl: 'view/referralList.html',
     url: '/referral-list',
-    controller:'Main_Controller',
+    controller:'Referral_Controller',
     resolve: {
       loggedout: checkLoggedout
     }
   })
+
 
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();
@@ -454,7 +450,7 @@ app.filter('capitalize', function() {
       method: "GET"
     },
     getReferralList : {
-      url:"/returnFile/referral",
+      url:"/user/referral",
       method: "GET"
     },
     getReturnList : {
@@ -769,16 +765,6 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
       },function(error){
       })
   }
-  $scope.getReferralCount = function() {
-    var obj = {
-      count:true
-    }
-    ApiCall.getReferral(obj,function(response){
-      $scope.dashboard.referralCount = response.data;
-      },function(error){
-        console.log(error);
-      })
-  }
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
       var loggedIn_user = UserModel.getUser();
@@ -828,17 +814,6 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
         }
       }
    })
-  }
-  $scope.referralList = function(){
-   ApiCall.getReferralList(function(response){
-    $scope.referList = response.data;
-    $scope.listData = new NgTableParams;
-    $scope.listData.settings({
-      dataset:$scope.referList
-    })
-   },function(error){
-     console.log("error");
-   });
   }
   $scope.userDelete = function(){
     ApiCall.deleteUser({
@@ -903,16 +878,32 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
     }
 ]);
-;app.controller("Payment_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
+;app.controller("Referral_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
 	$scope.user = {};
-	$scope.paymentConfirm = function(){
-		ApiCall.postTransaction($scope.user , function(response){
-			console.log("posted");
+	$scope.getReferralCount = function() {
+    var obj = {
+      count:true
+    }
+    ApiCall.getReferral(obj,function(response){
+    	console.log(response);
+      $scope.dashboard.referralCount = response.data;
+      },function(error){
+        console.log(error);
+      })
+  }
+   $scope.referralList = function(){
+   ApiCall.getReferralList(function(response){
+   	console.log(response);
+    $scope.referList = response.data;
+    $scope.listData = new NgTableParams;
+    $scope.listData.settings({
+      dataset:$scope.referList
+    })
+   },function(error){
+     console.log("error");
+   });
+  }
 
-		},function(error){
-
-		});
-	}
 }]);;app.controller("Return_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$stateParams", "$localStorage", "NgTableParams", "ApiCall", "Util", "$timeout", "UserModel", "$uibModal", function($scope,$rootScope,$rootScope,$state,$stateParams,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel,$uibModal){
   $scope.user = {};
   $scope.failTransaction = {};
@@ -1023,12 +1014,13 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     var loggedin_user = UserModel.getUser();
     console.log(loggedin_user);
     var obj = {};
-    if($state.current.name == "admin-returnFile-details" && loggedin_user && loggedin_user.role.type == "superAdmin"){
+    if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type == "superAdmin"){
       obj.client = $stateParams.client_id;
     }
 
-    if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
-      console.log("client login and previous return file details");
+    
+
+    else if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
       obj.client = loggedin_user._id;
     }
     console.log(obj);
@@ -1125,14 +1117,24 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     }
   $scope.returnFileDetails = function(){
     var loggedin_user = UserModel.getUser();
-    var obj = {
-      fiscalYear:$scope.user.fiscalYear,
-    }
-    if (loggedin_user && loggedin_user.role.type =="superAdmin")
+    console.log($state);
+    var obj = {};
+    if ($state.current.name=="previous-return-file-details" && loggedin_user && loggedin_user.role.type =="superAdmin")
     {
+      obj.fiscalYear = $scope.user.fiscalYear;
       obj.client = $stateParams.client_id;
     }
+    else if ($state.current.name=="previous-return-file-details" && loggedin_user && loggedin_user.role.type !="superAdmin")
+    {
+      obj.fiscalYear = $scope.user.fiscalYear;
+      obj.client = loggedin_user._id;
+    }
+    else if ($state.current.name=="returnFile-details" && loggedin_user && loggedin_user.role.type =="superAdmin")
+    {
+      obj._id = $stateParams.returnFile_id;
+    }
     ApiCall.getReturnFile(obj, function(response){
+      console.log(response);
       $scope.returnDetails = response.data[0];
       console.log($scope.returnDetails);
       if($scope.returnDetails){
@@ -1146,7 +1148,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       if($scope.returnDetails.rentalInc)
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.rentalInc);
       if($scope.returnDetails.houseLoanInterestInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
+        $socpe.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
       if($scope.returnDetails.fixDepositInc)
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.fixDepositInc);
       if($scope.returnDetails.savingAcInc)
@@ -1160,42 +1162,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
     });
   }
-  $scope.returnFilesDetails = function(){
-    var loggedin_user = UserModel.getUser();
-    var obj = {
-      fiscalYear : $stateParams.fiscalYear,
-      _id : $stateParams.returnFile_id
-    }
-
-    ApiCall.getReturnFile(obj, function(response){
-      $scope.returnDetails = response.data[0];
-      console.log($scope.returnDetails);
-      if($scope.returnDetails){
-      $scope.returnDetails.total = 0;
-      if($scope.returnDetails.conEmpInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.conEmpInc);
-      if($scope.returnDetails.businessInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.businessInc);
-      if($scope.returnDetails.capitalGainInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.capitalGainInc);
-      if($scope.returnDetails.rentalInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.rentalInc);
-      if($scope.returnDetails.houseLoanInterestInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
-      if($scope.returnDetails.fixDepositInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.fixDepositInc);
-      if($scope.returnDetails.savingAcInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.savingAcInc);
-      if($scope.returnDetails.otherInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
-      if($scope.user.total)
-        $scope.returnDetails.total = $scope.user.total.toFixed(2);
-    }
-    },function(error){
-
-    });
-  }
-
+  
 
   $scope.paymentConfirm = function(){
     if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {

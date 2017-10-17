@@ -114,14 +114,13 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     var loggedin_user = UserModel.getUser();
     console.log(loggedin_user);
     var obj = {};
-    if($state.current.name == "admin-returnFile-details" && loggedin_user && loggedin_user.role.type == "superAdmin"){
+    if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type == "superAdmin"){
       obj.client = $stateParams.client_id;
     }
 
-      // 'client' :  $stateParams.client_id,
+    
 
-    if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
-      console.log("client login and previous return file details");
+    else if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
       obj.client = loggedin_user._id;
     }
     console.log(obj);
@@ -247,14 +246,24 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   /*******************************************************/
   $scope.returnFileDetails = function(){
     var loggedin_user = UserModel.getUser();
-    var obj = {
-      fiscalYear:$scope.user.fiscalYear,
-    }
-    if (loggedin_user && loggedin_user.role.type =="superAdmin")
+    console.log($state);
+    var obj = {};
+    if ($state.current.name=="previous-return-file-details" && loggedin_user && loggedin_user.role.type =="superAdmin")
     {
+      obj.fiscalYear = $scope.user.fiscalYear;
       obj.client = $stateParams.client_id;
     }
+    else if ($state.current.name=="previous-return-file-details" && loggedin_user && loggedin_user.role.type !="superAdmin")
+    {
+      obj.fiscalYear = $scope.user.fiscalYear;
+      obj.client = loggedin_user._id;
+    }
+    else if ($state.current.name=="returnFile-details" && loggedin_user && loggedin_user.role.type =="superAdmin")
+    {
+      obj._id = $stateParams.returnFile_id;
+    }
     ApiCall.getReturnFile(obj, function(response){
+      console.log(response);
       $scope.returnDetails = response.data[0];
       console.log($scope.returnDetails);
       if($scope.returnDetails){
@@ -268,7 +277,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       if($scope.returnDetails.rentalInc)
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.rentalInc);
       if($scope.returnDetails.houseLoanInterestInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
+        $socpe.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
       if($scope.returnDetails.fixDepositInc)
         $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.fixDepositInc);
       if($scope.returnDetails.savingAcInc)
@@ -282,48 +291,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
     });
   }
-  /*******************************************************/
-  /*********FUNCTION IS USED TO show RT Details to Super Admin directly from RT List***********/
-  /*******************************************************/
-  $scope.returnFilesDetails = function(){
-    var loggedin_user = UserModel.getUser();
-    var obj = {
-      fiscalYear : $stateParams.fiscalYear,
-      _id : $stateParams.returnFile_id
-    }
-
-    ApiCall.getReturnFile(obj, function(response){
-      $scope.returnDetails = response.data[0];
-      console.log($scope.returnDetails);
-      if($scope.returnDetails){
-      $scope.returnDetails.total = 0;
-      if($scope.returnDetails.conEmpInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.conEmpInc);
-      if($scope.returnDetails.businessInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.businessInc);
-      if($scope.returnDetails.capitalGainInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.capitalGainInc);
-      if($scope.returnDetails.rentalInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.rentalInc);
-      if($scope.returnDetails.houseLoanInterestInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.houseLoanInterestInc);
-      if($scope.returnDetails.fixDepositInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.fixDepositInc);
-      if($scope.returnDetails.savingAcInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.savingAcInc);
-      if($scope.returnDetails.otherInc)
-        $scope.returnDetails.total = parseFloat($scope.returnDetails.total) + parseFloat($scope.returnDetails.otherInc);
-      if($scope.user.total)
-        $scope.returnDetails.total = $scope.user.total.toFixed(2);
-    }
-    },function(error){
-
-    });
-  }
-  /*******************************************************/
-  /*****FUNCTION IS USED TO ADD PAYMENT CONFIRMATION******/
-  /*******************************************************/
-
+  
 
   $scope.paymentConfirm = function(){
     if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {

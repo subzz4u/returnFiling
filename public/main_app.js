@@ -106,8 +106,11 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   })
   .state('previous-return-file-details', {
     templateUrl: 'view/previous_return_file_details.html',
-    url: '/previous-return-file-details',
+    url: '/previous-return-file-details/:client_id',
     controller:'Return_Controller',
+    params:{
+      client_id:null,
+     },
     resolve: {
       loggedout: checkLoggedout
     }
@@ -120,22 +123,14 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
- .state('admin-returnFile-details', {
-    templateUrl: 'view/admin-returnFile-details.html',
-    url: '/admin-returnFile-details/:client_id',
-    controller:'Return_Controller',
-     params:{
-      client_id:null,
-
-    },
-    resolve: {
-      loggedout: checkLoggedout
-    }
-  })
+ 
  .state('returnFile-details', {
     templateUrl: 'view/returnFile-details.html',
-    url: '/returnFile-details/fiscalYear/:returnFile_id',
+    url: '/returnFile-details/:returnFile_id',
     controller:'Return_Controller',
+    params:{
+      returnFile_id : null,
+    },
     resolve: {
       loggedout: checkLoggedout
     }
@@ -216,11 +211,12 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   .state('referral-list', {
     templateUrl: 'view/referralList.html',
     url: '/referral-list',
-    controller:'Main_Controller',
+    controller:'Referral_Controller',
     resolve: {
       loggedout: checkLoggedout
     }
   })
+
 
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
     var deferred = $q.defer();

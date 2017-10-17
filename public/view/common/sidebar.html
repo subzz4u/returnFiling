@@ -26,13 +26,13 @@
           <i class="fa fa-cogs"></i> <span>User Management</span>
         </a>
       </li> -->
-       <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}" ng-show="checkAdmin()" >
+       <li class="treeview" ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'previous-return-file-details' || stateName == 'new-user'}" ng-show="checkAdmin()" >
           <a href="">
             <i class="fa fa-cogs"></i>
             <span>User Management</span>
           </a>
           <ul class="treeview-menu">
-            <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list({'userType':'in'})"><i class="fa fa-circle-o"></i>Internal Users</a></li>
+            <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'previous-return-file-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list({'userType':'in'})"><i class="fa fa-circle-o"></i>Internal Users</a></li>
             <li ng-class="{'active':stateName == 'user-list' || stateName == 'user-details' || stateName == 'admin-returnFile-details' || stateName == 'new-user'}"><a href="" ui-sref="user-list({'userType':'clients'})"><i class="fa fa-circle-o"></i> Client Users</a></li>
           </ul>
         </li>
@@ -59,6 +59,11 @@
       <li class="treeview" ng-class="{'active':stateName == 'emailConfig'}" ng-show="checkAdmin()">
         <a href="" ui-sref="emailConfig">
           <i class="fa fa-dashboard"></i> <span>Email configuration</span>
+        </a>
+      </li>
+      <li class="treeview" ng-class="{'active':stateName == 'referral-list'}" >
+        <a href="" ui-sref="referral-list">
+          <i class="fa fa-dashboard"></i> <span>Referral Details</span>
         </a>
       </li>
       

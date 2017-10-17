@@ -62,16 +62,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
       },function(error){
       })
   }
-  $scope.getReferralCount = function() {
-    var obj = {
-      count:true
-    }
-    ApiCall.getReferral(obj,function(response){
-      $scope.dashboard.referralCount = response.data;
-      },function(error){
-        console.log(error);
-      })
-  }
+ 
   /*******************************************************/
   /*********FUNCTION IS USED TO CHECK ADMIN USER**********/
   /*******************************************************/
@@ -137,17 +128,17 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   /******FUNCTION IS USED TO Givr Referral list*******/
   /*******************************************************/
-  $scope.referralList = function(){
-   ApiCall.getReferralList(function(response){
-    $scope.referList = response.data;
-    $scope.listData = new NgTableParams;
-    $scope.listData.settings({
-      dataset:$scope.referList
-    })
-   },function(error){
-     console.log("error");
-   });
-  }
+  // $scope.referralList = function(){
+  //  ApiCall.getReferralList(function(response){
+  //   $scope.referList = response.data;
+  //   $scope.listData = new NgTableParams;
+  //   $scope.listData.settings({
+  //     dataset:$scope.referList
+  //   })
+  //  },function(error){
+  //    console.log("error");
+  //  });
+  // }
 
   /*******************************************************/
   /*********FUNCTION IS USED TO DELETE USER***************/
