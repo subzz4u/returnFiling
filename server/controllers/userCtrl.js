@@ -369,3 +369,14 @@ exports.forgotPassword = function(req,res) {
     })
   }
 }
+
+exports.getReferral = function(req,res) {
+  models.referralModel.find({referredBy:req.user._doc._id}).populate("returnFile","itrId tranStatus tranVerification fileDate client")  
+  .exec()
+  .then(function(referral) {
+    return response.sendResponse(res, 200, "success", constants.messages.success.getData,referral);
+  })
+  .catch(function(error) {
+    return response.sendResponse(res, 500, "error", constants.messages.errors.getData,error);
+  })
+}

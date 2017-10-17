@@ -15,7 +15,6 @@ exports.addReturnFile = function(req, res) {
     _id: req.body.client
   }, function(err, client) {
     if (err){
-      console.log("err 1");
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
     }
     else {
@@ -31,26 +30,33 @@ exports.addReturnFile = function(req, res) {
         req.body.form16 = form16; // image path
         new models.returnFileModel(req.body).save(function(err,returnFile) {
           if (err){
-            console.log("err 2" ,err);
-            response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
+            return response.sendResponse(res, 500, "error", constants.messages.errors.saveData, err);
           }
           else {
-            // saving reference details
-            if(req.body.referralEmail || req.body.referralMobile) {
-              var obj = {
-                returnFile : returnFile,
-                referralEmail : req.body.referralEmail,
-                referralMobile : req.body.referralMobile
+            // searching user if exist in user collection
+            models.userModel.findOne({email:req.body.referralEmail})
+            .exec()
+            .then(function(referredBy) {
+              if(req.body.referralEmail || req.body.referralMobile ) {
+                var obj = {
+                  returnFile : returnFile,
+                  referredBy : referredBy || null, // this will update if user is exist in system
+                  referralEmail : req.body.referralEmail,
+                  referralMobile : req.body.referralMobile
+                }
+                // saving reference details
+                console.log("saving referral details  ",obj);
+                new models.referralModel(obj).save(function(err,referral) {
+                  if (err)
+                  console.log("error in referral save " , err);
+                  else
+                  console.log("referral saved for the returnfile " , returnFile._id)
+                })
               }
-              console.log("saving referral details  ",obj);
-              new models.referralModel(obj).save(function(err,referral) {
-                if (err)
-                console.log("error in referral save " , err);
-                else
-                console.log("referral saved for the returnfile " , returnFile._id)
-              })
-            }
-            response.sendResponse(res, 200, "success", constants.messages.success.saveData);
+
+            })
+
+            return response.sendResponse(res, 200, "success", constants.messages.success.saveData);
           }
         })
       })
