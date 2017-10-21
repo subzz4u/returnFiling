@@ -186,7 +186,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     // $scope.user._id = $scope.user_id;
     $scope.currentReturnFile.status = "closed";
     ApiCall.updateReturnFile($scope.currentReturnFile , function(response){
-     console.log(response);
+      Util.alertMessage('success',"Return File Closed Successfully");
       $state.go('return-file-list');
       },function(error){
     console.log(error);

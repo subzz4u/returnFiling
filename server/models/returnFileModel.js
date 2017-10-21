@@ -47,7 +47,7 @@ var returnFileSchema = new mongoose.Schema({
 
      //
      returnAmount : {type:Number,default:null},
-     returnDate : {type:Date,default:null},
+     returnDate : {type:String,default:null},
      fileDate       : {type: Date, default: new Date()},
 
      // form 16

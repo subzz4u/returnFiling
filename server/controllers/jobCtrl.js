@@ -8,7 +8,7 @@ var response = require("./../component/response");
 var models = require("./../models/index");
 var constants = require("./../../config/constants");
 
-exports.addRole = function(req,res){
+exports.addJob = function(req,res){
   new models.jobModel(req.body).save(function (err) {
     if(err)
       response.sendResponse(res,500,"error",constants.messages.errors.saveRole,err);

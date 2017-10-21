@@ -4,6 +4,8 @@
   </h1>
 </section>
 <section class="content" ng-init="referralList()">
+ <!--  <label class="col-xs-12 control-label"> 
+    <h4>You have not referred anyone yet </h4></label> -->
   <div class="row">
     <div class="col-xs-12 col-md-8 col-md-offset-2">
       <div class="box">
@@ -12,18 +14,20 @@
             <table ng-table="listData" class="table table-bordered table-hover">
               <tr ng-repeat="row in $data">
                 <td data-title="'Sl No'">{{ $index + 1}}</td>
-                <td data-title="'Email'" sortable="'email'">{{row.referralEmail}}</td>
-                 <td data-title="'Mobile'" sortable="'email'">{{row.referralMobile}}</td>
-                <td data-title="'Action'">
+                <td data-title="'Referrer Email'">{{row.referralEmail}}</td>
+                 <td data-title="'Referrer Mobile'">{{row.referralMobile}}</td>
+                 <td data-title="'Returnfile Status'">{{row.returnFile.status}}</td>
+                 <td data-title="'File Date'">{{row.returnFile.fileDate}}</td>
+                <td data-title="'More'">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-success"><a href="" class="option-btn" ui-sref="user-details({'user_id':row._id})"><i class="fa fa-eye"></i></a></button>
+                    <button type="button" class="btn btn-success"><a href="" class="option-btn" ui-sref="user-details({'user_id':row.returnFile.client})">Client Details</a></button>
                   </div>
                  <!--  <div class="btn-group">
                     <button type="button" class="btn btn-warning" ui-sref="profile-update({'user_id':row._id})"><i class="fa fa-edit"></i></button>
                   </div> -->
-                  <div class="btn-group">
+                 <!--  <div class="btn-group">
                     <button type="button" ng-click="deleteUser(row)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </div>
+                  </div> -->
                <!--   <div class="btn-group">
                       <button type="button" class="btn btn-info"><a href="" class="option-btn" ui-sref="admin-returnFile-details({'client_id':row._id})">Return Files</a>
                       </button>

@@ -12,7 +12,7 @@
 	         <span class="help-block" ng-show="register.user_fname.$error.pattern && register.user_fname.$touched">Please Enter Valid First Name(Only Alphabets Allowed)</span>
 		</div>
 		<div class="form-group has-feedback" ng-class="{'has-error':register.user_mname.$touched && register.user_mname.$invalid}">
-	        <input type="text" class="form-control" name="user_mname" ng-model="user.middlename" placeholder="Middle Name*"  ng-pattern="/^(\D)+$/">
+	        <input type="text" class="form-control" name="user_mname" ng-model="user.middlename" placeholder="Middle Name"  ng-pattern="/^(\D)+$/">
 	        <span class="glyphicon glyphicon-user form-control-feedback"></span>
 	         <!-- <span class="help-block" ng-show="register.user_fname.$error.required && register.user_fname.$touched">First Name is required</span> -->
 	         <span class="help-block" ng-show="register.user_mname.$error.pattern && register.user_mname.$touched">Please Enter Valid Middle Name(Only Alphabets Allowed)</span>

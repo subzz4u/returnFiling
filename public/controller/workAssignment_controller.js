@@ -8,6 +8,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 	$scope.jobAssignmentList = {};
 	$scope.jobDetails = {};
 	$scope.userDetails = {};
+  $scope.createWork = {};
 	/*******************************************************/
   /*********FUNCTION IS USED TO GIVE JOB CATEGORY LIST***********/
   /*******************************************************/
@@ -23,9 +24,13 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
   /*********FUNCTION IS USED TO GIVE aSSIGNMENT LIST UNDER SELECTED CATEGORY**********/
   /*******************************************************/
 	$scope.getAssignmentList = function(){
-		var obj = {
-			'category': $scope.task.category,
+		var obj = {};
+    if($state.current.name == 'create-task'){
+			obj.category = $scope.createWork.category;
 		}
+    else if($state.current.name == 'work-assignment'){
+      obj.category = $scope.task.category;
+    }
 		// console.log(obj);
 		ApiCall.jobcategoryList(obj, function(response){
 			console.log(response);

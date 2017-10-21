@@ -82,7 +82,21 @@
             
           </ul>
         </li>
-      
+       <li class="treeview" ng-class="{'active':stateName == 'create-task' || statename == 'task-list'}" >
+          <a href="">
+            <i class="fa fa-files-o"></i>
+            <span>Task management</span>
+          </a>
+          <ul class="treeview-menu">
+            <li ng-class="{'active':stateName == 'create-task'}">
+              <a href="" ui-sref="create-task"><i class="fa fa-circle-o"></i>Create Task</a>
+            </li>
+            <li ng-class="{'active':stateName == 'task-list'}">
+              <a href="" ui-sref="task-list"><i class="fa fa-circle-o"></i>My Tasks</a>
+            </li>
+            
+          </ul>
+        </li>
        <li class="treeview" ng-class="{'active':stateName == 'change-password'}" >
           <a href="">
             <i class="fa fa-files-o"></i>

@@ -170,9 +170,17 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
     }
   })
 
- .state('work-assigned', {
-    templateUrl: 'view/works-assigned.html',
-    url: '/work-assigned',
+  .state('create-task', {
+    templateUrl: 'view/task_create.html',
+    url: '/create-task',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+ .state('task-list', {
+    templateUrl: 'view/task_list.html',
+    url: '/task-list',
     controller:'Work_Assignment_Controller',
     resolve: {
       loggedout: checkLoggedout
@@ -885,7 +893,6 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       count:true
     }
     ApiCall.getReferral(obj,function(response){
-    	console.log(response);
       $scope.dashboard.referralCount = response.data;
       },function(error){
         console.log(error);
@@ -893,7 +900,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   }
    $scope.referralList = function(){
    ApiCall.getReferralList(function(response){
-   	console.log(response);
+    console.log(response);
     $scope.referList = response.data;
     $scope.listData = new NgTableParams;
     $scope.listData.settings({
@@ -1068,7 +1075,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
      $scope.currentReturnFile.returnDate = data.returnDate;
     $scope.currentReturnFile.status = "closed";
     ApiCall.updateReturnFile($scope.currentReturnFile , function(response){
-     console.log(response);
+      Util.alertMessage('success',"Return File Closed Successfully");
       $state.go('return-file-list');
       },function(error){
     console.log(error);
@@ -1426,6 +1433,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 	$scope.jobAssignmentList = {};
 	$scope.jobDetails = {};
 	$scope.userDetails = {};
+  $scope.createWork = {};
 	$scope.getJobCategoryList = function(){
 		ApiCall.jobcategoryList(function(response){
 			$scope.categoryList = response.data;
@@ -1435,9 +1443,13 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 
 	}
 	$scope.getAssignmentList = function(){
-		var obj = {
-			'category': $scope.task.category,
+		var obj = {};
+    if($state.current.name == 'create-task'){
+			obj.category = $scope.createWork.category;
 		}
+    else if($state.current.name == 'work-assignment'){
+      obj.category = $scope.task.category;
+    }
 		ApiCall.jobcategoryList(obj, function(response){
 			console.log(response);
 			$scope.assignmentList = response.data[0].assignment;
