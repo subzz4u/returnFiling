@@ -6,6 +6,10 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.dashboard = {};
   $scope.referList = {};
    var loggedIn_user = UserModel.getUser();
+   // event listener
+  //  $rootScope.$on("LOGGED_IN",function() {
+  //    $scope.getUserDetails();;
+  //  });
   /*******************************************************/
   /*********FUNCTION IS USED TO SIGN OUT PROFILE**********/
   /*******************************************************/
@@ -26,7 +30,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     }
     ApiCall.getUser(obj, function(response){
      $scope.internalCount = response.data.length;
-    
+
       },function(error){
       })
   }
@@ -34,6 +38,8 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*********FUNCTION IS USED TO GET USER Details*************/
   /*******************************************************/
   $scope.getUserDetails = function(){
+    if(!UserModel.getUser())
+      return;
     var loggedIn_user = UserModel.getUser();
     var obj = {
         '_id' : loggedIn_user._id,
@@ -44,8 +50,8 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
         },function(error){
         });
       }
-  
-  
+
+
    /*******************************************************/
   /*********FUNCTION IS USED TO GET Client USER LIST*************/
   /*******************************************************/
@@ -60,14 +66,14 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
       },function(error){
       })
   }
- 
+
   /*******************************************************/
   /*********FUNCTION IS USED TO CHECK ADMIN USER**********/
   /*******************************************************/
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
+      if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "superAdmin"){
         $scope.superAdmin = true;
       }
       else{
@@ -81,7 +87,7 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.checkClient = function(){
     $scope.client = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user && loggedIn_user.role.type == "client"){
+      if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "client"){
         $scope.client = false;
       }
       else{
@@ -95,10 +101,10 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.checkInternalUser = function(){
     $scope.internalUser = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user && loggedIn_user.role.type == "client"){  
+      if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "client"){
         $scope.internalUser = false;
       }
-      else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
+      else if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "superAdmin"){
         $scope.internalUser = false;
       }
       else{

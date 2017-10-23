@@ -717,6 +717,7 @@ app.filter('capitalize', function() {
           "uname":$scope.user.username,
           "password":$scope.user.password
         }
+        UserModel.setUser(response.data.user);
       $rootScope.showPreloader = false;
       $localStorage.token = response.data.token;
       $rootScope.is_loggedin = true;
@@ -740,7 +741,8 @@ app.filter('capitalize', function() {
       Util.alertMessage('danger',"Invalid username and password");
     })
   }
-}]);;/*****************************************************************************************************************/
+}]);
+;/*****************************************************************************************************************/
 app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "$uibModal", "$stateParams", "Util", "$timeout", function($scope,$rootScope,$state,$localStorage,NgTableParams,ApiCall,UserModel,$uibModal,$stateParams,Util,$timeout){
   $scope.userList = {};
   $scope.dashboard = {};
@@ -759,11 +761,13 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
     }
     ApiCall.getUser(obj, function(response){
      $scope.internalCount = response.data.length;
-    
+
       },function(error){
       })
   }
   $scope.getUserDetails = function(){
+    if(!UserModel.getUser())
+      return;
     var loggedIn_user = UserModel.getUser();
     var obj = {
         '_id' : loggedIn_user._id,
@@ -788,7 +792,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.checkAdmin = function(){
     $scope.superAdmin = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
+      if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "superAdmin"){
         $scope.superAdmin = true;
       }
       else{
@@ -799,7 +803,7 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.checkClient = function(){
     $scope.client = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user && loggedIn_user.role.type == "client"){
+      if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "client"){
         $scope.client = false;
       }
       else{
@@ -810,10 +814,10 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   $scope.checkInternalUser = function(){
     $scope.internalUser = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user && loggedIn_user.role.type == "client"){  
+      if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "client"){
         $scope.internalUser = false;
       }
-      else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
+      else if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "superAdmin"){
         $scope.internalUser = false;
       }
       else{

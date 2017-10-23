@@ -13,6 +13,9 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
           "uname":$scope.user.username,
           "password":$scope.user.password
         }
+        UserModel.setUser(response.data.user);
+        //emit user logged in
+      //$scope.$emit("LOGGED_IN");
       $rootScope.showPreloader = false;
       $localStorage.token = response.data.token;
       $rootScope.is_loggedin = true;
