@@ -35,11 +35,9 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   $scope.getUserDetails = function(){
     var loggedIn_user = UserModel.getUser();
-    var obj = {};
-    if(loggedIn_user){
-        obj._id = loggedIn_user._id;
+    var obj = {
+        '_id' : loggedIn_user._id,
       }
-      console.log(obj);
         ApiCall.getUser(obj, function(response){
           console.log(response);
           $scope.userDetails = response.data;

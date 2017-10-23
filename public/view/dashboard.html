@@ -47,7 +47,7 @@
             <div class="icon">
               <i class="fa fa-file"></i>
             </div>
-            <a href="" ui-sref="referral-list" class="small-box-footer">
+            <a href="" ui-sref="referral-overview" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -181,6 +181,23 @@
               More info <i class="fa fa-arrow-circle-right"></i>
           </a>
       </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-5 col-sm-6 col-xs-12" ng-controller="Referral_Controller">
+        <div class="small-box bg-green" ng-init="getReferralCount()">
+            <div class="inner">
+              <h3>{{dashboard.referralCount}}</h3>
+
+              <p>Referral Count</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-file"></i>
+            </div>
+            <a href="" ui-sref="referral-list" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
     </div>
   </div>
 </section>

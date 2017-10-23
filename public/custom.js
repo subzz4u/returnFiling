@@ -226,6 +226,14 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
+   .state('referral-overview', {
+    templateUrl: 'view/referralOverview.html',
+    url: '/referral-overview',
+    controller:'Referral_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
 
 
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {
@@ -454,11 +462,15 @@ app.filter('capitalize', function() {
       method: "GET"
     },
     getReferral : {
-      url:"/returnFile/referral",
+      url:"/referral/count",
       method: "GET"
     },
     getReferralList : {
-      url:"/user/referral",
+      url:"/referral",
+      method: "GET"
+    },
+     getOverview : {
+      url:"/referral/overview",
       method: "GET"
     },
     getReturnList : {
@@ -577,11 +589,13 @@ app.filter('capitalize', function() {
     postTemplate: ApiGenerator.getApi('postTemplate'),
     putTemplate: ApiGenerator.getApi('putTemplate'),
     getReferralList : ApiGenerator.getApi('getReferralList'),
+    getOverview:  ApiGenerator.getApi('getOverview'),
     jobcategoryList :  ApiGenerator.getApi('jobcategoryList'),
     postAssignment:  ApiGenerator.getApi('postAssignment'),
     getjobAssignments:  ApiGenerator.getApi('getjobAssignments'),
     updateJobAssignment:  ApiGenerator.getApi('updateJobAssignment'),
     forgotPassword:  ApiGenerator.getApi('forgotPassword'),
+
   })
 }])
 
@@ -751,11 +765,9 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
   }
   $scope.getUserDetails = function(){
     var loggedIn_user = UserModel.getUser();
-    var obj = {};
-    if(loggedIn_user){
-        obj._id = loggedIn_user._id;
+    var obj = {
+        '_id' : loggedIn_user._id,
       }
-      console.log(obj);
         ApiCall.getUser(obj, function(response){
           console.log(response);
           $scope.userDetails = response.data;
@@ -888,6 +900,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 ]);
 ;app.controller("Referral_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
 	$scope.user = {};
+  $scope.dashboard = {};
 	$scope.getReferralCount = function() {
     var obj = {
       count:true
@@ -900,7 +913,6 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   }
    $scope.referralList = function(){
    ApiCall.getReferralList(function(response){
-    console.log(response);
     $scope.referList = response.data;
     $scope.listData = new NgTableParams;
     $scope.listData.settings({
@@ -909,6 +921,14 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
    },function(error){
      console.log("error");
    });
+  }
+  $scope.referralOverviewList = function(){
+    ApiCall.getOverview(function(response){
+      console.log(response);
+      console.log(2547823623);
+    },function(error){
+
+    });
   }
 
 }]);;app.controller("Return_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$stateParams", "$localStorage", "NgTableParams", "ApiCall", "Util", "$timeout", "UserModel", "$uibModal", function($scope,$rootScope,$rootScope,$state,$stateParams,$localStorage,NgTableParams,ApiCall,Util, $timeout,UserModel,$uibModal){

@@ -224,6 +224,14 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
+   .state('referral-overview', {
+    templateUrl: 'view/referralOverview.html',
+    url: '/referral-overview',
+    controller:'Referral_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
 
 
   function checkLoggedout($q, $timeout, $rootScope, $state,$http, $localStorage,UserModel) {

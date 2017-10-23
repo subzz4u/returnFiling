@@ -93,6 +93,10 @@ angular.module('WebService', [])
       url:"/referral",
       method: "GET"
     },
+     getOverview : {
+      url:"/referral/overview",
+      method: "GET"
+    },
     getReturnList : {
       url:"/returnFile",
       method: "GET"
@@ -209,11 +213,13 @@ angular.module('WebService', [])
     postTemplate: ApiGenerator.getApi('postTemplate'),
     putTemplate: ApiGenerator.getApi('putTemplate'),
     getReferralList : ApiGenerator.getApi('getReferralList'),
+    getOverview:  ApiGenerator.getApi('getOverview'),
     jobcategoryList :  ApiGenerator.getApi('jobcategoryList'),
     postAssignment:  ApiGenerator.getApi('postAssignment'),
     getjobAssignments:  ApiGenerator.getApi('getjobAssignments'),
     updateJobAssignment:  ApiGenerator.getApi('updateJobAssignment'),
     forgotPassword:  ApiGenerator.getApi('forgotPassword'),
+
   })
 })
 
