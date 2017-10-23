@@ -9,6 +9,9 @@ router.get('/',passport.authenticate('token', {session:false}),function(req, res
 router.get('/count',passport.authenticate('token', {session:false}),function(req, res, next) {
   controllers.referralCtrl.getReferralCount(req, res);
 });
+router.get('/overview',passport.authenticate('token', {session:false}),function(req, res, next) {
+  controllers.referralCtrl.getOverView(req, res);
+});
 // router.get('/', function(req, res, next) {
 //   controllers.referralCtrl.getRole(req, res);
 // });

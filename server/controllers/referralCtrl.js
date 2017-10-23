@@ -44,3 +44,22 @@ exports.getReferralCount = function(req, res) {
     })
   }
 }
+exports.getOverView = function(req, res) {
+  var aggregate = [
+        {
+            $group: {
+               _id: '$referredBy',
+                count: {$sum: 1}
+           }
+       }
+     ]
+  models.referralModel.aggregate(aggregate,function(err,data) {
+    if(err){
+      return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
+    }
+    else{
+      
+      return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
+    }
+  })
+}
