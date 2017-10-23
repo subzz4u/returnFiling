@@ -86,11 +86,11 @@ angular.module('WebService', [])
       method: "GET"
     },
     getReferral : {
-      url:"/returnFile/referral",
+      url:"/referral/count",
       method: "GET"
     },
     getReferralList : {
-      url:"/user/referral",
+      url:"/referral",
       method: "GET"
     },
     getReturnList : {

@@ -370,17 +370,17 @@ exports.forgotPassword = function(req,res) {
   }
 }
 
-exports.getReferral = function(req,res) {
-  var params = {};
-  if(req.user._doc.role.type !="superAdmin"){
-    params['referredBy'] = req.user._doc._id;
-  }
-  models.referralModel.find(params).populate("returnFile","itrId tranStatus tranVerification fileDate client status")  
-  .exec()
-  .then(function(referral) {
-    return response.sendResponse(res, 200, "success", constants.messages.success.getData,referral);
-  })
-  .catch(function(error) {
-    return response.sendResponse(res, 500, "error", constants.messages.errors.getData,error);
-  })
-}
+// exports.getReferral = function(req,res) {
+//   var params = {};
+//   if(req.user._doc.role.type !="superAdmin"){
+//     params['referredBy'] = req.user._doc._id;
+//   }
+//   models.referralModel.find(params).populate("returnFile","itrId tranStatus tranVerification fileDate client status")
+//   .exec()
+//   .then(function(referral) {
+//     return response.sendResponse(res, 200, "success", constants.messages.success.getData,referral);
+//   })
+//   .catch(function(error) {
+//     return response.sendResponse(res, 500, "error", constants.messages.errors.getData,error);
+//   })
+// }

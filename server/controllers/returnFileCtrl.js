@@ -143,28 +143,28 @@ exports.getItr = function(req, res) {
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
     })
 }
-exports.getReferral = function(req, res) {
-  var params = {
-    isDelete: false
-  };
-  if(req.query.count == "true") {
-    models.referralModel.count({}, function(err, count){
-        return response.sendResponse(res, 200, "success", constants.messages.success.getData, count);
-    });
-  }
-  else{
-
-    models.referralModel.find(params)
-    //.populate('client')
-    .exec()
-    .then(function(data) {
-      return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
-    })
-    .catch(function(err) {
-      return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
-    })
-  }
-}
+// exports.getReferral = function(req, res) {
+//   var params = {
+//     isDelete: false
+//   };
+//   if(req.query.count == "true") {
+//     models.referralModel.count({}, function(err, count){
+//         return response.sendResponse(res, 200, "success", constants.messages.success.getData, count);
+//     });
+//   }
+//   else{
+//
+//     models.referralModel.find(params)
+//     //.populate('client')
+//     .exec()
+//     .then(function(data) {
+//       return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
+//     })
+//     .catch(function(err) {
+//       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
+//     })
+//   }
+// }
 exports.getfiscalYear = function(req, res) {
   var params = {
     isDelete: false,

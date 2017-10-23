@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"returnFiling.returnfiles"},{"v":1,"unique":true,"key":{"itrId":1},"name":"itrId_1","ns":"returnFiling.returnfiles","background":true}]}

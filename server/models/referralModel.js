@@ -17,5 +17,5 @@ var returnFileSchema = new mongoose.Schema({
 });
 returnFileSchema.plugin(uniqueValidator, {message: "returnFile required"});
 
-var referralModel = mongoose.model('referralModel', returnFileSchema);
+var referralModel = mongoose.model('referral', returnFileSchema);
 module.exports = referralModel;
