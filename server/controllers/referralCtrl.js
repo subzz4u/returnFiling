@@ -26,23 +26,12 @@ exports.getReferralCount = function(req, res) {
   var params = {
     isDelete: false
   };
-  if(req.query.count == "true") {
-    models.referralModel.count({}, function(err, count){
-        return response.sendResponse(res, 200, "success", constants.messages.success.getData, count);
-    });
+  if(req.user._doc.role.type!="superAdmin"){
+    params['referredBy'] = req.user._doc._id;
   }
-  else{
-
-    models.referralModel.find(params)
-    //.populate('client')
-    .exec()
-    .then(function(data) {
-      return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
-    })
-    .catch(function(err) {
-      return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
-    })
-  }
+  models.referralModel.count(params, function(err, count){
+      return response.sendResponse(res, 200, "success", constants.messages.success.getData, count);
+  });
 }
 exports.getOverView = function(req, res) {
   var aggregate = [
@@ -58,7 +47,6 @@ exports.getOverView = function(req, res) {
       return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
     }
     else{
-      
       return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
     }
   })
