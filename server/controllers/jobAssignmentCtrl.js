@@ -11,7 +11,7 @@ var component = require("./../component/index");
 
 exports.addJobAssignment = function(req,res){
   // add validation
-  var result = component.utility.validateNull(req,res,'body',"category","assignment","description","role","user","startDate","endDate");
+  var result = component.utility.validateNull(req,res,'body',"category","assignment","description","workName");
   if(result)
   {
     return ; // error response already sent
@@ -44,6 +44,9 @@ exports.getJobAssignments = function(req,res){
   }
   if(req.query.status){
     params['status'] = req.query.status;
+  }
+  if(req.query.createdFor){
+    params['createdFor'] = req.query.createdFor;
   }
   models.jobAssignmentModel.find(params,function(err,data){
     response.sendResponse(res,200,"success",constants.messages.success.getData,data);

@@ -7,20 +7,21 @@
  <!--  <label class="col-xs-12 control-label"> 
     <h4>You have not referred anyone yet </h4></label> -->
   <div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-2">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
       <div class="box">
         <div class="box-body over-x-sc">
           <div class="table-responsive">
-            <table ng-table="listData" class="table table-bordered table-hover">
+            <table ng-table="listOverview" class="table table-bordered table-hover">
               <tr ng-repeat="row in $data">
                 <td data-title="'Sl No'">{{ $index + 1}}</td>
-                <td data-title="'Referrer Email'">{{row.referralEmail}}</td>
-                 <td data-title="'Referrer Mobile'">{{row.referralMobile}}</td>
-                 <td data-title="'Returnfile Status'">{{row.returnFile.status}}</td>
-                 <td data-title="'File Date'">{{row.returnFile.fileDate}}</td>
+                <td data-title="'Name'"  ng-controller="Return_Controller" ng-init="getUserDetails(row)" >{{row.userDetails.firstname}} {{row.userDetails.middlename}} {{row.userDetails.lastname}}</td>
+                <td data-title="'Email'">{{row.userDetails.email}}</td>
+                <td data-title="'Mobile'">{{row.userDetails.mobile}}</td>
+                <td data-title="'No of referrals'">{{row.count}}</td>
                 <td data-title="'More'">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-success"><a href="" class="option-btn" ui-sref="user-details({'user_id':row.returnFile.client})">Client Details</a></button>
+                    <button type="button" class="btn btn-success"><a href="" class="option-btn" ui-sref="referral-list({'referal_id':row._id})">All Referrals</a></button>
+                    <button type="button" class="btn btn-info"><a href="" class="option-btn" ui-sref="user-details({'user_id':row._id})">Referer Details</a></button>
                   </div>
                  <!--  <div class="btn-group">
                     <button type="button" class="btn btn-warning" ui-sref="profile-update({'user_id':row._id})"><i class="fa fa-edit"></i></button>

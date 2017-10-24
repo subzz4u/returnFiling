@@ -1,5 +1,5 @@
-app.controller("Referral_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
-	$scope.user = {};
+app.controller("Referral_Controller",function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout,$stateParams){
+	$scope.overviewList = {};
   $scope.dashboard = {};
 	$scope.getReferralCount = function() {
     var obj = {
@@ -12,7 +12,13 @@ app.controller("Referral_Controller",function($scope,$rootScope,$rootScope,$stat
       })
   }
    $scope.referralList = function(){
-   ApiCall.getReferralList(function(response){
+    var obj = {};
+    if($state.current.name == "referral-list"){
+      console.log(32432);
+      obj.referredBy = $stateParams.referal_id;
+    }
+    console.log(obj);
+   ApiCall.getReferralList(obj, function(response){
     $scope.referList = response.data;
     $scope.listData = new NgTableParams;
     $scope.listData.settings({
@@ -25,7 +31,11 @@ app.controller("Referral_Controller",function($scope,$rootScope,$rootScope,$stat
   $scope.referralOverviewList = function(){
     ApiCall.getOverview(function(response){
       console.log(response);
-      console.log(2547823623);
+      $scope.overviewList = response.data;
+      $scope.listOverview = new NgTableParams;
+      $scope.listOverview.settings({
+        dataset:$scope.overviewList
+     })  
     },function(error){
 
     });

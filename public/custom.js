@@ -169,7 +169,22 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
       loggedout: checkLoggedout
     }
   })
-
+.state('work-assigned', {
+    templateUrl: 'view/works-assigned.html',
+    url: '/work-assigned',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+.state('work-not-assigned', {
+    templateUrl: 'view/works-not-assigned.html',
+    url: '/work-not-assigned',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   .state('create-task', {
     templateUrl: 'view/task_create.html',
     url: '/create-task',
@@ -220,8 +235,11 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
   })
   .state('referral-list', {
     templateUrl: 'view/referralList.html',
-    url: '/referral-list',
+    url: '/referral-list/:referal_id',
     controller:'Referral_Controller',
+    params:{
+      referal_id : null,
+    },
     resolve: {
       loggedout: checkLoggedout
     }
@@ -595,7 +613,6 @@ app.filter('capitalize', function() {
     getjobAssignments:  ApiGenerator.getApi('getjobAssignments'),
     updateJobAssignment:  ApiGenerator.getApi('updateJobAssignment'),
     forgotPassword:  ApiGenerator.getApi('forgotPassword'),
-
   })
 }])
 
@@ -721,19 +738,26 @@ app.filter('capitalize', function() {
       $rootScope.showPreloader = false;
       $localStorage.token = response.data.token;
       $rootScope.is_loggedin = true;
+      console.log("logged in");
+      console.log(response);
       if(response.data.user.role.type == "superAdmin" && !response.data.user.father){
+         console.log("ist condition in");
            $state.go('profile-update');
       }
       else if(response.data.user.role.type == "superAdmin" && response.data.user.father){
            $state.go('dashboard');
+            console.log("2nd condition in");
       }
       else if(response.data.user.father){
         $state.go('user-profile',{'user_id':response.data.user._id});
+         console.log("3rd condition in");
       }
        else if((response.data.user.role.type !== "superAdmin" || response.data.user.role.type !== "client") && response.data.user.father){
           $state.go('user-profile',{'user_id':response.data.user._id});
+           console.log("4th condition in");
       }
       else{
+         console.log("5th condition in");
         $state.go('profile-update');
       }
     },function(error){
@@ -766,8 +790,6 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
       })
   }
   $scope.getUserDetails = function(){
-    if(!UserModel.getUser())
-      return;
     var loggedIn_user = UserModel.getUser();
     var obj = {
         '_id' : loggedIn_user._id,
@@ -804,10 +826,10 @@ app.controller("Main_Controller",["$scope", "$rootScope", "$state", "$localStora
     $scope.client = false;
       var loggedIn_user = UserModel.getUser();
       if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "client"){
-        $scope.client = false;
+        $scope.client = true;
       }
       else{
-        $scope.client = true;
+        $scope.client = false;
       }
       return  $scope.client;
   }
@@ -902,8 +924,8 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
     }
 ]);
-;app.controller("Referral_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout){
-	$scope.user = {};
+;app.controller("Referral_Controller",["$scope", "$rootScope", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "$timeout", "$stateParams", function($scope,$rootScope,$rootScope,$state,$localStorage,NgTableParams,ApiCall, $timeout,$stateParams){
+	$scope.overviewList = {};
   $scope.dashboard = {};
 	$scope.getReferralCount = function() {
     var obj = {
@@ -916,7 +938,13 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       })
   }
    $scope.referralList = function(){
-   ApiCall.getReferralList(function(response){
+    var obj = {};
+    if($state.current.name == "referral-list"){
+      console.log(32432);
+      obj.referredBy = $stateParams.referal_id;
+    }
+    console.log(obj);
+   ApiCall.getReferralList(obj, function(response){
     $scope.referList = response.data;
     $scope.listData = new NgTableParams;
     $scope.listData.settings({
@@ -929,7 +957,11 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   $scope.referralOverviewList = function(){
     ApiCall.getOverview(function(response){
       console.log(response);
-      console.log(2547823623);
+      $scope.overviewList = response.data;
+      $scope.listOverview = new NgTableParams;
+      $scope.listOverview.settings({
+        dataset:$scope.overviewList
+     })  
     },function(error){
 
     });
@@ -1227,9 +1259,14 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
   }
   $scope.getUserDetails = function(row){
-    var obj ={
-       "_id" : row.client
+    var obj ={};
+    if($state.current.name == "referral-overview"){
+      obj._id = row._id;
     }
+    else{
+       obj._id = row.client;
+    }
+    console.log(obj);
     ApiCall.getUser(obj, function(response){
       console.log(response);
       row.userDetails = response.data;
@@ -1304,7 +1341,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 
 
 }]);
-;app.controller("User_Controller", ["$scope", "$timeout", "LOG", "$rootScope", "$state", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope, $timeout, LOG, $rootScope, $state, $localStorage, NgTableParams, ApiCall, UserModel, Util, $stateParams) {
+;app.controller("User_Controller", ["$scope", "$timeout", "LOG", "$rootScope", "$state", "$location", "$window", "$localStorage", "NgTableParams", "ApiCall", "UserModel", "Util", "$stateParams", function($scope, $timeout, LOG, $rootScope, $state,$location, $window,$localStorage, NgTableParams, ApiCall, UserModel, Util, $stateParams) {
   $scope.user = {};
   $scope.tempAdhar = {};
   $scope.tempPAN = {};
@@ -1385,11 +1422,13 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
       UserModel.setUser(response.data.user);
       $localStorage.token = response.data.token;
       var loggedIn_user = UserModel.getUser();
-
+     
       Util.alertMessage('success', "Data Updated Successfully");
       $state.go('user-profile', {
         'user_id': loggedIn_user._id
       });
+    
+
     }, function(error) {
       $rootScope.showPreloader = false;
     })
@@ -1458,9 +1497,12 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 	$scope.jobDetails = {};
 	$scope.userDetails = {};
   $scope.createWork = {};
+  $scope.taskList = [];
+  $scope.assignedJobs = [];
 	$scope.getJobCategoryList = function(){
 		ApiCall.jobcategoryList(function(response){
 			$scope.categoryList = response.data;
+
 		},function(error){
 
 		});
@@ -1475,17 +1517,13 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
       obj.category = $scope.task.category;
     }
 		ApiCall.jobcategoryList(obj, function(response){
-			console.log(response);
-			$scope.assignmentList = response.data[0].assignment;
-			console.log($scope.assignmentList);
+		  $scope.assignmentList = response.data[0].assignment;
 		},function(error){
 			console.error(error);
 		});
 
 	}
 	$scope.showRetunFile = function() {
-		console.log('$scope.task.assignment' ,$scope.task.assignment);
-		console.log('$scope.task.category' ,$scope.task.category);
 		if(($scope.task.assignment == "pending" || $scope.task.assignment == "processing" ) && $scope.task.category == "Return File") {
 			$scope.task.showReturnFile = true;
 		}
@@ -1529,22 +1567,22 @@ $scope.checkInternalUser = function(){
     $scope.internalUser = false;
       var loggedIn_user = UserModel.getUser();
       if(loggedIn_user && loggedIn_user.role.type == "client"){  
-      	console.log("client");
         $scope.internalUser = false;
       }
       else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
-        console.log("yeah bro superAdmin");
         $scope.internalUser = false;
       }
       else{
-      	console.log("internal  inside work controller");
         $scope.internalUser = true;
       }
       return  $scope.internalUser;
   }
  $scope.workAssignConfirm = function(){
+  $scope.task._id = $scope.task.workName;
+  delete $scope.task['workName'];
+  
  	$rootScope.showPreloader = true;
- 	ApiCall.postAssignment($scope.task, function(response){
+ 	ApiCall.updateJobAssignment($scope.task, function(response){
  		$rootScope.showPreloader = false;
  		Util.alertMessage('success',"Job Assigned Successfully");
  		$state.go('dashboard');
@@ -1553,38 +1591,47 @@ $scope.checkInternalUser = function(){
  	});
  }
  $scope.getAssignedJobs = function(){
-  $scope.pendingJobs = [];
-  $scope.processJobs = [];
-  $scope.completedJobs = [];
  	var loggedIn_user = UserModel.getUser();
  	var obj = {};
  	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin"){
  		 obj.user = loggedIn_user._id;
  	}
  	ApiCall.getjobAssignments(obj, function(response){	
-    console.log(response);
- 		$scope.jobAssignmentList = response.data;
- 		$scope.jobData = new NgTableParams;
- 		$scope.jobData.settings({
- 			dataset:$scope.jobAssignmentList
- 		})
-    $scope.pendingJobs = [];
-  $scope.processJobs = [];
-  $scope.completedJobs = [];
+  $scope.pendingAssignedJobs = [];
+  $scope.processAssignedJobs = [];
+  $scope.completedAssignedJobs = [];
+  $scope.assignedJobs = [];
+  $scope.taskList = [];
    angular.forEach(response.data, function(item){
-            if(item.status == "pending"){
-              $scope.pendingJobs.push(item);
+      if(item.user){
+        $scope.assignedJobs.push(item);
+      }
+      else{
+        $scope.taskList.push(item);
+      }
+     });    
+       $scope.assignedJobData = new NgTableParams;
+       $scope.assignedJobData.settings({
+       dataset:$scope.assignedJobs
+       })
+        $scope.notAssignedJobData = new NgTableParams;
+       $scope.notAssignedJobData.settings({
+       dataset:$scope.taskList
+       })
+       console.log($scope.assignedJobs);
+      angular.forEach($scope.assignedJobs,function(item){
+        if(item.status == "pending"){
+              $scope.pendingAssignedJobs.push(item);
                }
               else if(item.status == "In_Progress"){
-                $scope.processJobs.push(item);
+                $scope.processAssignedJobs.push(item);
               }
               else if(item.status == "Completed"){
-                $scope.completedJobs.push(item);
+                $scope.completedAssignedJobs.push(item);
               }
-          });
-   console.log($scope.pendingJobs);
-    console.log($scope.processJobs);
-    console.log($scope.completedJobs);
+      });
+         
+         
  	},function(error){
 
  	});
@@ -1604,19 +1651,18 @@ $scope.checkInternalUser = function(){
   	}
  	ApiCall.getjobAssignments(obj, function(response){
  		$scope.task = response.data[0];
- 		var obj = {
- 			'_id' : $scope.task.role
- 		}
- 		ApiCall.getRole(obj, function(response){
- 			$scope.roleType = response.data[0].type;
- 		},function(error){
-
- 		});
+ 		var obj = {};
+    if($scope.task.role){
+ 			obj._id = $scope.task.role;
+      ApiCall.getRole(obj, function(response){
+ 			  $scope.roleType = response.data[0].type;
+ 		    },function(error){
+       });
+      }
  		var obz = {
  			'_id' : $scope.task.user
  		}
  		ApiCall.getUser(obz, function(response){
- 			console.log(response);
 	     $scope.userFirstname = response.data.firstname;
 	     $scope.userLastname = response.data.lastname;
 	    },function(error){
@@ -1624,7 +1670,6 @@ $scope.checkInternalUser = function(){
  	},function(error){
 
  	});
- 	console.log($scope.task);
  }
  $scope.updateJobStatus = function(){
  	ApiCall.updateJobAssignment($scope.task, function(response){
@@ -1634,6 +1679,58 @@ $scope.checkInternalUser = function(){
 
  	});
  }
+ $scope.taskCreation = function(){
+  var loggedIn_user = UserModel.getUser();
+  if(loggedIn_user && loggedIn_user.role.type == "client"){
+      $scope.createWork.createdBy = loggedIn_user._id;
+      $scope.createWork.createdFor = loggedIn_user._id;
+    }
+    $rootScope.showPreloader = true;
+    ApiCall.postAssignment($scope.createWork, function(response){
+      $rootScope.showPreloader = false;
+      Util.alertMessage('success',"Job created Successfully");
+      $state.go('user-profile',{'user_id':loggedIn_user._id});
+     },function(error){
+      console.log("error");
+  });
+ }
+ $scope.getTaskList = function(){
+  $scope.taskList = [];
+  var loggedIn_user = UserModel.getUser();
+  var obj = {};
+  if(loggedIn_user && loggedIn_user.role.type == "client"){
+     obj.createdFor = loggedIn_user._id;
+  }
+    ApiCall.getjobAssignments(obj, function(response){
+      $scope.jobAssignmentList = response.data;
+      angular.forEach($scope.jobAssignmentList,function(item){
+        if(item.user){
+        }
+        else{
+          $scope.taskList.push(item);
+        }
+      });
+
+      $scope.createdTaskData = new NgTableParams;
+      $scope.createdTaskData.settings({
+      dataset:$scope.jobAssignmentList
+    })
+    },function(error){
+
+    });
+ }
+$scope.getTaskDetails = function(){
+  var obj = {
+    '_id' : $scope.task.workName
+    }
+    ApiCall.getjobAssignments(obj, function(response){
+      $scope.task.category = response.data[0].category;
+      $scope.task.assignment = response.data[0].assignment;
+      $scope.task.description = response.data[0].description;
+    },function(error){
+
+    });
+}
 }]);
 ;app.directive('fileModell', ['$parse', function ($parse) {
     return {

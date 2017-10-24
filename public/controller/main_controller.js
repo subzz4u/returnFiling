@@ -38,8 +38,6 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*********FUNCTION IS USED TO GET USER Details*************/
   /*******************************************************/
   $scope.getUserDetails = function(){
-    if(!UserModel.getUser())
-      return;
     var loggedIn_user = UserModel.getUser();
     var obj = {
         '_id' : loggedIn_user._id,
@@ -88,10 +86,10 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
     $scope.client = false;
       var loggedIn_user = UserModel.getUser();
       if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "client"){
-        $scope.client = false;
+        $scope.client = true;
       }
       else{
-        $scope.client = true;
+        $scope.client = false;
       }
       return  $scope.client;
   }

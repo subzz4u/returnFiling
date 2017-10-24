@@ -219,7 +219,6 @@ angular.module('WebService', [])
     getjobAssignments:  ApiGenerator.getApi('getjobAssignments'),
     updateJobAssignment:  ApiGenerator.getApi('updateJobAssignment'),
     forgotPassword:  ApiGenerator.getApi('forgotPassword'),
-
   })
 })
 

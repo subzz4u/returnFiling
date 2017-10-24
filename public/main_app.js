@@ -167,7 +167,22 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
       loggedout: checkLoggedout
     }
   })
-
+.state('work-assigned', {
+    templateUrl: 'view/works-assigned.html',
+    url: '/work-assigned',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
+.state('work-not-assigned', {
+    templateUrl: 'view/works-not-assigned.html',
+    url: '/work-not-assigned',
+    controller:'Work_Assignment_Controller',
+    resolve: {
+      loggedout: checkLoggedout
+    }
+  })
   .state('create-task', {
     templateUrl: 'view/task_create.html',
     url: '/create-task',
@@ -218,8 +233,11 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   })
   .state('referral-list', {
     templateUrl: 'view/referralList.html',
-    url: '/referral-list',
+    url: '/referral-list/:referal_id',
     controller:'Referral_Controller',
+    params:{
+      referal_id : null,
+    },
     resolve: {
       loggedout: checkLoggedout
     }

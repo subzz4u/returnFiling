@@ -200,7 +200,7 @@ a:active,
 a:focus {
   outline: none;
   text-decoration: none;
-  color: #77b917;
+  color: #1e1e1e;
 }
 /* Page Header */
 .page-header {

@@ -1,4 +1,4 @@
-app.controller("User_Controller", function($scope, $timeout, LOG, $rootScope, $state, $localStorage, NgTableParams, ApiCall, UserModel, Util, $stateParams) {
+app.controller("User_Controller", function($scope, $timeout, LOG, $rootScope, $state,$location, $window,$localStorage, NgTableParams, ApiCall, UserModel, Util, $stateParams) {
   $scope.user = {};
   $scope.tempAdhar = {};
   $scope.tempPAN = {};
@@ -108,11 +108,13 @@ app.controller("User_Controller", function($scope, $timeout, LOG, $rootScope, $s
       UserModel.setUser(response.data.user);
       $localStorage.token = response.data.token;
       var loggedIn_user = UserModel.getUser();
-
+     
       Util.alertMessage('success', "Data Updated Successfully");
       $state.go('user-profile', {
         'user_id': loggedIn_user._id
       });
+    
+
     }, function(error) {
       $rootScope.showPreloader = false;
     })

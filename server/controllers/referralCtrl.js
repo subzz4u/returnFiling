@@ -13,7 +13,10 @@ exports.getReferral = function(req,res) {
   if(req.user._doc.role.type != "superAdmin"){
     param.referredBy = req.user._doc._id;
   }
-  models.referralModel.find(param).populate("returnFile","itrId tranStatus tranVerification fileDate client")
+   if (req.query.referredBy) {
+    param['referredBy'] = req.query.referredBy;
+  }
+  models.referralModel.find(param).populate("returnFile","itrId tranStatus status tranVerification fileDate client")
   .exec()
   .then(function(referral) {
     return response.sendResponse(res, 200, "success", constants.messages.success.getData,referral);

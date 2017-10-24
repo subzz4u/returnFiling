@@ -6,11 +6,11 @@
 </section>
 <section class="content" ng-init="getAssignedJobs()" ng-show="checkAdmin()">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
       <div class="box">
         <div class="box-body over-x-sc">
           <div class="table-responsive">
-            <table ng-table="jobData" class="table table-bordered table-hover">
+            <table ng-table="assignedJobData" class="table table-bordered table-hover">
               <tr ng-repeat="row in $data">
                 <td data-title="'Sl No'">{{ $index + 1}}</td>
                <td data-title="'category'" sortable="'user_category'">{{row.category}}</td>
@@ -32,11 +32,11 @@
 </section>
 <section class="content" ng-init="getAssignedJobs()" ng-hide="checkAdmin()" >
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
       <div class="box">
         <div class="box-body over-x-sc">
           <div class="table-responsive">
-            <table ng-table="jobData" class="table table-bordered table-hover">
+            <table ng-table="assignedJobData" class="table table-bordered table-hover">
               <tr ng-repeat="row in $data">
                 <td data-title="'Sl No'">{{ $index + 1}}</td>
                <td data-title="'category'" sortable="'user_category'">{{row.category}}</td>

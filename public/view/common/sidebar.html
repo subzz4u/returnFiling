@@ -11,7 +11,7 @@
     </div>
     <ul class="sidebar-menu">
       <li class="header">OPTIONS</li>
-      <li class="treeview" ng-class="{'active':stateName == 'dashboard'}" ng-show="checkClient()">
+      <li class="treeview" ng-class="{'active':stateName == 'dashboard'}" ng-hide="checkClient()">
         <a href="" ui-sref="dashboard">
           <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </a>
@@ -82,7 +82,7 @@
           </ul>
         </li>
       
-       <li class="treeview" ng-class="{'active':stateName == 'work-assignment' || stateName == 'work-assigned'}" ng-show="checkClient()">
+       <li class="treeview" ng-class="{'active':stateName == 'work-assignment' || stateName == 'work-assigned'}" ng-hide="checkClient()">
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>Job Assignment</span>
@@ -94,10 +94,13 @@
             <li ng-class="{'active':stateName == 'work-assigned'}">
               <a href="" ui-sref="work-assigned"><i class="fa fa-circle-o"></i>Jobs Assigned</a>
             </li>
+            <li ng-class="{'active':stateName == 'work-not-assigned'}" ng-show="checkAdmin()" >
+              <a href="" ui-sref="work-not-assigned"><i class="fa fa-circle-o"></i>Jobs Not Assigned</a>
+            </li>
             
           </ul>
         </li>
-       <li class="treeview" ng-class="{'active':stateName == 'create-task' || statename == 'task-list'}" >
+       <li class="treeview" ng-show="checkClient()"  ng-class="{'active':stateName == 'create-task' || stateName == 'task-list'}" >
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>Task management</span>

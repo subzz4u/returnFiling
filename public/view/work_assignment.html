@@ -1,10 +1,10 @@
-<section class="content-header" ng-init="getworkAssign()">
+<section class="content-header">
   <h1>
    Work Assignment
     <small>Control panel</small>
   </h1>
 </section>
-<section class="content" ng-init="getList()">
+<section class="content">
   <div class="row">
     <div class="col-sm-6 col-md-offset-3">
       <div class="box box-success">
@@ -15,24 +15,35 @@
           <div class="box-body">
             <div class="row">
               <div class="col-xs-12 col-md-10 col-md-offset-1">
+                 <div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.work_name.$touched && workAssign.work_name.$invalid}" ng-init="getTaskList()">
+                  <label for="uname" class="control-label">Work Name:</label>
+                  <select class="form-control" name="work_name" ng-model="task.workName" ng-change="getTaskDetails()" required>
+                              <option value=""><i class="fa fa-sort-desc">Select a Work</i></option>
+                              <option ng-value="taskLists._id" ng-repeat="taskLists in taskList">{{taskLists.workName}}</option>
+                  </select>
+
+                  <span class="help-block" ng-show="workAssign.work_name.$error.required && workAssign.work_name.$touched">Please enter a valid description</span>
+                </div>
                 <div class="row">
-                  <div class="col-xs-6" ng-init="getJobCategoryList()">
+                  <div class="col-xs-6">
                     <div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.task_category.$touched && workAssign.task_category.$invalid}">
                       <label for="uname" class="control-label">Category</label>
-                      <select class="form-control" name="task_category" ng-model="task.category" ng-change="getAssignmentList()" required>
+                      <input type="text" name="task_category" ng-model="task.category" class="form-control" placeholder="Work Category" readonly>
+                    <!--   <select class="form-control" name="task_category" ng-model="task.category" readonly>
 							          			<option value=""><i class="fa fa-sort-desc">select Job category</i></option>
 							          			<option ng-value="categories.category" ng-repeat="categories in categoryList">{{categories.category}}</option>
-							          		</select>
+							          		</select> -->
                       <span class="help-block" ng-show="workAssign.task_category.$error.required && workAssign.task_category.$touched">Please select Job category</span>
                     </div>
                   </div>
                   <div class="col-xs-6">
                     <div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.task_name.$touched && workAssign.task_name.$invalid}">
                       <label for="uname" class="control-label">Assignment</label>
-                      <select class="form-control" name="task_name" ng-model="task.assignment" ng-change="showRetunFile()" required>
+                       <input type="text" name="task_name" ng-model="task.assignment" class="form-control" placeholder="Assignment" readonly>
+                      <!-- <select class="form-control" name="task_name" ng-model="task.assignment" readonly>
 							          			<option value=""><i class="fa fa-sort-desc">Select Assignment</i></option>
 							          			<option ng-value="assignments" ng-repeat="assignments in assignmentList">{{assignments}}</option>
-							       </select>
+							       </select> -->
                       <span class="help-block" ng-show="workAssign.task_name.$error.required && workAssign.task_name.$touched">Please Select One Assignment </span>
                     </div>
                   </div>
@@ -69,7 +80,7 @@
                 </div>
                 <div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workAssign.task_desc.$touched && workAssign.task_desc.$invalid}">
                   <label for="uname" class="control-label">Task Description:</label>
-                  <textarea placeholder="Task Description" name="task_desc" class="form-control" ng-model="task.description" required></textarea>
+                  <textarea placeholder="Task Description" name="task_desc" class="form-control" ng-model="task.description" ></textarea>
 
                   <span class="help-block" ng-show="workAssign.task_desc.$error.required && workAssign.task_desc.$touched">Please enter a valid description</span>
                 </div>

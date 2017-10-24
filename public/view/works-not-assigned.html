@@ -1,23 +1,21 @@
 <section class="content-header m-b-40">
-  <h1 cass="pull-left">
-    My Created Tasks
+  <h1 class="pull-left">
+List of Works Not-assigned
   </h1>
  
 </section>
-<section class="content" ng-init="getTaskList()">
+<section class="content" ng-init="getAssignedJobs()" ng-show="checkAdmin()">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
       <div class="box">
         <div class="box-body over-x-sc">
           <div class="table-responsive">
-            <table ng-table="createdTaskData" class="table table-bordered table-hover">
+            <table ng-table="notAssignedJobData" class="table table-bordered table-hover">
               <tr ng-repeat="row in $data">
                 <td data-title="'Sl No'">{{ $index + 1}}</td>
-                <td data-title="'Name'" sortable="'user_category'">{{row.workName}}</td>
                <td data-title="'category'" sortable="'user_category'">{{row.category}}</td>
                 <td data-title="'Assignment'" sortable="'assignment'">{{row.assignment}}</td>
-                <td data-title="'Assignment Status'" sortable="'user_status'" ng-if="row.user">Assigned</td>
-                 <td data-title="'Assignment Status'" sortable="'user_status'" ng-if="!row.user">Not Assigned</td>
+                <td data-title="'User Name'" ng-init="getUserName(row)">{{row.userDetails.firstname}} {{row.userDetails.lastname}}</td>
                  <td data-title="'Status'" sortable="'user_status'">{{row.status}}</td>
                 <td data-title="'Action'">
                   <div class="btn-group">
@@ -28,7 +26,7 @@
             </table>
           </div>
         </div>
-      </div>
+            </div>
     </div>
   </div>
 </section>

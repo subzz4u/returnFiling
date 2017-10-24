@@ -9,12 +9,15 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 	$scope.jobDetails = {};
 	$scope.userDetails = {};
   $scope.createWork = {};
+  $scope.taskList = [];
+  $scope.assignedJobs = [];
 	/*******************************************************/
   /*********FUNCTION IS USED TO GIVE JOB CATEGORY LIST***********/
   /*******************************************************/
 	$scope.getJobCategoryList = function(){
 		ApiCall.jobcategoryList(function(response){
 			$scope.categoryList = response.data;
+
 		},function(error){
 
 		});
@@ -31,19 +34,14 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
     else if($state.current.name == 'work-assignment'){
       obj.category = $scope.task.category;
     }
-		// console.log(obj);
 		ApiCall.jobcategoryList(obj, function(response){
-			console.log(response);
-			$scope.assignmentList = response.data[0].assignment;
-			console.log($scope.assignmentList);
+		  $scope.assignmentList = response.data[0].assignment;
 		},function(error){
 			console.error(error);
 		});
 
 	}
 	$scope.showRetunFile = function() {
-		console.log('$scope.task.assignment' ,$scope.task.assignment);
-		console.log('$scope.task.category' ,$scope.task.category);
 		if(($scope.task.assignment == "pending" || $scope.task.assignment == "processing" ) && $scope.task.category == "Return File") {
 			$scope.task.showReturnFile = true;
 		}
@@ -96,15 +94,12 @@ $scope.checkInternalUser = function(){
     $scope.internalUser = false;
       var loggedIn_user = UserModel.getUser();
       if(loggedIn_user && loggedIn_user.role.type == "client"){  
-      	console.log("client");
         $scope.internalUser = false;
       }
       else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
-        console.log("yeah bro superAdmin");
         $scope.internalUser = false;
       }
       else{
-      	console.log("internal  inside work controller");
         $scope.internalUser = true;
       }
       return  $scope.internalUser;
@@ -113,8 +108,11 @@ $scope.checkInternalUser = function(){
   /*********FUNCTION IS USED TO Assign a job***********/
   /*******************************************************/
  $scope.workAssignConfirm = function(){
+  $scope.task._id = $scope.task.workName;
+  delete $scope.task['workName'];
+  
  	$rootScope.showPreloader = true;
- 	ApiCall.postAssignment($scope.task, function(response){
+ 	ApiCall.updateJobAssignment($scope.task, function(response){
  		$rootScope.showPreloader = false;
  		Util.alertMessage('success',"Job Assigned Successfully");
  		$state.go('dashboard');
@@ -126,38 +124,52 @@ $scope.checkInternalUser = function(){
   /*********FUNCTION IS USED TO GIVE ASSIGNED JOB LIST ***********/
   /*******************************************************/
  $scope.getAssignedJobs = function(){
-  $scope.pendingJobs = [];
-  $scope.processJobs = [];
-  $scope.completedJobs = [];
  	var loggedIn_user = UserModel.getUser();
  	var obj = {};
  	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin"){
  		 obj.user = loggedIn_user._id;
  	}
  	ApiCall.getjobAssignments(obj, function(response){	
-    console.log(response);
- 		$scope.jobAssignmentList = response.data;
- 		$scope.jobData = new NgTableParams;
- 		$scope.jobData.settings({
- 			dataset:$scope.jobAssignmentList
- 		})
-    $scope.pendingJobs = [];
-  $scope.processJobs = [];
-  $scope.completedJobs = [];
+ 		// $scope.jobAssignmentList = response.data;
+ 		// $scope.jobData = new NgTableParams;
+ 		// $scope.jobData.settings({
+ 		// 	dataset:$scope.jobAssignmentList
+ 		// })
+  $scope.pendingAssignedJobs = [];
+  $scope.processAssignedJobs = [];
+  $scope.completedAssignedJobs = [];
+  $scope.assignedJobs = [];
+  $scope.taskList = [];
    angular.forEach(response.data, function(item){
-            if(item.status == "pending"){
-              $scope.pendingJobs.push(item);
+      if(item.user){
+        $scope.assignedJobs.push(item);
+      }
+      else{
+        $scope.taskList.push(item);
+      }
+     });    
+       $scope.assignedJobData = new NgTableParams;
+       $scope.assignedJobData.settings({
+       dataset:$scope.assignedJobs
+       })
+        $scope.notAssignedJobData = new NgTableParams;
+       $scope.notAssignedJobData.settings({
+       dataset:$scope.taskList
+       })
+       console.log($scope.assignedJobs);
+      angular.forEach($scope.assignedJobs,function(item){
+        if(item.status == "pending"){
+              $scope.pendingAssignedJobs.push(item);
                }
               else if(item.status == "In_Progress"){
-                $scope.processJobs.push(item);
+                $scope.processAssignedJobs.push(item);
               }
               else if(item.status == "Completed"){
-                $scope.completedJobs.push(item);
+                $scope.completedAssignedJobs.push(item);
               }
-          });
-   console.log($scope.pendingJobs);
-    console.log($scope.processJobs);
-    console.log($scope.completedJobs);
+      });
+         
+         
  	},function(error){
 
  	});
@@ -177,19 +189,18 @@ $scope.checkInternalUser = function(){
   	}
  	ApiCall.getjobAssignments(obj, function(response){
  		$scope.task = response.data[0];
- 		var obj = {
- 			'_id' : $scope.task.role
- 		}
- 		ApiCall.getRole(obj, function(response){
- 			$scope.roleType = response.data[0].type;
- 		},function(error){
-
- 		});
+ 		var obj = {};
+    if($scope.task.role){
+ 			obj._id = $scope.task.role;
+      ApiCall.getRole(obj, function(response){
+ 			  $scope.roleType = response.data[0].type;
+ 		    },function(error){
+       });
+      }
  		var obz = {
  			'_id' : $scope.task.user
  		}
  		ApiCall.getUser(obz, function(response){
- 			console.log(response);
 	     $scope.userFirstname = response.data.firstname;
 	     $scope.userLastname = response.data.lastname;
 	    },function(error){
@@ -197,7 +208,6 @@ $scope.checkInternalUser = function(){
  	},function(error){
 
  	});
- 	console.log($scope.task);
  }
  $scope.updateJobStatus = function(){
  	ApiCall.updateJobAssignment($scope.task, function(response){
@@ -207,4 +217,57 @@ $scope.checkInternalUser = function(){
 
  	});
  }
+ $scope.taskCreation = function(){
+  var loggedIn_user = UserModel.getUser();
+  if(loggedIn_user && loggedIn_user.role.type == "client"){
+      $scope.createWork.createdBy = loggedIn_user._id;
+      $scope.createWork.createdFor = loggedIn_user._id;
+    }
+    $rootScope.showPreloader = true;
+    ApiCall.postAssignment($scope.createWork, function(response){
+      $rootScope.showPreloader = false;
+      Util.alertMessage('success',"Job created Successfully");
+      $state.go('user-profile',{'user_id':loggedIn_user._id});
+     },function(error){
+      console.log("error");
+  });
+ }
+ $scope.getTaskList = function(){
+  $scope.taskList = [];
+  var loggedIn_user = UserModel.getUser();
+  var obj = {};
+  if(loggedIn_user && loggedIn_user.role.type == "client"){
+     obj.createdFor = loggedIn_user._id;
+  }
+    ApiCall.getjobAssignments(obj, function(response){
+      $scope.jobAssignmentList = response.data;
+      angular.forEach($scope.jobAssignmentList,function(item){
+        if(item.user){
+         // $scope.assignedJobs.push(item);
+        }
+        else{
+          $scope.taskList.push(item);
+        }
+      });
+
+      $scope.createdTaskData = new NgTableParams;
+      $scope.createdTaskData.settings({
+      dataset:$scope.jobAssignmentList
+    })
+    },function(error){
+
+    });
+ }
+$scope.getTaskDetails = function(){
+  var obj = {
+    '_id' : $scope.task.workName
+    }
+    ApiCall.getjobAssignments(obj, function(response){
+      $scope.task.category = response.data[0].category;
+      $scope.task.assignment = response.data[0].assignment;
+      $scope.task.description = response.data[0].description;
+    },function(error){
+
+    });
+}
 });

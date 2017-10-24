@@ -325,9 +325,14 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
   }
   $scope.getUserDetails = function(row){
-    var obj ={
-       "_id" : row.client
+    var obj ={};
+    if($state.current.name == "referral-overview"){
+      obj._id = row._id;
     }
+    else{
+       obj._id = row.client;
+    }
+    console.log(obj);
     ApiCall.getUser(obj, function(response){
       console.log(response);
       row.userDetails = response.data;

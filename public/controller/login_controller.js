@@ -19,19 +19,26 @@ app.controller("Login_Controller",function($scope,$rootScope,$rootScope,$state,$
       $rootScope.showPreloader = false;
       $localStorage.token = response.data.token;
       $rootScope.is_loggedin = true;
+      console.log("logged in");
+      console.log(response);
       if(response.data.user.role.type == "superAdmin" && !response.data.user.father){
+         console.log("ist condition in");
            $state.go('profile-update');
       }
       else if(response.data.user.role.type == "superAdmin" && response.data.user.father){
            $state.go('dashboard');
+            console.log("2nd condition in");
       }
       else if(response.data.user.father){
         $state.go('user-profile',{'user_id':response.data.user._id});
+         console.log("3rd condition in");
       }
        else if((response.data.user.role.type !== "superAdmin" || response.data.user.role.type !== "client") && response.data.user.father){
           $state.go('user-profile',{'user_id':response.data.user._id});
+           console.log("4th condition in");
       }
       else{
+         console.log("5th condition in");
         $state.go('profile-update');
       }
     },function(error){
