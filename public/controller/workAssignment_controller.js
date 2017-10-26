@@ -93,13 +93,10 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 $scope.checkInternalUser = function(){
     $scope.internalUser = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user && loggedIn_user.role.type == "client"){  
+      if(loggedIn_user && loggedIn_user.role && ( loggedIn_user.role.type == "client" || loggedIn_user.role.type == "superAdmin")){
         $scope.internalUser = false;
       }
-      else if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
-        $scope.internalUser = false;
-      }
-      else{
+      else {
         $scope.internalUser = true;
       }
       return  $scope.internalUser;
@@ -126,20 +123,23 @@ $scope.checkInternalUser = function(){
  $scope.getAssignedJobs = function(){
  	var loggedIn_user = UserModel.getUser();
  	var obj = {};
- 	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin"){
+ 	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin" && loggedIn_user.role.type !== "client"){
  		 obj.user = loggedIn_user._id;
  	}
+  else if(loggedIn_user && loggedIn_user.role.type == "client"){
+     obj.createdFor = loggedIn_user._id;
+  }
  	ApiCall.getjobAssignments(obj, function(response){	
- 		// $scope.jobAssignmentList = response.data;
- 		// $scope.jobData = new NgTableParams;
- 		// $scope.jobData.settings({
- 		// 	dataset:$scope.jobAssignmentList
- 		// })
-  $scope.pendingAssignedJobs = [];
-  $scope.processAssignedJobs = [];
-  $scope.completedAssignedJobs = [];
-  $scope.assignedJobs = [];
-  $scope.taskList = [];
+ 		$scope.jobAssignmentList = response.data;
+ 		$scope.createdTaskData = new NgTableParams;
+    $scope.createdTaskData.settings({
+      dataset:$scope.jobAssignmentList
+    })
+    $scope.pendingAssignedJobs = [];
+    $scope.processAssignedJobs = [];
+    $scope.completedAssignedJobs = [];
+    $scope.assignedJobs = [];
+    $scope.taskList = [];
    angular.forEach(response.data, function(item){
       if(item.user){
         $scope.assignedJobs.push(item);
@@ -148,6 +148,7 @@ $scope.checkInternalUser = function(){
         $scope.taskList.push(item);
       }
      });    
+   console.log( $scope.taskList);
        $scope.assignedJobData = new NgTableParams;
        $scope.assignedJobData.settings({
        dataset:$scope.assignedJobs
@@ -156,7 +157,7 @@ $scope.checkInternalUser = function(){
        $scope.notAssignedJobData.settings({
        dataset:$scope.taskList
        })
-       console.log($scope.assignedJobs);
+
       angular.forEach($scope.assignedJobs,function(item){
         if(item.status == "pending"){
               $scope.pendingAssignedJobs.push(item);
@@ -223,7 +224,12 @@ $scope.checkInternalUser = function(){
       $scope.createWork.createdBy = loggedIn_user._id;
       $scope.createWork.createdFor = loggedIn_user._id;
     }
+    if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
+      $scope.createWork.createdBy = loggedIn_user._id;
+     // $scope.createWork.createdFor = loggedIn_user._id;
+    }
     $rootScope.showPreloader = true;
+    console.log($scope.createWork);
     ApiCall.postAssignment($scope.createWork, function(response){
       $rootScope.showPreloader = false;
       Util.alertMessage('success',"Job created Successfully");
@@ -232,32 +238,7 @@ $scope.checkInternalUser = function(){
       console.log("error");
   });
  }
- $scope.getTaskList = function(){
-  $scope.taskList = [];
-  var loggedIn_user = UserModel.getUser();
-  var obj = {};
-  if(loggedIn_user && loggedIn_user.role.type == "client"){
-     obj.createdFor = loggedIn_user._id;
-  }
-    ApiCall.getjobAssignments(obj, function(response){
-      $scope.jobAssignmentList = response.data;
-      angular.forEach($scope.jobAssignmentList,function(item){
-        if(item.user){
-         // $scope.assignedJobs.push(item);
-        }
-        else{
-          $scope.taskList.push(item);
-        }
-      });
-
-      $scope.createdTaskData = new NgTableParams;
-      $scope.createdTaskData.settings({
-      dataset:$scope.jobAssignmentList
-    })
-    },function(error){
-
-    });
- }
+ 
 $scope.getTaskDetails = function(){
   var obj = {
     '_id' : $scope.task.workName

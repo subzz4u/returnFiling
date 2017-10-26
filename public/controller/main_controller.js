@@ -55,12 +55,16 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   /*******************************************************/
   $scope.getClientUsers = function(){
     $scope.clientCount = 0;
+    $scope.clientUsers = [];
     ApiCall.getUser( function(response){
+      console.log(response);
       angular.forEach(response.data, function(item){
             if(item.role.type == "client"){
+                $scope.clientUsers.push(item);
                 $scope.clientCount++;
                }
           });
+      console.log($scope.clientUsers);
       },function(error){
       })
   }
@@ -99,13 +103,10 @@ app.controller("Main_Controller",function($scope,$rootScope,$state,$localStorage
   $scope.checkInternalUser = function(){
     $scope.internalUser = false;
       var loggedIn_user = UserModel.getUser();
-      if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "client"){
+      if(loggedIn_user && loggedIn_user.role && ( loggedIn_user.role.type == "client" || loggedIn_user.role.type == "superAdmin")){
         $scope.internalUser = false;
       }
-      else if(loggedIn_user && loggedIn_user.role && loggedIn_user.role.type == "superAdmin"){
-        $scope.internalUser = false;
-      }
-      else{
+      else {
         $scope.internalUser = true;
       }
       return  $scope.internalUser;

@@ -82,16 +82,22 @@
           </ul>
         </li>
       
-       <li class="treeview" ng-class="{'active':stateName == 'work-assignment' || stateName == 'work-assigned'}" ng-hide="checkClient()">
+       <li class="treeview" ng-class="{'active':stateName == 'work-assignment' || stateName == 'work-assigned'}" >
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>Job Assignment</span>
           </a>
           <ul class="treeview-menu">
-            <li ng-class="{'active':stateName == 'work-assignment'}" ng-show="checkAdmin()" >
-              <a href="" ui-sref="work-assignment"><i class="fa fa-circle-o"></i>New job Assignment</a>
+            <li ng-class="{'active':stateName == 'create-task'}" ng-hide="checkInternalUser()">
+              <a href="" ui-sref="create-task"><i class="fa fa-circle-o"></i>Create Job</a>
             </li>
-            <li ng-class="{'active':stateName == 'work-assigned'}">
+             <li ng-class="{'active':stateName == 'work-assigned'}" ng-show="checkClient()">
+              <a href="" ui-sref="work-assigned"><i class="fa fa-circle-o"></i>My Tasks</a>
+            </li>
+            <li ng-class="{'active':stateName == 'work-assignment'}" ng-show="checkAdmin()" >
+              <a href="" ui-sref="work-assignment"><i class="fa fa-circle-o"></i>Assign New Job</a>
+            </li>
+            <li ng-class="{'active':stateName == 'work-assigned'}" ng-hide="checkClient()">
               <a href="" ui-sref="work-assigned"><i class="fa fa-circle-o"></i>Jobs Assigned</a>
             </li>
             <li ng-class="{'active':stateName == 'work-not-assigned'}" ng-show="checkAdmin()" >
@@ -100,7 +106,7 @@
             
           </ul>
         </li>
-       <li class="treeview" ng-show="checkClient()"  ng-class="{'active':stateName == 'create-task' || stateName == 'task-list'}" >
+      <!--  <li class="treeview" ng-show="checkClient()"  ng-class="{'active':stateName == 'create-task' || stateName == 'task-list'}" >
           <a href="">
             <i class="fa fa-files-o"></i>
             <span>Task management</span>
@@ -114,7 +120,7 @@
             </li>
             
           </ul>
-        </li>
+        </li> -->
        <li class="treeview" ng-class="{'active':stateName == 'change-password'}" >
           <a href="">
             <i class="fa fa-files-o"></i>
