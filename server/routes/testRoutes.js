@@ -5,6 +5,10 @@ var controllers = require("./../controllers/index");
 var models = require("./../models/index");
 var response = require("./../component/response");
 var constants = require("./../../config/constants");
+var passport = require("passport");
+var logger = require("./../component/log4j").getLogger('testRoutes');
+// console.log(log4j);
+// const logger = log4j.getLogger('testRoutes');
 router.post('/',function(req, res, next) {
 
 });
@@ -18,8 +22,12 @@ router.get('/', function(req, res, next) {
     }
   })
 });
-router.put('/', function(req, res, next) {
-
+router.get('/1', function(req, res, next) {
+  throw Error("this is a test Error");
+});
+router.get('/2', passport.authenticate('token', {session:false}),function(req, res, next) {
+  logger.debug("calling from test routes\n ",JSON.stringify(req.user));
+  res.send('calling from test routes');
 });
 router.delete('/:id', function(req, res, next) {
 
