@@ -187,7 +187,8 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     $scope.currentReturnFile.status = "closed";
     ApiCall.updateReturnFile($scope.currentReturnFile , function(response){
       Util.alertMessage('success',"Return File Closed Successfully");
-      $state.go('return-file-list');
+      $state.reload();
+      //$state.go('return-file-list');
       },function(error){
     console.log(error);
     })
@@ -203,7 +204,8 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
     }
     ApiCall.updateReturnFile($scope.user , function(response){
     Util.alertMessage('success',"Payment Verified Successfully");
-     $state.go('payment');
+    $state.reload();
+    // $state.go('payment');
     },function(error){
       Util.alertMessage("Failed");
     })
@@ -234,7 +236,8 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       $scope.returnFileToFail.status = "failed";
       ApiCall.updateReturnFile($scope.returnFileToFail , function(response){
         Util.alertMessage('success',"Transaction Status Successfully Changed To 'Failed' ");
-         $state.go('payment');
+        $state.reload();
+         //$state.go('payment');
         },function(error){
           Util.alertMessage('danger',"Failed");
       })

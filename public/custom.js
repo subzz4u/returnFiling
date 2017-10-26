@@ -171,8 +171,12 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function($s
   })
 .state('work-assigned', {
     templateUrl: 'view/works-assigned.html',
-    url: '/work-assigned',
+    url: '/work-assigned/:workStatus',
     controller:'Work_Assignment_Controller',
+    params:{
+      user:null,
+      workStatus:null
+    },
     resolve: {
       loggedout: checkLoggedout
     }
@@ -1126,7 +1130,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     $scope.currentReturnFile.status = "closed";
     ApiCall.updateReturnFile($scope.currentReturnFile , function(response){
       Util.alertMessage('success',"Return File Closed Successfully");
-      $state.go('return-file-list');
+      $state.reload();
       },function(error){
     console.log(error);
     })
@@ -1142,7 +1146,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
     }
     ApiCall.updateReturnFile($scope.user , function(response){
     Util.alertMessage('success',"Payment Verified Successfully");
-     $state.go('payment');
+    $state.reload();
     },function(error){
       Util.alertMessage("Failed");
     })
@@ -1167,7 +1171,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       $scope.returnFileToFail.status = "failed";
       ApiCall.updateReturnFile($scope.returnFileToFail , function(response){
         Util.alertMessage('success',"Transaction Status Successfully Changed To 'Failed' ");
-         $state.go('payment');
+        $state.reload();
         },function(error){
           Util.alertMessage('danger',"Failed");
       })
@@ -1586,10 +1590,13 @@ $scope.checkInternalUser = function(){
  	var obj = {};
  	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin" && loggedIn_user.role.type !== "client"){
  		 obj.user = loggedIn_user._id;
+       obj.status = $stateParams.workStatus;
  	}
   else if(loggedIn_user && loggedIn_user.role.type == "client"){
      obj.createdFor = loggedIn_user._id;
+
   }
+  console.log(obj);
  	ApiCall.getjobAssignments(obj, function(response){	
  		$scope.jobAssignmentList = response.data;
  		$scope.createdTaskData = new NgTableParams;

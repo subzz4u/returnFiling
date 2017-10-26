@@ -125,10 +125,13 @@ $scope.checkInternalUser = function(){
  	var obj = {};
  	if(loggedIn_user && loggedIn_user.role.type !== "superAdmin" && loggedIn_user.role.type !== "client"){
  		 obj.user = loggedIn_user._id;
+       obj.status = $stateParams.workStatus;
  	}
   else if(loggedIn_user && loggedIn_user.role.type == "client"){
      obj.createdFor = loggedIn_user._id;
+
   }
+  console.log(obj);
  	ApiCall.getjobAssignments(obj, function(response){	
  		$scope.jobAssignmentList = response.data;
  		$scope.createdTaskData = new NgTableParams;

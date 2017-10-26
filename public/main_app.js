@@ -169,8 +169,12 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
   })
 .state('work-assigned', {
     templateUrl: 'view/works-assigned.html',
-    url: '/work-assigned',
+    url: '/work-assigned/:workStatus',
     controller:'Work_Assignment_Controller',
+    params:{
+      user:null,
+      workStatus:null
+    },
     resolve: {
       loggedout: checkLoggedout
     }

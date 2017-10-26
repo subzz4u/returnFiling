@@ -128,7 +128,7 @@
       <div class="small-box bg-green">
         <div class="inner">
           <h3>{{assignedJobs.length}}</h3>
-          <p>Jobs Assigned</p>
+          <p>All Jobs Assigned</p>
         </div>
         <div class="icon">
           <i class="fa fa-file"></i>
@@ -147,7 +147,7 @@
         <div class="icon">
           <i class="fa fa-file"></i>
         </div>
-          <a href="" ui-sref="user-list({'userType':'clients'})" class="small-box-footer">
+          <a href="" ui-sref="work-assigned({'workStatus':'Completed'})" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
           </a>
       </div>
@@ -163,7 +163,7 @@
         <div class="icon">
           <i class="fa fa-file"></i>
         </div>
-          <a href="" ui-sref="work-assigned" class="small-box-footer">
+          <a href="" ui-sref="work-assigned({'workStatus':'In_Progress'})" class="small-box-footer">
               See More  <i class="fa fa-arrow-circle-right"></i>
           </a>
       </div>
@@ -177,7 +177,7 @@
         <div class="icon">
           <i class="fa fa-file"></i>
         </div>
-          <a href="" ui-sref="user-list({'userType':'clients'})" class="small-box-footer">
+          <a href="" ui-sref="work-assigned({'workStatus':'pending'})" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
           </a>
       </div>
