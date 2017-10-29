@@ -13,10 +13,10 @@ exports.addRole = function(req,res){
     new models.roleModel(req.body).save(function (err) {
       if(err){
         logger.error("addRole ", err);
-        response.sendResponse(res,500,"error",constants.messages.errors.saveRole,err);
+        return response.sendResponse(res,500,"error",constants.messages.errors.saveRole,err);
       }
       else {
-        response.sendResponse(res,200,"success",constants.messages.success.saveRole);
+        return response.sendResponse(res,200,"success",constants.messages.success.saveRole);
       }
     })
 
@@ -35,10 +35,10 @@ exports.getRole = function(req,res){
     }
     models.roleModel.find(params,function(err,data){
       if(err){
-        logger.error("getRole ", e);
-        response.sendResponse(res,500,"error",constants.messages.errors.fetchRoles,err);
+        logger.error("getRole ", err);
+        return response.sendResponse(res,500,"error",constants.messages.errors.fetchRoles,err);
       }
-      response.sendResponse(res,200,"success",constants.messages.success.fetchRoles,data);
+      return response.sendResponse(res,200,"success",constants.messages.success.fetchRoles,data);
     })
 
   } catch (e) {
@@ -54,11 +54,11 @@ exports.udpateRole = function(req,res){
     var options = {new:true};
     models.roleModel.findOneAndUpdate(query, req.body,options).exec()
     .then(function(data) {
-      response.sendResponse(res,200,"success",constants.messages.success.udpateRole,data);
+      return response.sendResponse(res,200,"success",constants.messages.success.udpateRole,data);
     })
     .catch(function(err) {
       logger.error("udpateRole ", err);
-      response.sendResponse(res, 500,"error",constants.messages.error.udpateRole,err);
+      return response.sendResponse(res, 500,"error",constants.messages.error.udpateRole,err);
     })
 
   } catch (e) {
@@ -74,10 +74,10 @@ exports.deleteRole = function(req,res){
     models.roleModel.findOneAndUpdate(query,{"isDelete":true},{"new" :true},function(err,data) {
       if(err){
         logger.error("deleteRole ", err);
-        response.sendResponse(res,500,"error",constants.messages.errors.deleteRole,err);
+        return response.sendResponse(res,500,"error",constants.messages.errors.deleteRole,err);
       }
       else
-      response.sendResponse(res,200,"success",constants.messages.success.deleteRole);
+      return response.sendResponse(res,200,"success",constants.messages.success.deleteRole);
     })
 
   } catch (e) {

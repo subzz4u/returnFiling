@@ -9,6 +9,7 @@ var templateRoutes = require('./templateRoutes');
 var jobRoutes = require('./jobRoutes');
 var jobAssignmentRoutes = require('./jobAssignmentRoutes');
 var referralRoutes = require('./referralRoutes');
+var referFriendRoutes = require('./referFriendRoutes');
 // var srAuditorRoutes = require('./srAuditorRoutes');
 
 /* GET home page. */
@@ -24,6 +25,7 @@ router.use('/template', templateRoutes);
 router.use('/job', jobRoutes);
 router.use('/jobAssignment', jobAssignmentRoutes);
 router.use('/referral', referralRoutes);
+router.use('/referFriend', referFriendRoutes);
 // router.use('/srAuditor',srAuditorRoutes);
 
 module.exports = router;

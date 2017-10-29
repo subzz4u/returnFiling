@@ -70,6 +70,8 @@ utility.sendVerificationMail = function(userObj, callback) {
         .replace(/{{password}}/g, userObj.password)
         .replace(/{{mobile}}/g, userObj.mobile)
         .replace(/{{company}}/g, userObj.company)
+        .replace(/{{referredBy}}/g, userObj.referredBy)
+        .replace(/{{signUpUrl}}/g, userObj.signUpUrl)
     }
     LOG.info(JSON.stringify(mailOptions));
     // verify connection configuration

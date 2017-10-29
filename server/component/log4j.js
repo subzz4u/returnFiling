@@ -11,7 +11,7 @@
 
 log4j.configure({
   appenders: {
-    everything: { type: 'file', filename: 'server.log', maxLogSize: 100, backups: 1, compress: true }
+    everything: { type: 'file', filename: 'server.log', maxLogSize: 102499, backups: 1, compress: true }
   },
   categories: {
     default: { appenders: [ 'everything' ], level: 'debug'}

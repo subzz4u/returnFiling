@@ -110,7 +110,9 @@ var constants = {
         "changePassword"         : "Error in change password",
 
         // mail
-        "mailSend"              : "Error sending mail"
+        "mailSend"              : "Error sending mail",
+        // refer friend
+        "referredByInvalid"     :"Referredd By is not valid",
       },
     success:{
       //global

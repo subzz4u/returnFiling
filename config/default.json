@@ -21,5 +21,8 @@
     "logPath":"./logs/server.log",
     "uploadPath":"./public/upload"
   },
+  "routes":{
+    "signup":"/#/sign-up"
+  },
   "env" : "dev"
 }
