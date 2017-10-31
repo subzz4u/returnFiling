@@ -1435,6 +1435,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
     $scope.client_id = clients_id;
     $timeout(function() {
       $scope.user = UserModel.getUser();
+      $scope.user.dob = new Date($scope.user.dob);
       if ($scope.user || $stateParams.user_id || $scope.client_id) {
         var obj = {
           "_id": $stateParams.user_id || $scope.user._id || $scope.client_id
