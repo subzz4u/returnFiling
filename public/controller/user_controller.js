@@ -6,7 +6,7 @@ app.controller("User_Controller", function($scope, $timeout, LOG, $rootScope, $s
   $scope.roles = [];
   $scope.userList = [];
   $scope.clientUserList = {};
-
+  $scope.changePass = {};
   $scope.active_tab = 'details';
   $scope.tabChange = function(tab) {
     $scope.active_tab = tab;
@@ -59,6 +59,20 @@ app.controller("User_Controller", function($scope, $timeout, LOG, $rootScope, $s
     if (password == confirmPassword) {
       $scope.showPasswordMisMatch = false;
     }
+  }
+ /*******************************************************/
+  /*********FUNCTION IS USED TO CHANGE PASSOWORD***********/
+  /*******************************************************/
+  $scope.changePassword = function(){
+    var loggedIn_user = UserModel.getUser();
+    $scope.changePass._id = loggedIn_user._id;
+    console.log($scope.changePass);
+    ApiCall.updateUser($scope.changePass, function(response) {
+      console.log(response);
+    },function(error){
+      console.log(error);
+    });
+
   }
   /*******************************************************/
   /*********FUNCTION IS USED TO REGISTER A USER***********/
@@ -157,9 +171,9 @@ app.controller("User_Controller", function($scope, $timeout, LOG, $rootScope, $s
   /*********FUNCTION IS USED TO GET USER LIST*************/
   /*******************************************************/
   $scope.getAllUsers = function() {
-
+    $scope.usersType = $stateParams.userType;
     var obj = {};
-    obj.userType = $stateParams.userType;
+    obj.userType = $scope.usertype;
     ApiCall.getUser(obj, function(response) {
       $scope.userList = response.data;
       $scope.userData = new NgTableParams;
@@ -178,7 +192,7 @@ app.controller("User_Controller", function($scope, $timeout, LOG, $rootScope, $s
       email: email
     }
     ApiCall.forgotPassword(obj, function(response) {
-      LOG.info(response.message);
+    
     }, function(error) {
       LOG.error(response.message);
     })

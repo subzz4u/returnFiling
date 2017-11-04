@@ -3,21 +3,18 @@
     	<h3 class="modal-title">Add Return Details</h3>
 	</div>
 	<div class="modal-body">
-	
-		
-		    <form name="returnClosing">
+	    <form name="returnClosing">
 				<div class="form-group" ng-class="{'has-error':returnClosing.return_amount.$touched && returnClosing.return_amount.$invalid}">
-	          		<label for="uname" class="control-label">Return Amount:*</label>
+	          		<label for="uname" class="control-label">Refund Amount:*</label>
 					<input type="text"  name="return_amount" ng-model="user.returnAmount" required class="form-control" placeholder="Return Amount">
-					<span class="help-block" ng-show="returnClosing.return_amount.$error.required && returnClosing.return_amount.$touched">Please enter the return amount</span>
+					<span class="help-block" ng-show="returnClosing.return_amount.$error.required && returnClosing.return_amount.$touched">Please enter the refund amount</span>
       			</div>
       			<div class="form-group" ng-class="{'has-error':returnClosing.return_date.$touched && returnClosing.return_date.$invalid}">
-	          		<label for="uname" class="control-label">Return Date:*</label>
+	          		<label for="uname" class="control-label">Return-filing Date:*</label>
 					<input type="text"  name="return_date" ng-model="user.returnDate" required class="form-control" placeholder="Return Date">
-					<span class="help-block" ng-show="returnClosing.return_date.$error.required && returnClosing.return_date.$touched">Please enter the return date</span>
+					<span class="help-block" ng-show="returnClosing.return_date.$error.required && returnClosing.return_date.$touched">Please enter the return filing date</span>
       			</div>
-			</form>
-		
+		</form>
 	</div>
 	<div class="modal-footer">
 	    <button class="btn btn-primary" type="button" ng-click="close()">Submit</button>

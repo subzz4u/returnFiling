@@ -62,11 +62,13 @@ exports.getOverView = function(req, res) {
       }
     ]
     models.referralModel.aggregate(aggregate,function(err,data) {
+       console.log(data);
       if(err){
         logger.error("getOverView ", err);
         return response.sendResponse(res, 500, "error", constants.messages.errors.getData, err);
       }
       else{
+        console.log(data);
         return response.sendResponse(res, 200, "success", constants.messages.success.getData, data);
       }
     })

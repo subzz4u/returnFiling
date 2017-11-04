@@ -2,7 +2,7 @@
   <h1 class="pull-left">
     Users List
   </h1>
-  <button type="button" ui-sref="new-user" class="btn btn-primary pull-right">
+  <button type="button" ui-sref="new-user" ng-hide="usersType == 'clients' " class="btn btn-primary pull-right">
     <i class="fa fa-plus"></i> Add A New User</button>
 </section>
 <section class="content" ng-init="getAllUsers()">

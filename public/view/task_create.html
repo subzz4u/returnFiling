@@ -21,9 +21,13 @@
 
                   <span class="help-block" ng-show="workCreate.work_name.$error.required && workCreate.work_name.$touched">Please enter a valid description</span>
                 </div>
-
-                <div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workCreate.client_name.$touched && workCreate.client_name.$invalid}" ng-controller="Main_Controller" ng-show="checkAdmin()" ng-init="getClientUsers()">
-                  <label for="uname" class="control-label">Client (for whom work will be created):</label>
+                <div class="checkbox form-group col-xs-12 col-md-12"  ng-show="checkAdmin()" >
+                  <label>
+                    <input type="checkbox" name="internal_user" ng-model="createWork.isInternal" > Internal job Creation
+                  </label>
+                </div>
+                <div class="form-group col-xs-12 col-md-12" ng-class="{'has-error':workCreate.client_name.$touched && workCreate.client_name.$invalid}" ng-controller="Main_Controller" ng-hide ="createWork.isInternal" ng-init="getClientUsers()">
+                  <label for="uname" class="control-label">Client:</label>
                    <select class="form-control" name="client_name" ng-model="createWork.createdFor">
                               <option value=""><i class="fa fa-sort-desc">select a client</i></option>
                               <option ng-value="client._id" ng-repeat="client in clientUsers">{{client.email}}</option>

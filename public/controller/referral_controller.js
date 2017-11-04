@@ -14,10 +14,8 @@ app.controller("Referral_Controller",function($scope,$rootScope,$rootScope,$stat
    $scope.referralList = function(){
     var obj = {};
     if($state.current.name == "referral-list"){
-      console.log(32432);
       obj.referredBy = $stateParams.referal_id;
     }
-    console.log(obj);
    ApiCall.getReferralList(obj, function(response){
     $scope.referList = response.data;
     $scope.listData = new NgTableParams;
@@ -30,7 +28,6 @@ app.controller("Referral_Controller",function($scope,$rootScope,$rootScope,$stat
   }
   $scope.referralOverviewList = function(){
     ApiCall.getOverview(function(response){
-      console.log(response);
       $scope.overviewList = response.data;
       $scope.listOverview = new NgTableParams;
       $scope.listOverview.settings({

@@ -37,8 +37,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 		ApiCall.jobcategoryList(obj, function(response){
 		  $scope.assignmentList = response.data[0].assignment;
 		},function(error){
-			console.error(error);
-		});
+					});
 
 	}
 	$scope.showRetunFile = function() {
@@ -56,8 +55,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
 		ApiCall.getReturnList(obj, function(response){
 			$scope.task.returnFiles = response.data;
     },function(error){
-      console.error(error);
-    })
+          })
 	}
 	/*******************************************************/
   /*********FUNCTION IS USED TO GET THE ROLES OF INTERNAL USER***********/
@@ -72,8 +70,7 @@ app.controller("Work_Assignment_Controller",function($scope,$rootScope,$rootScop
              	}
         	});
 		},function(error){
-			console.error(error);
-	});
+				});
   }
   /*******************************************************/
   /*********FUNCTION IS USED TO GIVE INTERNAL USERS OF SELECTED ROLE***********/
@@ -131,8 +128,7 @@ $scope.checkInternalUser = function(){
      obj.createdFor = loggedIn_user._id;
 
   }
-  console.log(obj);
- 	ApiCall.getjobAssignments(obj, function(response){	
+  ApiCall.getjobAssignments(obj, function(response){	
  		$scope.jobAssignmentList = response.data;
  		$scope.createdTaskData = new NgTableParams;
     $scope.createdTaskData.settings({
@@ -151,7 +147,6 @@ $scope.checkInternalUser = function(){
         $scope.taskList.push(item);
       }
      });    
-   console.log( $scope.taskList);
        $scope.assignedJobData = new NgTableParams;
        $scope.assignedJobData.settings({
        dataset:$scope.assignedJobs
@@ -229,17 +224,18 @@ $scope.checkInternalUser = function(){
     }
     if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
       $scope.createWork.createdBy = loggedIn_user._id;
-     // $scope.createWork.createdFor = loggedIn_user._id;
-    }
+      if($scope.createWork.isInternal){
+        
+        $scope.createWork.createdFor = loggedIn_user._id;
+     }
+   }
     $rootScope.showPreloader = true;
-    console.log($scope.createWork);
     ApiCall.postAssignment($scope.createWork, function(response){
       $rootScope.showPreloader = false;
       Util.alertMessage('success',"Job created Successfully");
       $state.go('user-profile',{'user_id':loggedIn_user._id});
      },function(error){
-      console.log("error");
-  });
+        });
  }
  
 $scope.getTaskDetails = function(){

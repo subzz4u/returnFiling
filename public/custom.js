@@ -938,10 +938,8 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
    $scope.referralList = function(){
     var obj = {};
     if($state.current.name == "referral-list"){
-      console.log(32432);
       obj.referredBy = $stateParams.referal_id;
     }
-    console.log(obj);
    ApiCall.getReferralList(obj, function(response){
     $scope.referList = response.data;
     $scope.listData = new NgTableParams;
@@ -954,7 +952,6 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   }
   $scope.referralOverviewList = function(){
     ApiCall.getOverview(function(response){
-      console.log(response);
       $scope.overviewList = response.data;
       $scope.listOverview = new NgTableParams;
       $scope.listOverview.settings({
@@ -1347,7 +1344,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
   $scope.roles = [];
   $scope.userList = [];
   $scope.clientUserList = {};
-
+  $scope.changePass = {};
   $scope.active_tab = 'details';
   $scope.tabChange = function(tab) {
     $scope.active_tab = tab;
@@ -1378,6 +1375,17 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
     if (password == confirmPassword) {
       $scope.showPasswordMisMatch = false;
     }
+  }
+  $scope.changePassword = function(){
+    var loggedIn_user = UserModel.getUser();
+    $scope.changePass._id = loggedIn_user._id;
+    console.log($scope.changePass);
+    ApiCall.updateUser($scope.changePass, function(response) {
+      console.log(response);
+    },function(error){
+      console.log(error);
+    });
+
   }
   $scope.registerUser = function() {
     $rootScope.showPreloader = true;
@@ -1462,9 +1470,9 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
     }
   }
   $scope.getAllUsers = function() {
-
+    $scope.usersType = $stateParams.userType;
     var obj = {};
-    obj.userType = $stateParams.userType;
+    obj.userType = $scope.usertype;
     ApiCall.getUser(obj, function(response) {
       $scope.userList = response.data;
       $scope.userData = new NgTableParams;
@@ -1478,7 +1486,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
       email: email
     }
     ApiCall.forgotPassword(obj, function(response) {
-      LOG.info(response.message);
+    
     }, function(error) {
       LOG.error(response.message);
     })
@@ -1518,8 +1526,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 		ApiCall.jobcategoryList(obj, function(response){
 		  $scope.assignmentList = response.data[0].assignment;
 		},function(error){
-			console.error(error);
-		});
+					});
 
 	}
 	$scope.showRetunFile = function() {
@@ -1537,8 +1544,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
 		ApiCall.getReturnList(obj, function(response){
 			$scope.task.returnFiles = response.data;
     },function(error){
-      console.error(error);
-    })
+          })
 	}
 	$scope.getRoles = function(){
 		ApiCall.getRole(function(response){
@@ -1550,8 +1556,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
              	}
         	});
 		},function(error){
-			console.error(error);
-	});
+				});
   }
   $scope.getUserOfSelectedrole = function(){
       var obj = {
@@ -1597,8 +1602,7 @@ $scope.checkInternalUser = function(){
      obj.createdFor = loggedIn_user._id;
 
   }
-  console.log(obj);
- 	ApiCall.getjobAssignments(obj, function(response){	
+  ApiCall.getjobAssignments(obj, function(response){	
  		$scope.jobAssignmentList = response.data;
  		$scope.createdTaskData = new NgTableParams;
     $scope.createdTaskData.settings({
@@ -1617,7 +1621,6 @@ $scope.checkInternalUser = function(){
         $scope.taskList.push(item);
       }
      });    
-   console.log( $scope.taskList);
        $scope.assignedJobData = new NgTableParams;
        $scope.assignedJobData.settings({
        dataset:$scope.assignedJobs
@@ -1695,16 +1698,18 @@ $scope.checkInternalUser = function(){
     }
     if(loggedIn_user && loggedIn_user.role.type == "superAdmin"){
       $scope.createWork.createdBy = loggedIn_user._id;
-    }
+      if($scope.createWork.isInternal){
+        
+        $scope.createWork.createdFor = loggedIn_user._id;
+     }
+   }
     $rootScope.showPreloader = true;
-    console.log($scope.createWork);
     ApiCall.postAssignment($scope.createWork, function(response){
       $rootScope.showPreloader = false;
       Util.alertMessage('success',"Job created Successfully");
       $state.go('user-profile',{'user_id':loggedIn_user._id});
      },function(error){
-      console.log("error");
-  });
+        });
  }
  
 $scope.getTaskDetails = function(){

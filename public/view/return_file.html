@@ -64,7 +64,7 @@
            				 					<div class="form-group has-feedback" >
 												<label for="pass" class="col-sm-3 control-label">Form XVI:</label>
 												<div class="col-sm-9">
-													<input class="upload l-h-70 pull-left" name="form_xvi" type="file" file-model fileread="tempFormXvi.image" filename="tempFormXvi.imageName"/>
+													<input class="upload l-h-70 pull-left" name="form_xvi" type="file" file-model fileread="tempFormXvi.image" filename="tempFormXvi.imageName">
 													<img height="70" src="{{user.formXvi}}">
 												</div>
 											</div>
@@ -73,7 +73,7 @@
         				 		</div>
         				 		<div class="box-footer">
         				 			<button type="submit" class="btn btn-default" ng-click="tabChange('year')" >Back</button>
-							        <button type="submit" ng-click="returnFile()" class="btn btn-info pull-right">{{user.isReferalPrompt ? "Submit" : "Next"}}</button>
+							        <button type="submit" ng-click="returnFile()" ng-disabled="!tempFormXvi.imageName" class="btn btn-info pull-right">{{user.isReferalPrompt ? "Submit" : "Next"}}</button>
         				 		</div>
         				 	</div>
        					</div>
