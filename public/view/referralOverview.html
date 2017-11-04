@@ -4,7 +4,7 @@
   </h1>
 </section>
 <section class="content" ng-init="referralOverviewList()">
- <!--  <label class="col-xs-12 control-label"> 
+ <!--  <label class="col-xs-12 control-label">
     <h4>You have not referred anyone yet </h4></label> -->
   <div class="row">
     <div class="col-xs-12 col-md-10 col-md-offset-1">
@@ -14,9 +14,9 @@
             <table ng-table="listOverview" class="table table-bordered table-hover">
               <tr ng-repeat="row in $data">
                 <td data-title="'Sl No'">{{ $index + 1}}</td>
-                <td data-title="'Name'"  ng-controller="Return_Controller" ng-init="getUserDetails(row)" >{{row.userDetails.firstname}} {{row.userDetails.middlename}} {{row.userDetails.lastname}}</td>
-                <td data-title="'Email'">{{row.userDetails.email}}</td>
-                <td data-title="'Mobile'">{{row.userDetails.mobile}}</td>
+                <td data-title="'Name'"  ng-controller="Return_Controller" ng-init="row.referredBy ? getUserDetails(row) : null " >{{row.userDetails.firstname}} {{row.userDetails.middlename}} {{row.userDetails.lastname}}</td>
+                <td data-title="'Email'">{{row._id || row.userDetails.email}}</td>
+                <td data-title="'Mobile'">{{row.referralMobile ||  row.userDetails.mobile}}</td>
                 <td data-title="'No of referrals'">{{row.count}}</td>
                 <td data-title="'More'">
                   <div class="btn-group">

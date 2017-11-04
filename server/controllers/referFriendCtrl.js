@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 var router = express.Router();
 var bodyParser = require('body-parser');
 var colors = require('colors');
-var colors = require('colors');
 var component = require("./../component/index");
 var models = require("./../models/index");
 var constants = require("./../../config/constants");

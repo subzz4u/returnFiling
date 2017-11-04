@@ -146,10 +146,11 @@ exports.getUser = function(req, res) {
     if (req.query.role) {
       params['role'] = req.query.role;
     }
-    console.log("req.query._id   " + req.query._id);
+    // console.log("req.query._id   " + req.query._id);
     if (req.query._id) {
       var filter = {};
-      params['_id'] = req.query._id;
+        params['_id'] = req.query._id;
+
       if(req.query.viewType == "list"){
         filter = 'firstName lastName email';
       }
