@@ -319,7 +319,7 @@ exports.changePassword = function(req,res){
         }
         else if (!verified) {
           // password not matched
-          response.sendResponse(res, 401, "error", constants.messages.errors.changePassword);
+          response.sendResponse(res, 401, "error", constants.messages.errors.oldPasswordError);
         }
         else {
           // update new password
@@ -330,7 +330,7 @@ exports.changePassword = function(req,res){
                 response.sendResponse(res, 500, "error", constants.messages.errors.changePassword, err);
               }
               else{
-                response.sendResponse(res, 200, "success", constants.messages.success.changePassword);
+                response.sendResponse(res, 200, "success", constants.messages.success.changePasswordSuccess);
               }
             });
 

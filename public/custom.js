@@ -580,6 +580,14 @@ app.filter('capitalize', function() {
             'Accept': 'application/json'
         },
     },
+    changePassword: {
+        url: "/user/changePassword",
+        method: "PUT",
+        "headers": {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    },
   }
 }])
 .factory('ApiCall', ["$http", "$resource", "API", "EnvService", "ApiGenerator", function($http, $resource, API, EnvService,ApiGenerator) {
@@ -610,6 +618,7 @@ app.filter('capitalize', function() {
     getjobAssignments:  ApiGenerator.getApi('getjobAssignments'),
     updateJobAssignment:  ApiGenerator.getApi('updateJobAssignment'),
     forgotPassword:  ApiGenerator.getApi('forgotPassword'),
+    changePassword:  ApiGenerator.getApi('changePassword'),
   })
 }])
 
@@ -1346,6 +1355,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
   $scope.clientUserList = {};
   $scope.changePass = {};
   $scope.active_tab = 'details';
+  var loggedIn_user = UserModel.getUser();
   $scope.tabChange = function(tab) {
     $scope.active_tab = tab;
   }
@@ -1377,13 +1387,17 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
     }
   }
   $scope.changePassword = function(){
-    var loggedIn_user = UserModel.getUser();
-    $scope.changePass._id = loggedIn_user._id;
-    console.log($scope.changePass);
-    ApiCall.updateUser($scope.changePass, function(response) {
+    $rootScope.showPreloader = true;
+    ApiCall.changePassword($scope.changePass, function(response) {
       console.log(response);
+      $rootScope.showPreloader = false;
+      LOG.info(response.message);
+      $state.go('user-profile', {'user_id': loggedIn_user._id});
     },function(error){
-      console.log(error);
+      $rootScope.showPreloader = false;
+       if(error.data.statusCode == 401){
+        LOG.error(error.data.message);
+       }
     });
 
   }
@@ -1488,7 +1502,7 @@ app.controller('ReturnFileClosingModalCtrl',["$scope", "$uibModalInstance", "Api
     ApiCall.forgotPassword(obj, function(response) {
     
     }, function(error) {
-      LOG.error(response.message);
+      LOG.error(error.message);
     })
   }
 

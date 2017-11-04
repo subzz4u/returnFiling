@@ -189,6 +189,14 @@ angular.module('WebService', [])
             'Accept': 'application/json'
         },
     },
+    changePassword: {
+        url: "/user/changePassword",
+        method: "PUT",
+        "headers": {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    },
   }
 })
 .factory('ApiCall', function($http, $resource, API, EnvService,ApiGenerator) {
@@ -219,6 +227,7 @@ angular.module('WebService', [])
     getjobAssignments:  ApiGenerator.getApi('getjobAssignments'),
     updateJobAssignment:  ApiGenerator.getApi('updateJobAssignment'),
     forgotPassword:  ApiGenerator.getApi('forgotPassword'),
+    changePassword:  ApiGenerator.getApi('changePassword'),
   })
 })
 
