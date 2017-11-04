@@ -118,7 +118,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
       obj.client = $stateParams.client_id;
     }
 
-    
+
 
     else if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
       obj.client = loggedin_user._id;
@@ -294,7 +294,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
 
     });
   }
-  
+
 
   $scope.paymentConfirm = function(){
     if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
@@ -330,7 +330,7 @@ app.controller("Return_Controller",function($scope,$rootScope,$rootScope,$state,
   $scope.getUserDetails = function(row){
     var obj ={};
     if($state.current.name == "referral-overview"){
-      obj._id = row._id;
+      obj._id = row.referredBy;
     }
     else{
        obj._id = row.client;

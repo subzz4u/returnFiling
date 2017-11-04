@@ -1085,7 +1085,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
       obj.client = $stateParams.client_id;
     }
 
-    
+
 
     else if($state.current.name == "previous-return-file-details" && loggedin_user && loggedin_user.role.type != "superAdmin"){
       obj.client = loggedin_user._id;
@@ -1229,7 +1229,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
 
     });
   }
-  
+
 
   $scope.paymentConfirm = function(){
     if($scope.user.fiscalYear == "" || !$scope.user.fiscalYear) {
@@ -1265,7 +1265,7 @@ app.controller('DatePickerCtrl' , ['$scope', function ($scope) {
   $scope.getUserDetails = function(row){
     var obj ={};
     if($state.current.name == "referral-overview"){
-      obj._id = row._id;
+      obj._id = row.referredBy;
     }
     else{
        obj._id = row.client;

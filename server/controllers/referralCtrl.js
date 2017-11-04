@@ -56,7 +56,9 @@ exports.getOverView = function(req, res) {
     var aggregate = [
       {
         $group: {
-          _id: '$referredBy',
+          _id: '$referralEmail',
+          referredBy : { $first: '$referredBy' },
+          referralMobile : { $first: '$referralMobile' },
           count: {$sum: 1}
         }
       }
